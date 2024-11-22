@@ -7,6 +7,7 @@
   let password: string = "";
 
   $: encrypted = encrypt(user, password);
+  $: decrypted = decrypt(user, password);
 
   function encrypt(text: string, password: string): string {
     const encrypted = crypto.AES.encrypt(text, password);
@@ -33,7 +34,12 @@
       isEncrypt = !isEncrypt;
       user = "";
     }}
-    class="font-semibold text-lg underline">Switch</button
+    class="font-semibold text-lg underline"
+    >{#if isEncrypt}
+      Decrypt
+    {:else}
+      Encrypt
+    {/if}</button
   >
   <div class="md:grid grid-cols-2 lg:h-96">
     <div class="col-auto">
@@ -65,17 +71,17 @@
         {/if}
       </h1>
       <Textbox
-        val={isEncrypt ? encrypt(user, password) : decrypt(user, password)}
+        placeholder={user.length > 0 ? "Invalid Text/Password" : ""}
+        val={isEncrypt ? encrypted : decrypted}
         disabled
       ></Textbox>
-      {#if isEncrypt}
-        <div class="w-full pt-5 md:p-10">
-          <button
-            on:click={() => navigator.clipboard.writeText(encrypted)}
-            class="btn btn-neutral w-full max-w-xs">Copy</button
-          >
-        </div>
-      {/if}
+
+      <div class="w-full pt-5 md:p-10">
+        <button
+          on:click={() => navigator.clipboard.writeText(encrypted)}
+          class="btn btn-neutral w-full max-w-xs">Copy</button
+        >
+      </div>
     </div>
   </div>
 </div>

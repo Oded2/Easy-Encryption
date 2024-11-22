@@ -8,7 +8,7 @@
   <div
     class="textarea textarea-ghost focus:outline-none border-none w-full px-0 h-full my-5 text-lg font-medium break-words"
   >
-    <p class="max-w-full">{val}</p>
+    <p class="max-w-full">{val.length > 0 ? val : placeholder}</p>
   </div>
 {:else}
   <textarea
