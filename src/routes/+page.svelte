@@ -56,7 +56,7 @@
         }}>Paste</button
       >
     </div>
-    <div class="col-auto">
+    <div class="col-auto mt-5 md:mt-0">
       <h1 class="font-bold text-5xl">
         {#if isEncrypt}
           Encrypted Text
@@ -69,7 +69,7 @@
         disabled
       ></Textbox>
       {#if isEncrypt}
-        <div class="w-full p-10">
+        <div class="w-full pt-5 md:p-10">
           <button
             on:click={() => navigator.clipboard.writeText(encrypted)}
             class="btn btn-neutral w-full max-w-xs">Copy</button
