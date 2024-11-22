@@ -6,8 +6,7 @@
   let user: string = "";
   let password: string = "";
 
-  $: encrypted = encrypt(user, password);
-  $: decrypted = decrypt(user, password);
+  $: result = isEncrypt ? encrypt(user, password) : decrypt(user, password);
 
   function encrypt(text: string, password: string): string {
     const encrypted = crypto.AES.encrypt(text, password);
@@ -28,42 +27,40 @@
   }
 </script>
 
-<div class="container mx-auto px-2 sm:px-0 my-10 font-quicksand">
+<div class="navbar bg-base-100 justify-center">
   <button
-    on:click={() => {
-      isEncrypt = !isEncrypt;
-      user = "";
-    }}
-    class="font-semibold text-lg underline"
-    >{#if isEncrypt}
-      Decrypt
-    {:else}
-      Encrypt
-    {/if}</button
+    on:click={() => (isEncrypt = true)}
+    class:btn-active={isEncrypt}
+    class="btn btn-ghost text-xl font-quicksand mx-2">Encrypt</button
   >
-  <div class="md:grid grid-cols-2 lg:h-96">
-    <div class="col-auto">
-      <h1 class="font-bold text-5xl">
+  <button
+    on:click={() => (isEncrypt = false)}
+    class:btn-active={!isEncrypt}
+    class="btn btn-ghost text-xl font-quicksand mx-2">Decrypt</button
+  >
+</div>
+
+<div class="container mx-auto px-2 sm:px-0 my-10 font-quicksand">
+  <div class="md:grid grid-cols-2">
+    <div class="col-auto flex flex-col">
+      <h1 class="font-bold text-5xl mb-3">
         {#if isEncrypt}
           Enter Text to Encrypt
         {:else}
           Enter Encrypted Text
         {/if}
       </h1>
-
-      <Textbox placeholder={"Place Text Here"} bind:val={user}></Textbox>
+      <Textbox
+        on:click={async () => (user = await paste())}
+        placeholder={"Place Text Here"}
+        bind:val={user}
+      ></Textbox>
       <div class="border-b-2 mb-5"></div>
       <Password bind:password></Password>
-      <button
-        class="btn btn-neutral mt-2 w-full max-w-xs"
-        on:click={async () => {
-          const clip = await paste();
-          user = clip;
-        }}>Paste</button
-      >
     </div>
-    <div class="col-auto mt-5 md:mt-0">
-      <h1 class="font-bold text-5xl">
+
+    <div class="col-auto flex flex-col mt-5 md:mt-0">
+      <h1 class="font-bold text-5xl mb-3">
         {#if isEncrypt}
           Encrypted Text
         {:else}
@@ -71,17 +68,13 @@
         {/if}
       </h1>
       <Textbox
-        placeholder={user.length > 0 ? "Invalid Text/Password" : ""}
-        val={isEncrypt ? encrypted : decrypted}
         disabled
+        placeholder={user.length > 0 ? "Invalid Text/Password" : ""}
+        val={result}
+        on:click={() => navigator.clipboard.writeText(result)}
       ></Textbox>
-
-      <div class="w-full pt-5 md:p-10">
-        <button
-          on:click={() => navigator.clipboard.writeText(encrypted)}
-          class="btn btn-neutral w-full max-w-xs">Copy</button
-        >
-      </div>
     </div>
   </div>
 </div>
+
+<svelte:head><title>Easy Encryption</title></svelte:head>
