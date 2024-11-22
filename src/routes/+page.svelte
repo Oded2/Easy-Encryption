@@ -5,6 +5,8 @@
   let isEncrypt = true;
   let user: string = "";
   let password: string = "";
+  let copyPress = false;
+  let pastePress = false;
 
   $: result = isEncrypt ? encrypt(user, password) : decrypt(user, password);
 
@@ -57,10 +59,14 @@
         {/if}
       </h1>
       <Textbox
-        on:click={async () => (user = await paste())}
+        on:click={async () => {
+          user = await paste();
+          pastePress = true;
+          setTimeout(() => (pastePress = false), 1500);
+        }}
         placeholder={"Place Text Here"}
         bind:val={user}
-        tip="Paste from Clipboard"
+        tip={pastePress ? "Pasted from Clipboard" : "Paste from Clipboard"}
       ></Textbox>
       <div class="border-b-2 mb-5"></div>
       <Password bind:password></Password>
@@ -78,8 +84,12 @@
         disabled
         placeholder={user.length > 0 ? "Invalid Text/Password" : ""}
         val={result}
-        tip="Copy to Clipboard"
-        on:click={() => navigator.clipboard.writeText(result)}
+        tip={copyPress ? "Copied to Clipboard" : "Copy to Clipboard"}
+        on:click={() => {
+          navigator.clipboard.writeText(result);
+          copyPress = true;
+          setTimeout(() => (copyPress = false), 1500);
+        }}
       ></Textbox>
     </div>
   </div>
