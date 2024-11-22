@@ -2,6 +2,7 @@
   export let val: string;
   export let disabled: boolean = false;
   export let placeholder: string = "";
+  export let tip: string;
 </script>
 
 <div class="relative w-full">
@@ -19,15 +20,16 @@
     >
     </textarea>
   {/if}
-  <button
-    on:click
-    aria-label={disabled ? "Copy to Clipboard" : "Paste from Clipboard"}
-    class="absolute end-2 bottom-2 hover:scale-110 duration-100 text-xl"
-    title="Paste from Clipboard"
-  >
-    {#if disabled}
-      <i class="fa-solid fa-copy"></i>
-    {:else}
-      <i class="fa-solid fa-paste"></i>{/if}
-  </button>
+  <div class="tooltip absolute end-2 bottom-2" data-tip={tip}>
+    <button
+      on:click
+      aria-label={disabled ? "Copy to Clipboard" : "Paste from Clipboard"}
+      class="hover:scale-110 duration-100 text-xl"
+    >
+      {#if disabled}
+        <i class="fa-solid fa-copy"></i>
+      {:else}
+        <i class="fa-solid fa-paste"></i>{/if}
+    </button>
+  </div>
 </div>
