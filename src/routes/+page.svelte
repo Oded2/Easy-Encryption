@@ -34,26 +34,35 @@
   }
 </script>
 
-<div class="navbar bg-base-100 justify-center">
-  <button
-    on:click={() => {
-      isEncrypt = true;
-      user = "";
-    }}
-    class:btn-active={isEncrypt}
-    class="btn btn-ghost text-xl font-quicksand mx-2">Encrypt</button
-  >
-  <button
-    on:click={() => {
-      isEncrypt = false;
-      user = "";
-    }}
-    class:btn-active={!isEncrypt}
-    class="btn btn-ghost text-xl font-quicksand mx-2">Decrypt</button
-  >
-</div>
-
-<div class="container mx-auto px-2 sm:px-0 my-10 font-quicksand">
+<div class="container mx-auto px-2 sm:px-0 font-quicksand">
+  <div class="navbar bg-base-100 mb-10">
+    <div class="navbar-start"></div>
+    <div class="navbar-center">
+      <button
+        on:click={() => {
+          isEncrypt = true;
+          user = "";
+        }}
+        class:btn-active={isEncrypt}
+        class="btn btn-ghost text-xl mx-2">Encrypt</button
+      >
+      <button
+        on:click={() => {
+          isEncrypt = false;
+          user = "";
+        }}
+        class:btn-active={!isEncrypt}
+        class="btn btn-ghost text-xl mx-2">Decrypt</button
+      >
+    </div>
+    <div class="navbar-end">
+      <a
+        aria-label="GitHub Respository"
+        href="https://github.com/Oded2/Easy-Encryption"
+        class="btn btn-neutral text-2xl"><i class="fa-brands fa-github"></i></a
+      >
+    </div>
+  </div>
   <div class="md:grid grid-cols-2 gap-4">
     <div class="col-auto flex flex-col">
       <h1 class="font-bold text-5xl mb-3">
