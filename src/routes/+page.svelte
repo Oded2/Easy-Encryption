@@ -16,9 +16,25 @@
     const bytes = crypto.AES.decrypt(encryptedText, password);
     return bytes.toString(crypto.enc.Utf8);
   }
+  async function paste(): Promise<string> {
+    try {
+      const clip = await navigator.clipboard.readText();
+      return clip;
+    } catch (error) {
+      console.error(error);
+    }
+    return "";
+  }
 </script>
 
 <div class="container mx-auto px-2 sm:px-0 my-10 font-quicksand">
+  <button
+    on:click={() => {
+      isEncrypt = !isEncrypt;
+      user = "";
+    }}
+    class="font-semibold text-lg underline">Switch</button
+  >
   <div class="md:grid grid-cols-2 lg:h-96">
     <div class="col-auto">
       <h1 class="font-bold text-5xl">
@@ -28,14 +44,17 @@
           Enter Encrypted Text
         {/if}
       </h1>
-      <button
-        on:click={() => (isEncrypt = !isEncrypt)}
-        class="font-semibold text-lg underline">Switch</button
-      >
+
       <Textbox placeholder={"Place Text Here"} bind:val={user}></Textbox>
       <div class="border-b-2 mb-5"></div>
       <Password bind:password></Password>
-      <button class="btn btn-neutral mt-2 w-full max-w-xs">Paste</button>
+      <button
+        class="btn btn-neutral mt-2 w-full max-w-xs"
+        on:click={async () => {
+          const clip = await paste();
+          user = clip;
+        }}>Paste</button
+      >
     </div>
     <div class="col-auto">
       <h1 class="font-bold text-5xl">
