@@ -1,8 +1,9 @@
 <script lang="ts">
   import "@fortawesome/fontawesome-free/css/all.min.css";
 
+  export let password: string;
+
   let hidePass = true;
-  let password: string;
 </script>
 
 <div class="relative max-w-xs">
