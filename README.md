@@ -1,38 +1,43 @@
-# sv
+# Easy Encryption
 
-Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
+[![Netlify Status](https://api.netlify.com/api/v1/badges/6b6b9ecd-446c-4f77-abf6-c45a20a5da63/deploy-status)](https://app.netlify.com/sites/easyencryption/deploys)
 
-## Creating a project
+Easy Encryption is a Svelte-based web application that provides a simple and intuitive interface for encrypting and decrypting text. It uses AES encryption from the `crypto-ts` library, allowing users to securely transform plaintext into ciphertext and vice versa.
 
-If you're seeing this, you've probably already done this step. Congrats!
+## Features
 
-```bash
-# create a new project in the current directory
-npx sv create
+- **Encrypt Text**: Convert plain text into encrypted text using a custom password.
+- **Decrypt Text**: Revert encrypted text back to its original form using the same password.
+- **Clipboard Integration**: Easily copy encrypted/decrypted text to the clipboard or paste input text from the clipboard.
+- **Dynamic UI**: The app dynamically switches between encryption and decryption modes with a clean and responsive design.
 
-# create a new project in my-app
-npx sv create my-app
-```
+## Usage
 
-## Developing
+### Encrypting Text
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+1. Select the **Encrypt** button from the navigation bar.
+2. Enter the text you want to encrypt in the input box.
+3. Provide a password for encryption in the password input field.
+4. The encrypted text will appear in the output box. You can copy it to the clipboard by clicking the "Copy" icon.
 
-```bash
-npm run dev
+### Decrypting Text
 
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
+1. Select the **Decrypt** button from the navigation bar.
+2. Paste the encrypted text in the input box.
+3. Provide the same password used for encryption.
+4. The decrypted text will appear in the output box. You can copy it to the clipboard by clicking the "Copy" icon.
 
-## Building
+### Clipboard Integration
 
-To create a production version of your app:
+- **Paste from Clipboard**: Click the "Paste" icon in the input box to automatically paste clipboard content.
+- **Copy to Clipboard**: Click the "Copy" icon in the output box to copy the result.
 
-```bash
-npm run build
-```
+## Technologies Used
 
-You can preview the production build with `npm run preview`.
+- **[SvelteKit](https://kit.svelte.dev/)**: Framework for building modern web apps.
+- **[crypto-ts](https://www.npmjs.com/package/crypto-ts)**: AES encryption library.
+- **[Font Awesome](https://fontawesome.com/)**: Icon library for UI elements.
 
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
+## License
+
+This project is open-source and available under the [MIT License](LICENSE).
