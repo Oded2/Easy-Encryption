@@ -15,8 +15,13 @@
     return encrypted.toString();
   }
   function decrypt(encryptedText: string, password: string): string {
-    const bytes = crypto.AES.decrypt(encryptedText, password);
-    return bytes.toString(crypto.enc.Utf8);
+    try {
+      const bytes = crypto.AES.decrypt(encryptedText, password);
+      return bytes.toString(crypto.enc.Utf8);
+    } catch {
+      console.error("Failed to decrypt message");
+    }
+    return "";
   }
   async function paste(): Promise<string> {
     try {
