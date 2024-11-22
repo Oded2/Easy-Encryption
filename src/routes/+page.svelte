@@ -2,7 +2,7 @@
   import Password from "./../lib/components/Password.svelte";
   import Textbox from "$lib/components/Textbox.svelte";
   import * as crypto from "crypto-ts";
-  let isEncrypt = false;
+  let isEncrypt = true;
   let user: string = "";
   let password: string = "";
 
@@ -21,21 +21,42 @@
 <div class="container mx-auto px-2 sm:px-0 my-10 font-quicksand">
   <div class="md:grid grid-cols-2 lg:h-96">
     <div class="col-auto">
-      <h1 class="font-bold text-5xl">Enter Text to Encrypt</h1>
+      <h1 class="font-bold text-5xl">
+        {#if isEncrypt}
+          Enter Text to Encrypt
+        {:else}
+          Enter Encrypted Text
+        {/if}
+      </h1>
+      <button
+        on:click={() => (isEncrypt = !isEncrypt)}
+        class="font-semibold text-lg underline">Switch</button
+      >
       <Textbox placeholder={"Place Text Here"} bind:val={user}></Textbox>
       <div class="border-b-2 mb-5"></div>
       <Password bind:password></Password>
+      <button class="btn btn-neutral mt-2 w-full max-w-xs">Paste</button>
     </div>
     <div class="col-auto">
-      <h1 class="font-bold text-5xl">Encrypted Text</h1>
-      <Textbox val={user.length > 0 ? encrypt(user, password) : ""} disabled
+      <h1 class="font-bold text-5xl">
+        {#if isEncrypt}
+          Encrypted Text
+        {:else}
+          Decrypted Text
+        {/if}
+      </h1>
+      <Textbox
+        val={isEncrypt ? encrypt(user, password) : decrypt(user, password)}
+        disabled
       ></Textbox>
-      <div class="w-full p-5">
-        <button
-          on:click={() => navigator.clipboard.writeText(encrypted)}
-          class="btn btn-neutral w-full max-w-xs">Copy</button
-        >
-      </div>
+      {#if isEncrypt}
+        <div class="w-full p-10">
+          <button
+            on:click={() => navigator.clipboard.writeText(encrypted)}
+            class="btn btn-neutral w-full max-w-xs">Copy</button
+          >
+        </div>
+      {/if}
     </div>
   </div>
 </div>
