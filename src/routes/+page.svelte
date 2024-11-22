@@ -34,7 +34,7 @@
   }
 </script>
 
-<div class="container mx-auto px-2 sm:px-0 font-quicksand">
+<div class="container mx-auto px-2 sm:px-0 font-quicksand mb-10 mt-2 md:mt-1">
   <div class="navbar bg-base-100 mb-10">
     <div class="navbar-start"></div>
     <div class="navbar-center">
