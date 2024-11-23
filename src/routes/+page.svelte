@@ -159,7 +159,7 @@
     <div class="grid gap-y-4">
       <div class="tooltip" data-tip="Share the website">
         <button
-          class="btn btn-neutral btn-outline w-3/4 mx-auto"
+          class="btn btn-neutral btn-outline w-full sm:w-3/4 mx-auto"
           on:click={() => copy(window.origin)}
           >Website
         </button>
@@ -169,7 +169,7 @@
         data-tip="Share the website with the current password"
       >
         <button
-          class="btn btn-neutral btn-outline w-3/4 mx-auto"
+          class="btn btn-neutral btn-outline w-full sm:w-3/4 mx-auto"
           on:click={() => copy(addParams({ password }))}
           >Password
         </button>
@@ -177,7 +177,7 @@
       {#if isEncrypt}
         <div class="tooltip" data-tip="Share the website with the current text">
           <button
-            class="btn btn-neutral btn-outline w-3/4 mx-auto"
+            class="btn btn-neutral btn-outline w-full sm:w-3/4 mx-auto"
             on:click={() => copy(addParams({ text: result, decrypt: "true" }))}
             >Text</button
           >
@@ -188,7 +188,7 @@
           data-tip="Share the website with the current password and text"
         >
           <button
-            class="btn btn-neutral btn-outline w-3/4 mx-auto"
+            class="btn btn-neutral btn-outline w-full sm:w-3/4 mx-auto"
             on:click={() =>
               copy(
                 addParams({
