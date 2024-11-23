@@ -3,6 +3,7 @@
 
   export let password: string;
 
+  const placeholder = "Enter password";
   let hidePass = true;
 </script>
 
@@ -11,14 +12,14 @@
     <input
       type="password"
       class="input input-bordered !outline-none w-full pr-10"
-      placeholder="Enter your password"
+      {placeholder}
       bind:value={password}
     />
   {:else}
     <input
       type="text"
       class="input input-bordered !outline-none w-full pr-10"
-      placeholder="Enter your password"
+      {placeholder}
       bind:value={password}
     />
   {/if}
