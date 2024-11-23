@@ -6,6 +6,8 @@
 
   export let data;
 
+  const copyMessage = "Copied to Clipboard";
+
   let isEncrypt = !data.decrypt;
   let user: string = data.user;
   let password: string = data.password;
@@ -27,8 +29,10 @@
     }
     return "";
   }
-  function copy(text: string): void {
+  function copy(text: string, duration: number = 750): void {
     navigator.clipboard.writeText(text);
+    copyPress = true;
+    setTimeout(() => (copyPress = false), duration);
   }
   async function paste(): Promise<string> {
     try {
@@ -123,12 +127,8 @@
           disabled
           placeholder={user.length > 0 ? "Invalid Text/Password" : ""}
           val={result}
-          tip={copyPress ? "Copied to Clipboard" : "Copy to Clipboard"}
-          on:click={() => {
-            copy(result);
-            copyPress = true;
-            setTimeout(() => (copyPress = false), 1500);
-          }}
+          tip={copyPress ? copyMessage : "Copy to Clipboard"}
+          on:click={() => copy(result, 1500)}
         ></Textbox>
       </div>
     </div>
@@ -157,7 +157,10 @@
       <h5 class="text-base font-medium">Select which link to copy</h5>
     </div>
     <div class="grid gap-y-4">
-      <div class="tooltip" data-tip="Share the website">
+      <div
+        class="tooltip"
+        data-tip={copyPress ? copyMessage : "Share the website"}
+      >
         <button
           class="btn btn-neutral btn-outline w-full sm:w-3/4 mx-auto"
           on:click={() => copy(window.origin)}
@@ -166,7 +169,9 @@
       </div>
       <div
         class="tooltip"
-        data-tip="Share the website with the current password"
+        data-tip={copyPress
+          ? copyMessage
+          : "Share the website with the current password"}
       >
         <button
           class="btn btn-neutral btn-outline w-full sm:w-3/4 mx-auto"
@@ -175,7 +180,12 @@
         </button>
       </div>
       {#if isEncrypt}
-        <div class="tooltip" data-tip="Share the website with the current text">
+        <div
+          class="tooltip"
+          data-tip={copyPress
+            ? copyMessage
+            : "Share the website with the current text"}
+        >
           <button
             class="btn btn-neutral btn-outline w-full sm:w-3/4 mx-auto"
             on:click={() => copy(addParams({ text: result, decrypt: "true" }))}
@@ -185,7 +195,9 @@
 
         <div
           class="tooltip"
-          data-tip="Share the website with the current password and text"
+          data-tip={copyPress
+            ? copyMessage
+            : "Share the website with the current password and text"}
         >
           <button
             class="btn btn-neutral btn-outline w-full sm:w-3/4 mx-auto"
