@@ -65,7 +65,7 @@
   </div>
   <div class="md:grid grid-cols-2 gap-4">
     <div class="col-auto flex flex-col">
-      <h1 class="font-bold text-5xl mb-3">
+      <h1 class="font-bold text-3xl md:text-5xl mb-3 text-center md:text-start">
         {#if isEncrypt}
           Enter Text to Encrypt
         {:else}
@@ -87,7 +87,7 @@
     </div>
 
     <div class="col-auto flex flex-col mt-5 md:mt-0">
-      <h1 class="font-bold text-5xl mb-3">
+      <h1 class="font-bold text-3xl md:text-5xl mb-3 text-center md:text-start">
         {#if isEncrypt}
           Encrypted Text
         {:else}
