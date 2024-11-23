@@ -78,7 +78,7 @@
           pastePress = true;
           setTimeout(() => (pastePress = false), 1500);
         }}
-        placeholder={"Place Text Here"}
+        placeholder={"Enter text here"}
         bind:val={user}
         tip={pastePress ? "Pasted from Clipboard" : "Paste from Clipboard"}
       ></Textbox>
