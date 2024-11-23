@@ -12,7 +12,7 @@
     <input
       type="password"
       autocomplete="off"
-      class="input input-bordered !outline-none w-full pr-10 font-medium"
+      class="input input-bordered !outline-none w-full pe-10 font-medium"
       {placeholder}
       bind:value={password}
     />
@@ -20,7 +20,7 @@
     <input
       type="text"
       autocomplete="off"
-      class="input input-bordered !outline-none w-full pr-10"
+      class="input input-bordered !outline-none w-full pe-10"
       {placeholder}
       bind:value={password}
     />
