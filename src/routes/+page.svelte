@@ -48,7 +48,6 @@
     modal.showModal();
   }
   function addParams(params: Record<string, string>): string {
-    console.log(window.origin);
     const url = new URL(window.origin);
     Object.entries(params).forEach(([key, value]) => {
       url.searchParams.append(key, value);
