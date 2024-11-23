@@ -35,7 +35,7 @@
 </script>
 
 <div class="container mx-auto px-2 sm:px-0 font-quicksand mb-10 mt-2 md:mt-1">
-  <div class="navbar bg-base-100 mb-10">
+  <div class="navbar bg-base-100 mb-5 md:mb-2 lg:mb-10">
     <div class="navbar-start"></div>
     <div class="navbar-center">
       <button
@@ -63,7 +63,7 @@
       >
     </div>
   </div>
-  <div class="md:grid grid-cols-2 gap-4">
+  <div class="md:grid md:grid-cols-2 md:gap-4">
     <div class="col-auto flex flex-col">
       <h1 class="font-bold text-3xl md:text-5xl mb-3 text-center md:text-start">
         {#if isEncrypt}

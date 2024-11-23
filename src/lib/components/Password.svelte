@@ -6,7 +6,7 @@
   let hidePass = true;
 </script>
 
-<div class="relative max-w-xs">
+<div class="relative max-w-xs mx-auto md:mx-0">
   {#if hidePass}
     <input
       type="password"
