@@ -15,7 +15,7 @@ export default {
 
   plugins: [daisyui],
   daisyui: {
-    themes: ["light", "dark", "corporate"], // Add desired themes here
+    themes: ["light"], // Add desired themes here
     base: true, // Include base styles
     styled: true, // Include component styles
     utils: true, // Include utility classes
