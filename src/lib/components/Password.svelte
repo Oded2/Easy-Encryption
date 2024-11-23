@@ -11,6 +11,7 @@
   {#if hidePass}
     <input
       type="password"
+      autocomplete="off"
       class="input input-bordered !outline-none w-full pr-10"
       {placeholder}
       bind:value={password}
@@ -18,6 +19,7 @@
   {:else}
     <input
       type="text"
+      autocomplete="off"
       class="input input-bordered !outline-none w-full pr-10"
       {placeholder}
       bind:value={password}
