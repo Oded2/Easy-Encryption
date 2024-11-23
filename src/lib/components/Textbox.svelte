@@ -8,9 +8,11 @@
 <div class="relative w-full">
   {#if disabled}
     <div
-      class="textarea textarea-ghost focus:outline-none border-none w-full px-0 h-64 md:h-96 text-lg font-medium break-words overflow-auto"
+      class="textarea textarea-ghost focus:outline-none border-none w-full px-0 h-64 md:h-96 text-lg font-medium overflow-auto"
     >
-      <p dir="auto">{val.length > 0 ? val : placeholder}</p>
+      <p class="break-words whitespace-pre-wrap" dir="auto">
+        {val.length > 0 ? val : placeholder}
+      </p>
     </div>
   {:else}
     <textarea
