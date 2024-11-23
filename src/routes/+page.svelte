@@ -2,9 +2,13 @@
   import Password from "./../lib/components/Password.svelte";
   import Textbox from "$lib/components/Textbox.svelte";
   import * as crypto from "crypto-ts";
-  let isEncrypt = true;
-  let user: string = "";
-  let password: string = "";
+  import Modal from "$lib/components/Modal.svelte";
+
+  export let data;
+
+  let isEncrypt = !data.decrypt;
+  let user: string = data.user;
+  let password: string = data.password;
   let copyPress = false;
   let pastePress = false;
 
@@ -23,6 +27,9 @@
     }
     return "";
   }
+  function copy(text: string): void {
+    navigator.clipboard.writeText(text);
+  }
   async function paste(): Promise<string> {
     try {
       const clip = await navigator.clipboard.readText();
@@ -32,81 +39,168 @@
     }
     return "";
   }
+  function showModal(): void {
+    const modal: any = document.getElementById("modal");
+    modal.showModal();
+  }
+  function addParams(params: Record<string, string>): string {
+    console.log(window.origin);
+    const url = new URL(window.origin);
+    Object.entries(params).forEach(([key, value]) => {
+      url.searchParams.append(key, value);
+    });
+    return url.toString();
+  }
 </script>
 
-<div class="container mx-auto px-2 sm:px-0 font-quicksand mb-10 mt-2 md:mt-1">
-  <div class="navbar bg-base-100 mb-5 md:mb-2 lg:mb-10">
-    <div class="navbar-start"></div>
-    <div class="navbar-center">
-      <button
-        on:click={() => {
-          isEncrypt = true;
-          user = "";
-        }}
-        class:btn-active={isEncrypt}
-        class="btn btn-ghost text-xl mx-2">Encrypt</button
-      >
-      <button
-        on:click={() => {
-          isEncrypt = false;
-          user = "";
-        }}
-        class:btn-active={!isEncrypt}
-        class="btn btn-ghost text-xl mx-2">Decrypt</button
-      >
+<main class="font-quicksand">
+  <div class="container mx-auto px-2 sm:px-0 mb-10 mt-2 md:mt-1">
+    <div class="navbar bg-base-100 mb-5 md:mb-2 lg:mb-10">
+      <div class="navbar-start"></div>
+      <div class="navbar-center">
+        <button
+          on:click={() => {
+            isEncrypt = true;
+            user = "";
+          }}
+          class:btn-active={isEncrypt}
+          class="btn btn-ghost text-xl mx-2">Encrypt</button
+        >
+        <button
+          on:click={() => {
+            isEncrypt = false;
+            user = "";
+          }}
+          class:btn-active={!isEncrypt}
+          class="btn btn-ghost text-xl mx-2">Decrypt</button
+        >
+      </div>
+      <div class="navbar-end">
+        <a
+          aria-label="GitHub Respository"
+          href="https://github.com/Oded2/Easy-Encryption"
+          class="btn btn-neutral text-2xl"
+          ><i class="fa-brands fa-github"></i></a
+        >
+      </div>
     </div>
-    <div class="navbar-end">
-      <a
-        aria-label="GitHub Respository"
-        href="https://github.com/Oded2/Easy-Encryption"
-        class="btn btn-neutral text-2xl"><i class="fa-brands fa-github"></i></a
+    <div class="md:grid md:grid-cols-2 md:gap-4">
+      <div class="col-auto flex flex-col">
+        <h1
+          class="font-bold text-3xl md:text-5xl mb-3 text-center md:text-start"
+        >
+          {#if isEncrypt}
+            Enter Text to Encrypt
+          {:else}
+            Enter Encrypted Text
+          {/if}
+        </h1>
+        <Textbox
+          on:click={async () => {
+            user = await paste();
+            pastePress = true;
+            setTimeout(() => (pastePress = false), 1500);
+          }}
+          placeholder={"Enter text here"}
+          bind:val={user}
+          tip={pastePress ? "Pasted from Clipboard" : "Paste from Clipboard"}
+        ></Textbox>
+        <div class="border-b-2 mb-5"></div>
+        <Password bind:password></Password>
+      </div>
+
+      <div class="col-auto flex flex-col mt-5 md:mt-0">
+        <h1
+          class="font-bold text-3xl md:text-5xl mb-3 text-center md:text-start"
+        >
+          {#if isEncrypt}
+            Encrypted Text
+          {:else}
+            Decrypted Text
+          {/if}
+        </h1>
+        <Textbox
+          disabled
+          placeholder={user.length > 0 ? "Invalid Text/Password" : ""}
+          val={result}
+          tip={copyPress ? "Copied to Clipboard" : "Copy to Clipboard"}
+          on:click={() => {
+            copy(result);
+            copyPress = true;
+            setTimeout(() => (copyPress = false), 1500);
+          }}
+        ></Textbox>
+      </div>
+    </div>
+    <div class="mt-10 w-full md:hidden flex justify-center">
+      <button
+        aria-label="Share"
+        on:click={showModal}
+        class="btn btn-primary btn-circle w-1/2"
+        ><i class="fa-solid fa-share"></i>
+        <h6 class="font-bold text-base">Share</h6></button
       >
     </div>
   </div>
-  <div class="md:grid md:grid-cols-2 md:gap-4">
-    <div class="col-auto flex flex-col">
-      <h1 class="font-bold text-3xl md:text-5xl mb-3 text-center md:text-start">
-        {#if isEncrypt}
-          Enter Text to Encrypt
-        {:else}
-          Enter Encrypted Text
-        {/if}
-      </h1>
-      <Textbox
-        on:click={async () => {
-          user = await paste();
-          pastePress = true;
-          setTimeout(() => (pastePress = false), 1500);
-        }}
-        placeholder={"Enter text here"}
-        bind:val={user}
-        tip={pastePress ? "Pasted from Clipboard" : "Paste from Clipboard"}
-      ></Textbox>
-      <div class="border-b-2 mb-5"></div>
-      <Password bind:password></Password>
-    </div>
 
-    <div class="col-auto flex flex-col mt-5 md:mt-0">
-      <h1 class="font-bold text-3xl md:text-5xl mb-3 text-center md:text-start">
-        {#if isEncrypt}
-          Encrypted Text
-        {:else}
-          Decrypted Text
-        {/if}
-      </h1>
-      <Textbox
-        disabled
-        placeholder={user.length > 0 ? "Invalid Text/Password" : ""}
-        val={result}
-        tip={copyPress ? "Copied to Clipboard" : "Copy to Clipboard"}
-        on:click={() => {
-          navigator.clipboard.writeText(result);
-          copyPress = true;
-          setTimeout(() => (copyPress = false), 1500);
-        }}
-      ></Textbox>
-    </div>
-  </div>
-</div>
+  <button
+    aria-label="Share"
+    on:click={showModal}
+    class=" btn btn-circle btn-primary hidden md:block absolute end-5 bottom-5"
+  >
+    <i class="fa-solid fa-share text-lg"></i>
+  </button>
 
+  <Modal id="modal">
+    <div class="border-b-2 mb-4 pb-2 text-center">
+      <h3 class="text-xl font-bold">Share</h3>
+      <h5 class="text-base font-medium">Select which link to copy</h5>
+    </div>
+    <div class="grid gap-y-4">
+      <div class="tooltip" data-tip="Share the website">
+        <button
+          class="btn btn-neutral btn-outline w-3/4 mx-auto"
+          on:click={() => copy(window.origin)}
+          >Website
+        </button>
+      </div>
+      <div
+        class="tooltip"
+        data-tip="Share the website with the current password"
+      >
+        <button
+          class="btn btn-neutral btn-outline w-3/4 mx-auto"
+          on:click={() => copy(addParams({ password }))}
+          >Password
+        </button>
+      </div>
+      {#if isEncrypt}
+        <div class="tooltip" data-tip="Share the website with the current text">
+          <button
+            class="btn btn-neutral btn-outline w-3/4 mx-auto"
+            on:click={() => copy(addParams({ text: result, decrypt: "true" }))}
+            >Text</button
+          >
+        </div>
+
+        <div
+          class="tooltip"
+          data-tip="Share the website with the current password and text"
+        >
+          <button
+            class="btn btn-neutral btn-outline w-3/4 mx-auto"
+            on:click={() =>
+              copy(
+                addParams({
+                  text: result,
+                  password,
+                  decrypt: "true",
+                })
+              )}>Password & Text</button
+          >
+        </div>
+      {/if}
+    </div>
+  </Modal>
+</main>
 <svelte:head><title>Easy Encryption</title></svelte:head>
