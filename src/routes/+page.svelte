@@ -24,8 +24,8 @@
     try {
       const bytes = crypto.AES.decrypt(encryptedText, password);
       return bytes.toString(crypto.enc.Utf8);
-    } catch {
-      console.error("Failed to decrypt message");
+    } catch (error) {
+      console.error(error);
     }
     return "";
   }
