@@ -107,7 +107,23 @@
           tip={pastePress ? "Pasted from Clipboard" : "Paste from Clipboard"}
         ></Textbox>
         <div class="border-b-2 mb-5"></div>
-        <Password bind:password></Password>
+
+        <div class="join">
+          <div class="join-item w-full sm:w-auto">
+            <Password bind:password></Password>
+          </div>
+          <div class="join-item px-2">
+            <button
+              on:click={() => {
+                isEncrypt = !isEncrypt;
+                user = result;
+              }}
+              aria-label="Swap"
+              class="btn btn-neutral btn-outline"
+              ><i class="fa-solid fa-right-left"></i></button
+            >
+          </div>
+        </div>
       </div>
 
       <div class="col-auto flex flex-col mt-5 md:mt-0">

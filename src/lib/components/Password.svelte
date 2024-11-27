@@ -1,13 +1,11 @@
 <script lang="ts">
-  import "@fortawesome/fontawesome-free/css/all.min.css";
-
   export let password: string;
 
   const placeholder = "Enter password";
   let hidePass = true;
 </script>
 
-<div class="relative max-w-xs mx-auto md:mx-0">
+<div class="relative w-full sm:w-80 md:mx-0">
   {#if hidePass}
     <input
       type="password"
