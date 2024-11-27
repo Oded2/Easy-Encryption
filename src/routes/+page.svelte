@@ -17,13 +17,13 @@
   $: result = isEncrypt ? encrypt(user, password) : decrypt(user, password);
 
   function encrypt(text: string, password: string): string {
-    const encrypted = crypto.AES.encrypt(text, password);
-    return encrypted.toString();
+    return crypto.AES.encrypt(text, password).toString();
   }
   function decrypt(encryptedText: string, password: string): string {
     try {
-      const bytes = crypto.AES.decrypt(encryptedText, password);
-      return bytes.toString(crypto.enc.Utf8);
+      return crypto.AES.decrypt(encryptedText, password).toString(
+        crypto.enc.Utf8
+      );
     } catch (error) {
       console.error(error);
     }
