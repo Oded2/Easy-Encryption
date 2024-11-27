@@ -54,6 +54,10 @@
     });
     return url.toString();
   }
+  function swap(toEncrypt: boolean) {
+    isEncrypt = toEncrypt;
+    user = "";
+  }
 </script>
 
 <main class="font-quicksand">
@@ -62,18 +66,12 @@
       <div class="navbar-start"></div>
       <div class="navbar-center">
         <button
-          on:click={() => {
-            isEncrypt = true;
-            user = "";
-          }}
+          on:click={() => swap(true)}
           class:btn-active={isEncrypt}
           class="btn btn-ghost text-xl mx-2">Encrypt</button
         >
         <button
-          on:click={() => {
-            isEncrypt = false;
-            user = "";
-          }}
+          on:click={() => swap(false)}
           class:btn-active={!isEncrypt}
           class="btn btn-ghost text-xl mx-2">Decrypt</button
         >
