@@ -11,7 +11,13 @@
   let isEncrypt = !data.decrypt;
   let user: string = data.user;
   let password: string = data.password;
-  let copyPress = false;
+  const copyPress = {
+    text: false,
+    website: false,
+    password: false,
+    user: false,
+    userPassword: false,
+  };
   let pastePress = false;
 
   $: result = isEncrypt ? encrypt(user, password) : decrypt(user, password);
@@ -29,10 +35,13 @@
     }
     return "";
   }
-  function copy(text: string, duration: number = 750): void {
+  function copy(
+    text: string,
+    change: "text" | "website" | "password" | "user" | "userPassword"
+  ): void {
     navigator.clipboard.writeText(text);
-    copyPress = true;
-    setTimeout(() => (copyPress = false), duration);
+    copyPress[change] = true;
+    setTimeout(() => (copyPress[change] = false), 1500);
   }
   async function paste(): Promise<string> {
     try {
@@ -140,8 +149,8 @@
           disabled
           placeholder={user.length > 0 ? "Invalid Text/Password" : ""}
           val={result}
-          tip={copyPress ? copyMessage : "Copy to Clipboard"}
-          on:click={() => copy(result, 1500)}
+          tip={copyPress.text ? copyMessage : "Copy to Clipboard"}
+          on:click={() => copy(result, "text")}
         ></Textbox>
       </div>
     </div>
@@ -172,30 +181,30 @@
     <div class="grid gap-y-4">
       <div
         class="tooltip w-full sm:w-3/4 mx-auto"
-        data-tip={copyPress ? copyMessage : "Share the website"}
+        data-tip={copyPress.website ? copyMessage : "Share the website"}
       >
         <button
           class="btn btn-neutral btn-outline w-full"
-          on:click={() => copy(window.origin)}
+          on:click={() => copy(window.origin, "website")}
           >Website
         </button>
       </div>
       <div
         class="tooltip w-full sm:w-3/4 mx-auto"
-        data-tip={copyPress
+        data-tip={copyPress.password
           ? copyMessage
           : "Share the website with the current password"}
       >
         <button
           class="btn btn-neutral btn-outline w-full"
-          on:click={() => copy(addParams({ password }))}
+          on:click={() => copy(addParams({ password }), "password")}
           >Password
         </button>
       </div>
 
       <div
         class="tooltip w-full sm:w-3/4 mx-auto"
-        data-tip={copyPress
+        data-tip={copyPress.user
           ? copyMessage
           : "Share the website with the current text"}
       >
@@ -203,13 +212,14 @@
           class="btn btn-neutral btn-outline w-full"
           on:click={() =>
             copy(
-              addParams({ text: isEncrypt ? result : user, decrypt: "true" })
+              addParams({ text: isEncrypt ? result : user, decrypt: "true" }),
+              "user"
             )}>Text</button
         >
       </div>
       <div
         class="tooltip w-full sm:w-3/4 mx-auto"
-        data-tip={copyPress
+        data-tip={copyPress.userPassword
           ? copyMessage
           : "Share the website with the current password and text"}
       >
@@ -221,7 +231,8 @@
                 text: isEncrypt ? result : user,
                 password,
                 decrypt: "true",
-              })
+              }),
+              "userPassword"
             )}>Password & Text</button
         >
       </div>
