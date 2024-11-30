@@ -46,7 +46,7 @@
             type="file"
             accept=".txt,.csv,.xml,.json,.md,.log,.rtf,.html,.css,.js"
             class="hidden"
-            on:change
+            on:input
           />
         </label>
       </div>

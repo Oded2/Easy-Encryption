@@ -125,7 +125,7 @@
             pastePress = true;
             setTimeout(() => (pastePress = false), 1500);
           }}
-          on:change={handleFile}
+          on:input={handleFile}
           placeholder={"Enter text here"}
           bind:val={user}
           tip={pastePress ? "Pasted from Clipboard" : "Paste from Clipboard"}
