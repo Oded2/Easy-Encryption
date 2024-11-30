@@ -42,7 +42,12 @@
           class="btn btn-circle join-item text-xl"
         >
           <i class="fa-solid fa-cloud-arrow-up"></i>
-          <input type="file" accept=".txt" class="hidden" on:change />
+          <input
+            type="file"
+            accept=".txt,.csv,.xml,.json,.md,.log,.rtf,.html,.css,.js"
+            class="hidden"
+            on:change
+          />
         </label>
       </div>
     {/if}
