@@ -24,8 +24,8 @@
     </textarea>
   {/if}
   <div class="absolute end-2 bottom-2 join">
-    <div class="tooltip" data-tip="Download as Text">
-      {#if disabled}
+    {#if disabled}
+      <div class="tooltip" data-tip="Download Text">
         <a
           aria-label="Download"
           href="data:text;charset=utf-8,{val}"
@@ -34,13 +34,19 @@
         >
           <i class="fa-solid fa-cloud-arrow-down"></i>
         </a>
-      {:else}
-        <label class="btn btn-circle join-item text-xl">
+      </div>
+    {:else}
+      <div class="tooltip" data-tip="Upload Text">
+        <label
+          aria-label="Upload Text"
+          class="btn btn-circle join-item text-xl"
+        >
           <i class="fa-solid fa-cloud-arrow-up"></i>
           <input type="file" accept=".txt" class="hidden" on:change />
         </label>
-      {/if}
-    </div>
+      </div>
+    {/if}
+
     <div class="tooltip" data-tip={tip}>
       <button
         on:click
