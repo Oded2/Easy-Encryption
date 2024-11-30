@@ -32,7 +32,8 @@
       {#if disabled}
         <i class="fa-solid fa-copy"></i>
       {:else}
-        <i class="fa-solid fa-paste"></i>{/if}
+        <i class="fa-solid fa-paste"></i>
+      {/if}
     </button>
   </div>
 </div>
