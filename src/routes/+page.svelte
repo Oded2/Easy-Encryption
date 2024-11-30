@@ -68,6 +68,7 @@
     user = "";
   }
   function handleFile(event: Event): void {
+    console.log("here");
     const input = event.target as HTMLInputElement;
     const file = input?.files?.[0];
     if (file) {
@@ -80,6 +81,7 @@
       };
       reader.readAsText(file);
     }
+    input.value = "";
   }
 </script>
 
@@ -125,7 +127,7 @@
             pastePress = true;
             setTimeout(() => (pastePress = false), 1500);
           }}
-          on:input={handleFile}
+          on:change={handleFile}
           placeholder={"Enter text here"}
           bind:val={user}
           tip={pastePress ? "Pasted from Clipboard" : "Paste from Clipboard"}
