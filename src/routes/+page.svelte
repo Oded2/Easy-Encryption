@@ -171,36 +171,36 @@
     </div>
     <div class="grid gap-y-4">
       <div
-        class="tooltip"
+        class="tooltip w-full sm:w-3/4 mx-auto"
         data-tip={copyPress ? copyMessage : "Share the website"}
       >
         <button
-          class="btn btn-neutral btn-outline w-full sm:w-3/4 mx-auto"
+          class="btn btn-neutral btn-outline w-full"
           on:click={() => copy(window.origin)}
           >Website
         </button>
       </div>
       <div
-        class="tooltip"
+        class="tooltip w-full sm:w-3/4 mx-auto"
         data-tip={copyPress
           ? copyMessage
           : "Share the website with the current password"}
       >
         <button
-          class="btn btn-neutral btn-outline w-full sm:w-3/4 mx-auto"
+          class="btn btn-neutral btn-outline w-full"
           on:click={() => copy(addParams({ password }))}
           >Password
         </button>
       </div>
 
       <div
-        class="tooltip"
+        class="tooltip w-full sm:w-3/4 mx-auto"
         data-tip={copyPress
           ? copyMessage
           : "Share the website with the current text"}
       >
         <button
-          class="btn btn-neutral btn-outline w-full sm:w-3/4 mx-auto"
+          class="btn btn-neutral btn-outline w-full"
           on:click={() =>
             copy(
               addParams({ text: isEncrypt ? result : user, decrypt: "true" })
@@ -208,13 +208,13 @@
         >
       </div>
       <div
-        class="tooltip"
+        class="tooltip w-full sm:w-3/4 mx-auto"
         data-tip={copyPress
           ? copyMessage
           : "Share the website with the current password and text"}
       >
         <button
-          class="btn btn-neutral btn-outline w-full sm:w-3/4 mx-auto"
+          class="btn btn-neutral btn-outline w-full"
           on:click={() =>
             copy(
               addParams({
