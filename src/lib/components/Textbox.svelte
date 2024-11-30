@@ -23,17 +23,36 @@
     >
     </textarea>
   {/if}
-  <div class="tooltip absolute end-2 bottom-2" data-tip={tip}>
-    <button
-      on:click
-      aria-label={disabled ? "Copy to Clipboard" : "Paste from Clipboard"}
-      class="btn btn-circle text-xl"
-    >
+  <div class="absolute end-2 bottom-2 join">
+    <div class="tooltip" data-tip="Download as Text">
       {#if disabled}
-        <i class="fa-solid fa-copy"></i>
+        <a
+          aria-label="Download"
+          href="data:text;charset=utf-8,{val}"
+          download="Text.txt"
+          class="btn btn-circle join-item text-xl"
+        >
+          <i class="fa-solid fa-cloud-arrow-down"></i>
+        </a>
       {:else}
-        <i class="fa-solid fa-paste"></i>
+        <label class="btn btn-circle join-item text-xl">
+          <i class="fa-solid fa-cloud-arrow-up"></i>
+          <input type="file" accept=".txt" class="hidden" on:change />
+        </label>
       {/if}
-    </button>
+    </div>
+    <div class="tooltip" data-tip={tip}>
+      <button
+        on:click
+        aria-label={disabled ? "Copy to Clipboard" : "Paste from Clipboard"}
+        class="btn btn-circle join-item text-xl"
+      >
+        {#if disabled}
+          <i class="fa-solid fa-copy"></i>
+        {:else}
+          <i class="fa-solid fa-paste"></i>
+        {/if}
+      </button>
+    </div>
   </div>
 </div>
