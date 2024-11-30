@@ -68,7 +68,6 @@
     user = "";
   }
   function handleFile(event: Event): void {
-    console.log("here");
     const input = event.target as HTMLInputElement;
     const file = input?.files?.[0];
     if (file) {
