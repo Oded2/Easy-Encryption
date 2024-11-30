@@ -63,9 +63,23 @@
     });
     return url.toString();
   }
-  function swap(toEncrypt: boolean) {
+  function swap(toEncrypt: boolean): void {
     isEncrypt = toEncrypt;
     user = "";
+  }
+  function handleFile(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    const file = input?.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        user = reader.result as string;
+      };
+      reader.onerror = () => {
+        console.error(reader.error);
+      };
+      reader.readAsText(file);
+    }
   }
 </script>
 
@@ -116,7 +130,6 @@
           tip={pastePress ? "Pasted from Clipboard" : "Paste from Clipboard"}
         ></Textbox>
         <div class="border-b-2 mb-5"></div>
-
         <div class="join">
           <div class="join-item w-full sm:w-auto">
             <Password bind:password></Password>
@@ -134,7 +147,6 @@
           </div>
         </div>
       </div>
-
       <div class="col-auto flex flex-col mt-5 md:mt-0">
         <h1
           class="font-bold text-3xl md:text-4xl lg:text-5xl mb-3 text-center md:text-start"
