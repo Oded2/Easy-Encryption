@@ -192,39 +192,39 @@
           >Password
         </button>
       </div>
-      {#if isEncrypt}
-        <div
-          class="tooltip"
-          data-tip={copyPress
-            ? copyMessage
-            : "Share the website with the current text"}
-        >
-          <button
-            class="btn btn-neutral btn-outline w-full sm:w-3/4 mx-auto"
-            on:click={() => copy(addParams({ text: result, decrypt: "true" }))}
-            >Text</button
-          >
-        </div>
 
-        <div
-          class="tooltip"
-          data-tip={copyPress
-            ? copyMessage
-            : "Share the website with the current password and text"}
+      <div
+        class="tooltip"
+        data-tip={copyPress
+          ? copyMessage
+          : "Share the website with the current text"}
+      >
+        <button
+          class="btn btn-neutral btn-outline w-full sm:w-3/4 mx-auto"
+          on:click={() =>
+            copy(
+              addParams({ text: isEncrypt ? result : user, decrypt: "true" })
+            )}>Text</button
         >
-          <button
-            class="btn btn-neutral btn-outline w-full sm:w-3/4 mx-auto"
-            on:click={() =>
-              copy(
-                addParams({
-                  text: result,
-                  password,
-                  decrypt: "true",
-                })
-              )}>Password & Text</button
-          >
-        </div>
-      {/if}
+      </div>
+      <div
+        class="tooltip"
+        data-tip={copyPress
+          ? copyMessage
+          : "Share the website with the current password and text"}
+      >
+        <button
+          class="btn btn-neutral btn-outline w-full sm:w-3/4 mx-auto"
+          on:click={() =>
+            copy(
+              addParams({
+                text: isEncrypt ? result : user,
+                password,
+                decrypt: "true",
+              })
+            )}>Password & Text</button
+        >
+      </div>
     </div>
   </Modal>
 </main>
