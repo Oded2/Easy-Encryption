@@ -4,13 +4,12 @@
   import * as crypto from "crypto-ts";
   import Modal from "$lib/components/Modal.svelte";
 
-  export let data;
-
+  const { data } = $props();
   const copyMessage = "Copied to Clipboard";
 
-  let isEncrypt = !data.decrypt;
-  let user: string = data.user;
-  let password: string = data.password;
+  const { decrypt: isDecrypt, origin } = data;
+  let { user, password } = $state(data);
+  let isEncrypt = $state(!isDecrypt);
   const copyPress = {
     text: false,
     website: false,
@@ -18,10 +17,11 @@
     user: false,
     userPassword: false,
   };
-  let pastePress = false;
+  let pastePress = $state(false);
 
-  $: result = isEncrypt ? encrypt(user, password) : decrypt(user, password);
-
+  let result = $derived(
+    isEncrypt ? encrypt(user, password) : decrypt(user, password)
+  );
   function encrypt(text: string, password: string): string {
     return crypto.AES.encrypt(text, password).toString();
   }
@@ -57,7 +57,7 @@
     modal.showModal();
   }
   function addParams(params: Record<string, string>): string {
-    const url = new URL(window.origin);
+    const url = new URL(origin);
     Object.entries(params).forEach(([key, value]) => {
       url.searchParams.append(key, value);
     });
@@ -90,12 +90,12 @@
       <div class="navbar-start"></div>
       <div class="navbar-center">
         <button
-          on:click={() => swap(true)}
+          onclick={() => swap(true)}
           class:btn-active={isEncrypt}
           class="btn btn-ghost text-xl mx-2">Encrypt</button
         >
         <button
-          on:click={() => swap(false)}
+          onclick={() => swap(false)}
           class:btn-active={!isEncrypt}
           class="btn btn-ghost text-xl mx-2">Decrypt</button
         >
@@ -121,12 +121,12 @@
           {/if}
         </h1>
         <Textbox
-          on:click={async () => {
+          onclick={async () => {
             user = await paste();
             pastePress = true;
             setTimeout(() => (pastePress = false), 1500);
           }}
-          on:change={handleFile}
+          onchange={handleFile}
           placeholder={"Enter text here"}
           bind:val={user}
           tip={pastePress ? "Pasted from Clipboard" : "Paste from Clipboard"}
@@ -138,7 +138,7 @@
           </div>
           <div class="join-item px-2">
             <button
-              on:click={() => {
+              onclick={() => {
                 isEncrypt = !isEncrypt;
                 user = result;
               }}
@@ -164,14 +164,14 @@
           placeholder={user.length > 0 ? "Invalid Text/Password" : ""}
           val={result}
           tip={copyPress.text ? copyMessage : "Copy to Clipboard"}
-          on:click={() => copy(result, "text")}
+          onclick={() => copy(result, "text")}
         ></Textbox>
       </div>
     </div>
     <div class="mt-10 w-full md:hidden flex justify-center">
       <button
         aria-label="Share"
-        on:click={showModal}
+        onclick={showModal}
         class="btn btn-primary btn-circle w-1/2"
         ><i class="fa-solid fa-share"></i>
         <h6 class="font-bold text-base">Share</h6></button
@@ -181,7 +181,7 @@
 
   <button
     aria-label="Share"
-    on:click={showModal}
+    onclick={showModal}
     class=" btn btn-circle btn-primary hidden md:block absolute end-5 bottom-5"
   >
     <i class="fa-solid fa-share text-lg"></i>
@@ -199,7 +199,7 @@
       >
         <button
           class="btn btn-neutral btn-outline w-full"
-          on:click={() => copy(window.origin, "website")}
+          onclick={() => copy(window.origin, "website")}
           >Website
         </button>
       </div>
@@ -211,7 +211,7 @@
       >
         <button
           class="btn btn-neutral btn-outline w-full"
-          on:click={() => copy(addParams({ password }), "password")}
+          onclick={() => copy(addParams({ password }), "password")}
           >Password
         </button>
       </div>
@@ -224,7 +224,7 @@
       >
         <button
           class="btn btn-neutral btn-outline w-full"
-          on:click={() =>
+          onclick={() =>
             copy(
               addParams({ text: isEncrypt ? result : user, decrypt: "true" }),
               "user"
@@ -239,7 +239,7 @@
       >
         <button
           class="btn btn-neutral btn-outline w-full"
-          on:click={() =>
+          onclick={() =>
             copy(
               addParams({
                 text: isEncrypt ? result : user,

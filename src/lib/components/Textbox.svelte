@@ -1,8 +1,19 @@
 <script lang="ts">
-  export let val: string;
-  export let disabled: boolean = false;
-  export let placeholder: string = "";
-  export let tip: string;
+  let {
+    val = $bindable(),
+    disabled = false,
+    placeholder = "",
+    tip,
+    onchange = () => {},
+    onclick,
+  }: {
+    val: string;
+    disabled?: boolean;
+    placeholder?: string;
+    tip: string;
+    onchange?: (...args: any[]) => void;
+    onclick: (...args: any[]) => void;
+  } = $props();
 </script>
 
 <div class="relative w-full">
@@ -46,7 +57,7 @@
             type="file"
             accept=".txt,.csv,.xml,.json,.md,.log,.rtf,.html,.css,.js"
             class="hidden"
-            on:change
+            {onchange}
           />
         </label>
       </div>
@@ -54,7 +65,7 @@
 
     <div class="tooltip" data-tip={tip}>
       <button
-        on:click
+        {onclick}
         aria-label={disabled ? "Copy to Clipboard" : "Paste from Clipboard"}
         class="btn btn-circle join-item text-xl"
       >

@@ -1,8 +1,9 @@
 <script lang="ts">
-  export let password: string;
+  let { password = $bindable() }: { password: string } = $props();
 
   const placeholder = "Enter password";
-  let hidePass = true;
+
+  let hidePass = $state(true);
 </script>
 
 <div class="relative w-full sm:w-80 md:mx-0">
@@ -31,7 +32,7 @@
     aria-label="Show Password"
     type="button"
     class="absolute end-2 top-3 text-gray-500"
-    on:click={() => (hidePass = !hidePass)}
+    onclick={() => (hidePass = !hidePass)}
   >
     {#if hidePass}
       <i class="fa-solid fa-eye"></i>
