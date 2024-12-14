@@ -7,16 +7,16 @@
   const { data } = $props();
   const copyMessage = "Copied to Clipboard";
 
-  const { decrypt: isDecrypt, origin } = data;
+  const { isDecrypt, origin } = data;
   let { user, password } = $state(data);
   let isEncrypt = $state(!isDecrypt);
-  const copyPress = {
+  const copyPress = $state({
     text: false,
     website: false,
     password: false,
     user: false,
     userPassword: false,
-  };
+  });
   let pastePress = $state(false);
 
   let result = $derived(
