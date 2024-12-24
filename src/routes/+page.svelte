@@ -1,7 +1,7 @@
 <script lang="ts">
-  import Password from "./../lib/components/Password.svelte";
-  import Textbox from "$lib/components/Textbox.svelte";
   import * as crypto from "crypto-ts";
+  import Password from "$lib/components/Password.svelte";
+  import Textbox from "$lib/components/Textbox.svelte";
   import Modal from "$lib/components/Modal.svelte";
 
   const { data } = $props();
