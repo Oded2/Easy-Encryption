@@ -36,6 +36,42 @@ Easy Encryption is a Svelte-based web application that provides a simple and int
 - **Paste from Clipboard**: Click the "Paste" icon in the input box to automatically paste clipboard content.
 - **Copy to Clipboard**: Click the "Copy" icon in the output box to copy the result.
 
+## API
+
+This application also exposes an API endpoint to perform encryption and decryption operations programmatically.
+
+### Endpoint
+
+**`GET /api`**
+
+### Query Parameters
+
+| Parameter   | Type   | Required | Description                                                                 |
+|-------------|--------|----------|-----------------------------------------------------------------------------|
+| `action`    | string | Yes      | Specifies the action to perform: `encrypt` or `decrypt`.                    |
+| `text`      | string | Yes      | The text to be encrypted or decrypted.                                      |
+| `password`  | string | No       | The password used for encryption or decryption. Defaults to an empty string.|
+
+### Response
+
+#### Success Response
+- **Status Code:** `200 OK`
+- **Content-Type:** `application/json`
+- **Body:**
+  ```json
+  {
+    "result": "encryptedOrDecryptedText"
+  }
+  ```
+
+#### Error Responses
+- **Status Code:** `400 Bad Request`
+- **Possible Error Messages:**
+  - `"Action is required"`: The `action` parameter is missing.
+  - `"Text is required"`: The `text` parameter is missing.
+  - `"Invalid action"`: The `action` parameter is not `encrypt` or `decrypt`.
+  - `"Invalid password"`: The password is incorrect for decryption.
+        
 ## Technologies Used
 
 - **[SvelteKit](https://kit.svelte.dev/)**: Framework for building modern web apps.
