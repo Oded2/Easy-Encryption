@@ -138,9 +138,9 @@
           </div>
           <div class="join-item px-2">
             <button
-              onclick={() => {  
-                 user = result;
-                 isEncrypt = !isEncrypt;
+              onclick={() => {
+                user = result;
+                isEncrypt = !isEncrypt;
               }}
               aria-label="Swap"
               class="btn btn-neutral btn-outline"
