@@ -1,8 +1,8 @@
 <script lang="ts">
-  import * as crypto from "crypto-ts";
   import Password from "$lib/components/Password.svelte";
   import Textbox from "$lib/components/Textbox.svelte";
   import Modal from "$lib/components/Modal.svelte";
+  import { encrypt, decrypt } from "$lib";
 
   const { data } = $props();
   const copyMessage = "Copied to Clipboard";
@@ -22,19 +22,7 @@
   let result = $derived(
     isEncrypt ? encrypt(user, password) : decrypt(user, password)
   );
-  function encrypt(text: string, password: string): string {
-    return crypto.AES.encrypt(text, password).toString();
-  }
-  function decrypt(encryptedText: string, password: string): string {
-    try {
-      return crypto.AES.decrypt(encryptedText, password).toString(
-        crypto.enc.Utf8
-      );
-    } catch (error) {
-      console.error(error);
-    }
-    return "";
-  }
+
   function copy(
     text: string,
     change: "text" | "website" | "password" | "user" | "userPassword"
