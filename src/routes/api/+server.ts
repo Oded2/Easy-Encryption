@@ -11,7 +11,7 @@ export const GET: RequestHandler = async ({ url }) => {
     error(400, { message: "Invalid action" });
   const result: string =
     action === "encrypt" ? encrypt(text, password) : decrypt(text, password);
-  if (result.length == 0) error(400, { message: "Invalid password" });
+  if (result.length == 0) error(401, { message: "Invalid password" });
   const data: { result: string } = {
     result,
   };
