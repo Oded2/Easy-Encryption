@@ -55,7 +55,7 @@
           <i class="fa-solid fa-cloud-arrow-up"></i>
           <input
             type="file"
-            accept=".txt,.csv,.xml,.json,.md,.log,.rtf,.html,.css,.js"
+            accept="text/*,.py,.cs,.ts,.js,.json,.html,.css,.xml,.md,.sh,.java"
             class="hidden"
             {onchange}
           />
