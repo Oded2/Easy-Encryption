@@ -19,7 +19,7 @@
 <div class="relative w-full">
   {#if disabled}
     <div
-      class="textarea textarea-ghost focus:outline-none border-none w-full px-0 h-64 md:h-96 text-lg font-medium overflow-auto"
+      class="textarea textarea-ghost border-none w-full px-0 h-64 md:h-96 text-lg font-medium overflow-auto"
     >
       <p class="break-words whitespace-pre-wrap" dir="auto">
         {val.length > 0 ? val : placeholder}
