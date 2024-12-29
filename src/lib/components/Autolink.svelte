@@ -1,6 +1,4 @@
 <script lang="ts">
-  import DOMPurify from "dompurify";
-
   const { text }: { text: string } = $props();
 
   function escapeHtml(str: string): string {
@@ -19,12 +17,13 @@
     const linkedText = input
       .split(urlRegex)
       .map((part) => {
+        const nonHtml = escapeHtml(part);
         if (urlRegex.test(part))
-          return `<a class="link" href="${part}" rel="noopener noreferrer" target="_blank">${part}</a>`;
-        return escapeHtml(part);
+          return `<a class="link" href="${part}" rel="noopener noreferrer" target="_blank">${nonHtml}</a>`;
+        return nonHtml;
       })
       .join("");
-    return DOMPurify.sanitize(linkedText);
+    return linkedText;
   }
 </script>
 
