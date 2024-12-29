@@ -1,9 +1,12 @@
 <script lang="ts">
+  import Autolink from "./Autolink.svelte";
+
   let {
     val = $bindable(),
     disabled = false,
     placeholder = "",
     tip,
+    spellcheck = false,
     onchange = () => {},
     onclick,
   }: {
@@ -11,6 +14,7 @@
     disabled?: boolean;
     placeholder?: string;
     tip: string;
+    spellcheck?: boolean;
     onchange?: (...args: any[]) => void;
     onclick: (...args: any[]) => void;
   } = $props();
@@ -22,12 +26,13 @@
       class="textarea textarea-ghost border-none w-full px-0 h-64 md:h-96 text-lg overflow-auto"
     >
       <p class="break-words whitespace-pre-wrap" dir="auto">
-        {val.length > 0 ? val : placeholder}
+        <Autolink text={val.length > 0 ? val : placeholder}></Autolink>
       </p>
     </div>
   {:else}
     <textarea
       dir="auto"
+      {spellcheck}
       class="textarea textarea-ghost focus:outline-none border-none w-full px-0 h-64 md:h-96 resize-none text-lg"
       {placeholder}
       bind:value={val}

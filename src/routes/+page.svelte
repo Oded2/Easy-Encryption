@@ -115,6 +115,7 @@
             setTimeout(() => (pastePress = false), 1500);
           }}
           onchange={handleFile}
+          spellcheck={isEncrypt}
           placeholder={"Enter text here"}
           bind:val={user}
           tip={pastePress ? "Pasted from Clipboard" : "Paste from Clipboard"}
