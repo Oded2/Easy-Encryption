@@ -9,7 +9,7 @@ export function decrypt(encryptedText: string, password: string): string {
       crypto.enc.Utf8
     );
   } catch (error) {
-    console.error(error);
+    console.debug(error);
   }
   return "";
 }
