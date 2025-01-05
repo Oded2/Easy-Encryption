@@ -4,6 +4,7 @@
   const { text }: { text: string } = $props();
 
   let isLoaded: boolean = $state(false);
+
   onMount(() => (isLoaded = true));
 
   function escapeHtml(str: string): string {
