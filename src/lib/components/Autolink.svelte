@@ -1,5 +1,10 @@
 <script lang="ts">
+  import { onMount } from "svelte";
+
   const { text }: { text: string } = $props();
+
+  let isLoaded: boolean = $state(false);
+  onMount(() => (isLoaded = true));
 
   function escapeHtml(str: string): string {
     const map: { [key: string]: string } = {
@@ -27,4 +32,6 @@
   }
 </script>
 
-{@html linkify(text)}
+{#if isLoaded}
+  {@html linkify(text)}
+{/if}
