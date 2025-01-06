@@ -2,7 +2,7 @@
   import Password from "$lib/components/Password.svelte";
   import Textbox from "$lib/components/Textbox.svelte";
   import Modal from "$lib/components/Modal.svelte";
-  import { encrypt, decrypt } from "$lib";
+  import { encrypt, decrypt, addParams } from "$lib";
   import Switch from "$lib/components/Switch.svelte";
 
   const { data } = $props();
@@ -24,9 +24,20 @@
   );
   let shortUrl: boolean = $state(false);
 
-  function copy(text: string, change: keyof typeof copyPress): void {
-    navigator.clipboard.writeText(text);
+  async function copy(
+    text: string,
+    change: keyof typeof copyPress,
+    isShort: boolean = false
+  ): Promise<void> {
+    const apiUrl = "https://tinyurl.com/api-create.php";
     const original = copyPress[change];
+    let toWrite: string = text;
+    if (isShort) {
+      copyPress[change] = "Awaiting URL...";
+      const response = await fetch(addParams(apiUrl, { url: text }));
+      toWrite = await response.text();
+    }
+    navigator.clipboard.writeText(toWrite);
     copyPress[change] = copyMessage;
     setTimeout(() => (copyPress[change] = original), 1500);
   }
@@ -42,13 +53,6 @@
   function showModal(): void {
     const modal: any = document.getElementById("modal");
     modal.showModal();
-  }
-  function addParams(params: Record<string, string>): string {
-    const url = new URL(origin);
-    Object.entries(params).forEach(([key, value]) => {
-      url.searchParams.append(key, value);
-    });
-    return url.toString();
   }
   function swap(toEncrypt: boolean): void {
     isEncrypt = toEncrypt;
@@ -185,7 +189,7 @@
       <div class="tooltip w-full sm:w-3/4 mx-auto" data-tip={copyPress.website}>
         <button
           class="btn btn-neutral btn-outline w-full"
-          onclick={() => copy(window.origin, "website")}
+          onclick={() => copy(window.origin, "website", shortUrl)}
           >Website
         </button>
       </div>
@@ -195,7 +199,8 @@
       >
         <button
           class="btn btn-neutral btn-outline w-full"
-          onclick={() => copy(addParams({ password }), "password")}
+          onclick={() =>
+            copy(addParams(origin, { password }), "password", shortUrl)}
           >Password
         </button>
       </div>
@@ -205,8 +210,12 @@
           class="btn btn-neutral btn-outline w-full"
           onclick={() =>
             copy(
-              addParams({ text: isEncrypt ? result : user, decrypt: "true" }),
-              "user"
+              addParams(origin, {
+                text: isEncrypt ? result : user,
+                decrypt: "true",
+              }),
+              "user",
+              shortUrl
             )}>Text</button
         >
       </div>
@@ -218,12 +227,13 @@
           class="btn btn-neutral btn-outline w-full"
           onclick={() =>
             copy(
-              addParams({
+              addParams(origin, {
                 text: isEncrypt ? result : user,
                 password,
                 decrypt: "true",
               }),
-              "userPassword"
+              "userPassword",
+              shortUrl
             )}>Password & Text</button
         >
       </div>

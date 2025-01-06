@@ -10,6 +10,6 @@
     {#if text.length > 0}
       <span class="label-text">{text}</span>
     {/if}
-    <input type="checkbox" class="toggle" checked={state} />
+    <input type="checkbox" class="toggle" bind:checked={state} />
   </label>
 </div>
