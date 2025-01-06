@@ -183,7 +183,11 @@
   <div class="border-b-2 mb-4 pb-2 text-center">
     <h3 class="text-xl font-bold">Share</h3>
     <h5 class="text-base font-medium">Select which link to copy</h5>
-    <Switch bind:state={shortUrl} text="Short URL"></Switch>
+    <Switch
+      bind:state={shortUrl}
+      text="Short URL"
+      disclaimer="Shortened link is dependent on TinyURL"
+    ></Switch>
   </div>
   <div class="grid gap-y-4">
     <div class="tooltip w-full sm:w-3/4 mx-auto" data-tip={copyPress.website}>
