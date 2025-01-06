@@ -31,6 +31,7 @@
   ): Promise<void> {
     const apiUrl = "https://tinyurl.com/api-create.php";
     const original = copyPress[change];
+    if (original === copyMessage) return;
     let toWrite: string = text;
     if (isShort) {
       copyPress[change] = "Awaiting URL...";
