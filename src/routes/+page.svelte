@@ -180,7 +180,7 @@
   </button>
 </main>
 <Modal id="modal">
-  <div class="border-b-2 mb-2 pb-2 text-center">
+  <div class="border-b-2 mb-4 pb-2 text-center">
     <h3 class="text-xl font-bold">Share</h3>
     <h5 class="text-base font-medium">Select which link to copy</h5>
     <Switch bind:state={shortUrl} text="Short URL"></Switch>
@@ -209,7 +209,7 @@
           copy(
             addParams(origin, {
               text: isEncrypt ? result : user,
-              decrypt: "true",
+              page: "decrypt",
             }),
             "user",
             shortUrl
@@ -227,7 +227,7 @@
             addParams(origin, {
               text: isEncrypt ? result : user,
               password,
-              decrypt: "true",
+              page: "decrypt",
             }),
             "userPassword",
             shortUrl
