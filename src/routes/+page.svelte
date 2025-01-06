@@ -178,66 +178,62 @@
   >
     <i class="fa-solid fa-share text-lg"></i>
   </button>
-
-  <Modal id="modal">
-    <div class="border-b-2 mb-2 pb-2 text-center">
-      <h3 class="text-xl font-bold">Share</h3>
-      <h5 class="text-base font-medium">Select which link to copy</h5>
-      <Switch bind:state={shortUrl} text="Short URL"></Switch>
-    </div>
-    <div class="grid gap-y-4">
-      <div class="tooltip w-full sm:w-3/4 mx-auto" data-tip={copyPress.website}>
-        <button
-          class="btn btn-neutral btn-outline w-full"
-          onclick={() => copy(origin, "website", shortUrl)}
-          >Website
-        </button>
-      </div>
-      <div
-        class="tooltip w-full sm:w-3/4 mx-auto"
-        data-tip={copyPress.password}
-      >
-        <button
-          class="btn btn-neutral btn-outline w-full"
-          onclick={() =>
-            copy(addParams(origin, { password }), "password", shortUrl)}
-          >Password
-        </button>
-      </div>
-
-      <div class="tooltip w-full sm:w-3/4 mx-auto" data-tip={copyPress.user}>
-        <button
-          class="btn btn-neutral btn-outline w-full"
-          onclick={() =>
-            copy(
-              addParams(origin, {
-                text: isEncrypt ? result : user,
-                decrypt: "true",
-              }),
-              "user",
-              shortUrl
-            )}>Text</button
-        >
-      </div>
-      <div
-        class="tooltip w-full sm:w-3/4 mx-auto"
-        data-tip={copyPress.userPassword}
-      >
-        <button
-          class="btn btn-neutral btn-outline w-full"
-          onclick={() =>
-            copy(
-              addParams(origin, {
-                text: isEncrypt ? result : user,
-                password,
-                decrypt: "true",
-              }),
-              "userPassword",
-              shortUrl
-            )}>Password & Text</button
-        >
-      </div>
-    </div>
-  </Modal>
 </main>
+<Modal id="modal">
+  <div class="border-b-2 mb-2 pb-2 text-center">
+    <h3 class="text-xl font-bold">Share</h3>
+    <h5 class="text-base font-medium">Select which link to copy</h5>
+    <Switch bind:state={shortUrl} text="Short URL"></Switch>
+  </div>
+  <div class="grid gap-y-4">
+    <div class="tooltip w-full sm:w-3/4 mx-auto" data-tip={copyPress.website}>
+      <button
+        class="btn btn-neutral btn-outline w-full"
+        onclick={() => copy(origin, "website", shortUrl)}
+        >Website
+      </button>
+    </div>
+    <div class="tooltip w-full sm:w-3/4 mx-auto" data-tip={copyPress.password}>
+      <button
+        class="btn btn-neutral btn-outline w-full"
+        onclick={() =>
+          copy(addParams(origin, { password }), "password", shortUrl)}
+        >Password
+      </button>
+    </div>
+
+    <div class="tooltip w-full sm:w-3/4 mx-auto" data-tip={copyPress.user}>
+      <button
+        class="btn btn-neutral btn-outline w-full"
+        onclick={() =>
+          copy(
+            addParams(origin, {
+              text: isEncrypt ? result : user,
+              decrypt: "true",
+            }),
+            "user",
+            shortUrl
+          )}>Text</button
+      >
+    </div>
+    <div
+      class="tooltip w-full sm:w-3/4 mx-auto"
+      data-tip={copyPress.userPassword}
+    >
+      <button
+        class="btn btn-neutral btn-outline w-full"
+        onclick={() =>
+          copy(
+            addParams(origin, {
+              text: isEncrypt ? result : user,
+              password,
+              decrypt: "true",
+            }),
+            "userPassword",
+            shortUrl
+          )}>Password & Text</button
+      >
+    </div>
+  </div>
+</Modal>
 <svelte:head><title>Easy Encryption</title></svelte:head>
