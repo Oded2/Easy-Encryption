@@ -189,7 +189,7 @@
       <div class="tooltip w-full sm:w-3/4 mx-auto" data-tip={copyPress.website}>
         <button
           class="btn btn-neutral btn-outline w-full"
-          onclick={() => copy(window.origin, "website", shortUrl)}
+          onclick={() => copy(origin, "website", shortUrl)}
           >Website
         </button>
       </div>
