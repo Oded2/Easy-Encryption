@@ -3,6 +3,7 @@
   import Textbox from "$lib/components/Textbox.svelte";
   import Modal from "$lib/components/Modal.svelte";
   import { encrypt, decrypt } from "$lib";
+  import Switch from "$lib/components/Switch.svelte";
 
   const { data } = $props();
   const copyMessage = "Copied to Clipboard";
@@ -11,25 +12,23 @@
   let { user, password } = $state(data);
   let isEncrypt = $state(!isDecrypt);
   const copyPress = $state({
-    text: false,
-    website: false,
-    password: false,
-    user: false,
-    userPassword: false,
+    text: copyMessage,
+    website: "Share the website",
+    password: "Share the website with the current password",
+    user: "Share the website with the current text",
+    userPassword: "Share the website with the current password and text",
   });
   let pastePress = $state(false);
-
   let result = $derived(
     isEncrypt ? encrypt(user, password) : decrypt(user, password)
   );
+  let shortUrl: boolean = $state(false);
 
-  function copy(
-    text: string,
-    change: "text" | "website" | "password" | "user" | "userPassword"
-  ): void {
+  function copy(text: string, change: keyof typeof copyPress): void {
     navigator.clipboard.writeText(text);
-    copyPress[change] = true;
-    setTimeout(() => (copyPress[change] = false), 1500);
+    const original = copyPress[change];
+    copyPress[change] = copyMessage;
+    setTimeout(() => (copyPress[change] = original), 1500);
   }
   async function paste(): Promise<string> {
     try {
@@ -152,7 +151,7 @@
           disabled
           placeholder={user.length > 0 ? "Invalid Text/Password" : ""}
           val={result}
-          tip={copyPress.text ? copyMessage : "Copy to Clipboard"}
+          tip={copyPress.text}
           onclick={() => copy(result, "text")}
         ></Textbox>
       </div>
@@ -177,15 +176,13 @@
   </button>
 
   <Modal id="modal">
-    <div class="border-b-2 mb-4 pb-2 text-center">
+    <div class="border-b-2 mb-2 pb-2 text-center">
       <h3 class="text-xl font-bold">Share</h3>
       <h5 class="text-base font-medium">Select which link to copy</h5>
+      <Switch bind:state={shortUrl} text="Short URL"></Switch>
     </div>
     <div class="grid gap-y-4">
-      <div
-        class="tooltip w-full sm:w-3/4 mx-auto"
-        data-tip={copyPress.website ? copyMessage : "Share the website"}
-      >
+      <div class="tooltip w-full sm:w-3/4 mx-auto" data-tip={copyPress.website}>
         <button
           class="btn btn-neutral btn-outline w-full"
           onclick={() => copy(window.origin, "website")}
@@ -194,9 +191,7 @@
       </div>
       <div
         class="tooltip w-full sm:w-3/4 mx-auto"
-        data-tip={copyPress.password
-          ? copyMessage
-          : "Share the website with the current password"}
+        data-tip={copyPress.password}
       >
         <button
           class="btn btn-neutral btn-outline w-full"
@@ -205,12 +200,7 @@
         </button>
       </div>
 
-      <div
-        class="tooltip w-full sm:w-3/4 mx-auto"
-        data-tip={copyPress.user
-          ? copyMessage
-          : "Share the website with the current text"}
-      >
+      <div class="tooltip w-full sm:w-3/4 mx-auto" data-tip={copyPress.user}>
         <button
           class="btn btn-neutral btn-outline w-full"
           onclick={() =>
@@ -222,9 +212,7 @@
       </div>
       <div
         class="tooltip w-full sm:w-3/4 mx-auto"
-        data-tip={copyPress.userPassword
-          ? copyMessage
-          : "Share the website with the current password and text"}
+        data-tip={copyPress.userPassword}
       >
         <button
           class="btn btn-neutral btn-outline w-full"
