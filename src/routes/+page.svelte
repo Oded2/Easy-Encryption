@@ -171,15 +171,15 @@
       >
     </div>
   </div>
-
-  <button
-    aria-label="Share"
-    onclick={showModal}
-    class=" btn btn-circle btn-primary hidden md:block sticky end-5 bottom-5"
-  >
-    <i class="fa-solid fa-share text-lg"></i>
-  </button>
 </main>
+
+<button
+  aria-label="Share"
+  onclick={showModal}
+  class=" btn btn-circle btn-primary hidden md:block fixed right-5 bottom-5"
+>
+  <i class="fa-solid fa-share text-lg"></i>
+</button>
 <Modal id="modal">
   <div class="border-b-2 mb-4 pb-2 text-center">
     <h3 class="text-xl font-bold">Share</h3>
