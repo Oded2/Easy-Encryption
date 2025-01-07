@@ -175,7 +175,7 @@
   <button
     aria-label="Share"
     onclick={showModal}
-    class=" btn btn-circle btn-primary hidden md:block absolute end-5 bottom-5"
+    class=" btn btn-circle btn-primary hidden md:block sticky end-5 bottom-5"
   >
     <i class="fa-solid fa-share text-lg"></i>
   </button>
