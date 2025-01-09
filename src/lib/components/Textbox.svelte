@@ -20,7 +20,7 @@
   } = $props();
 </script>
 
-<div class="relative w-full">
+<div class="flex flex-col w-full">
   {#if disabled}
     <div
       class="textarea textarea-ghost border-none w-full px-0 h-64 md:h-96 text-lg overflow-auto"
@@ -39,7 +39,7 @@
     >
     </textarea>
   {/if}
-  <div class="absolute end-2 bottom-2 join">
+  <div class="ms-auto m-2 join">
     {#if disabled}
       <div class="tooltip" data-tip="Download Text">
         <a
