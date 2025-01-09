@@ -26,14 +26,13 @@
 
   async function copy(
     text: string,
-    change: keyof typeof copyPress,
-    isShort: boolean = false
+    change: keyof typeof copyPress
   ): Promise<void> {
     const apiUrl = "https://tinyurl.com/api-create.php";
     const original = copyPress[change];
     if (original === copyMessage) return;
     let toWrite: string = text;
-    if (isShort) {
+    if (shortUrl) {
       copyPress[change] = "Awaiting URL...";
       const response = await fetch(addParams(apiUrl, { url: text }));
       toWrite = await response.text();
@@ -157,7 +156,7 @@
           placeholder={user.length > 0 ? "Invalid Text/Password" : ""}
           val={result}
           tip={copyPress.text}
-          onclick={() => copy(result, "text")}
+          onclick={async () => copy(result, "text")}
         ></Textbox>
       </div>
     </div>
@@ -201,8 +200,7 @@
     <div class="tooltip w-full sm:w-3/4 mx-auto" data-tip={copyPress.password}>
       <button
         class="btn btn-neutral btn-outline w-full"
-        onclick={() =>
-          copy(addParams(origin, { password }), "password", shortUrl)}
+        onclick={() => copy(addParams(origin, { password }), "password")}
         >Password
       </button>
     </div>
@@ -216,8 +214,7 @@
               text: isEncrypt ? result : user,
               page: "decrypt",
             }),
-            "user",
-            shortUrl
+            "user"
           )}>Text</button
       >
     </div>
@@ -234,8 +231,7 @@
               password,
               page: "decrypt",
             }),
-            "userPassword",
-            shortUrl
+            "userPassword"
           )}>Password & Text</button
       >
     </div>
