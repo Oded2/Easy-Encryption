@@ -23,7 +23,7 @@
 <div class="flex flex-col w-full">
   {#if disabled}
     <div
-      class="textarea textarea-ghost border-none w-full px-0 h-64 md:h-96 text-lg overflow-auto"
+      class="textarea textarea-ghost border-none w-full px-0 h-64 md:h-80 text-lg overflow-auto"
     >
       <p class="break-words whitespace-pre-wrap" dir="auto">
         <Autolink text={val.length > 0 ? val : placeholder}></Autolink>
@@ -33,7 +33,7 @@
     <textarea
       dir="auto"
       {spellcheck}
-      class="textarea textarea-ghost focus:outline-none border-none w-full px-0 h-64 md:h-96 resize-none text-lg"
+      class="textarea textarea-ghost focus:outline-none border-none w-full px-0 h-64 md:h-80 resize-none text-lg"
       {placeholder}
       bind:value={val}
     >
