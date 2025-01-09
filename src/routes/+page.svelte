@@ -156,7 +156,7 @@
           placeholder={user.length > 0 ? "Invalid Text/Password" : ""}
           val={result}
           tip={copyPress.text}
-          onclick={async () => copy(result, "text")}
+          onclick={() => copy(result, "text")}
         ></Textbox>
       </div>
     </div>
