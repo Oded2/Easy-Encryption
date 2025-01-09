@@ -6,8 +6,6 @@
   import Switch from "$lib/components/Switch.svelte";
 
   const { data } = $props();
-  const copyMessage = "Copied to Clipboard";
-
   const { isDecrypt, origin } = data;
   let { user, password } = $state(data);
   let isEncrypt = $state(!isDecrypt);
@@ -28,8 +26,9 @@
     text: string,
     change: keyof typeof copyPress
   ): Promise<void> {
-    const apiUrl = "https://tinyurl.com/api-create.php";
+    const copyMessage = "Copied to Clipboard";
     const failText = "Failed to copy link";
+    const apiUrl = "https://tinyurl.com/api-create.php";
     const original = copyPress[change];
     if (original === copyMessage || original === failText) return;
     let toWrite: string = text;
