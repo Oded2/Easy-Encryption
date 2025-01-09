@@ -24,7 +24,8 @@
 
   async function copy(
     text: string,
-    change: keyof typeof copyPress
+    change: keyof typeof copyPress,
+    shorten: boolean = false
   ): Promise<void> {
     const copyMessage = "Copied to Clipboard";
     const failText = "Failed to copy link";
@@ -32,7 +33,7 @@
     const original = copyPress[change];
     if (original === copyMessage || original === failText) return;
     let toWrite: string = text;
-    if (shortUrl) {
+    if (shorten) {
       copyPress[change] = "Awaiting URL...";
       const response = await fetch(addParams(apiUrl, { url: text }));
       toWrite = await response.text();
@@ -205,7 +206,8 @@
     <div class="tooltip w-full sm:w-3/4 mx-auto" data-tip={copyPress.password}>
       <button
         class="btn btn-neutral btn-outline w-full"
-        onclick={() => copy(addParams(origin, { password }), "password")}
+        onclick={() =>
+          copy(addParams(origin, { password }), "password", shortUrl)}
         >Password
       </button>
     </div>
@@ -219,7 +221,8 @@
               text: isEncrypt ? result : user,
               page: "decrypt",
             }),
-            "user"
+            "user",
+            shortUrl
           )}>Text</button
       >
     </div>
@@ -236,7 +239,8 @@
               password,
               page: "decrypt",
             }),
-            "userPassword"
+            "userPassword",
+            shortUrl
           )}>Password & Text</button
       >
     </div>
