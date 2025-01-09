@@ -12,7 +12,7 @@
   let { user, password } = $state(data);
   let isEncrypt = $state(!isDecrypt);
   const copyPress = $state({
-    text: copyMessage,
+    text: "Copy to Clipboard",
     website: "Share the website",
     password: "Share the website with the current password",
     user: "Share the website with the current text",
@@ -29,16 +29,22 @@
     change: keyof typeof copyPress
   ): Promise<void> {
     const apiUrl = "https://tinyurl.com/api-create.php";
+    const failText = "Failed to copy link";
     const original = copyPress[change];
-    if (original === copyMessage) return;
+    if (original === copyMessage || original === failText) return;
     let toWrite: string = text;
     if (shortUrl) {
       copyPress[change] = "Awaiting URL...";
       const response = await fetch(addParams(apiUrl, { url: text }));
       toWrite = await response.text();
     }
-    await navigator.clipboard.writeText(toWrite);
-    copyPress[change] = copyMessage;
+    try {
+      await navigator.clipboard.writeText(toWrite);
+      copyPress[change] = copyMessage;
+    } catch (e) {
+      copyPress[change] = failText;
+      console.error(e);
+    }
     setTimeout(() => (copyPress[change] = original), 1500);
   }
   async function paste(): Promise<string> {
