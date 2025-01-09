@@ -38,7 +38,7 @@
       const response = await fetch(addParams(apiUrl, { url: text }));
       toWrite = await response.text();
     }
-    navigator.clipboard.writeText(toWrite);
+    await navigator.clipboard.writeText(toWrite);
     copyPress[change] = copyMessage;
     setTimeout(() => (copyPress[change] = original), 1500);
   }
