@@ -19,7 +19,7 @@
   }
 
   function linkify(input: string): string {
-    const urlRegex = /(https?:\/\/[^\s]+)/g;
+    const urlRegex = /(https?:\/\/[^\s"]+)/g;
     const linkedText = input
       .split(urlRegex)
       .map((part) => {
