@@ -223,7 +223,7 @@
             }),
             "user",
             shortUrl
-          )}>Text</button
+          )}>Encrypted Text</button
       >
     </div>
     <div
@@ -241,7 +241,7 @@
             }),
             "userPassword",
             shortUrl
-          )}>Password & Text</button
+          )}>Encrypted Text &amp; Password</button
       >
     </div>
   </div>
