@@ -16,7 +16,7 @@
     user: "Share the website with the current text",
     userPassword: "Share the website with the current password and text",
   });
-  let pastePress = $state(false);
+  let pastePress = $state("Paste from Clipboard");
   let result = $derived(
     isEncrypt ? encrypt(user, password) : decrypt(user, password)
   );
@@ -27,10 +27,10 @@
     change: keyof typeof copyPress,
     shorten: boolean = false
   ): Promise<void> {
-    const copyMessage = "Copied to Clipboard";
-    const failText = "Failed to copy link";
-    const apiUrl = "https://tinyurl.com/api-create.php";
     const original = copyPress[change];
+    const copyMessage = "Copied to Clipboard";
+    const failText = "Failed to Copy to Clipboard";
+    const apiUrl = "https://tinyurl.com/api-create.php";
     if (original === copyMessage || original === failText) return;
     let toWrite: string = text;
     if (shorten) {
@@ -47,14 +47,20 @@
     }
     setTimeout(() => (copyPress[change] = original), 1500);
   }
-  async function paste(): Promise<string> {
+  async function paste(): Promise<void> {
+    const original = pastePress;
+    const pasteMessage = "Pasted from Clipboard";
+    const failText = "Failed to Paste from Clipboard";
+    if (original === pasteMessage || original === failText) return;
     try {
       const clip = await navigator.clipboard.readText();
-      return clip;
+      user = clip;
+      pastePress = pasteMessage;
     } catch (error) {
       console.error(error);
+      pastePress = failText;
     }
-    return "";
+    setTimeout(() => (pastePress = original), 1500);
   }
   function showModal(): void {
     const modal: any = document.getElementById("modal");
@@ -118,16 +124,12 @@
           {/if}
         </h1>
         <Textbox
-          onclick={async () => {
-            user = await paste();
-            pastePress = true;
-            setTimeout(() => (pastePress = false), 1500);
-          }}
+          onclick={paste}
           onchange={handleFile}
           spellcheck={isEncrypt}
           placeholder={"Enter text here"}
           bind:val={user}
-          tip={pastePress ? "Pasted from Clipboard" : "Paste from Clipboard"}
+          tip={pastePress}
         ></Textbox>
         <div class="border-b-2 mb-5"></div>
         <div class="join">
