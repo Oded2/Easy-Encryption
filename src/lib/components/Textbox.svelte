@@ -67,7 +67,6 @@
         </label>
       </div>
     {/if}
-
     <div class="tooltip" data-tip={tip}>
       <button
         {onclick}
