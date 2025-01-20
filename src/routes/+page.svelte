@@ -63,7 +63,7 @@
     setTimeout(() => (pastePress = original), 1500);
   }
   function showModal(): void {
-    const modal: any = document.getElementById("modal");
+    const modal = document.getElementById("modal") as HTMLDialogElement;
     modal.showModal();
   }
   function swap(toEncrypt: boolean): void {
