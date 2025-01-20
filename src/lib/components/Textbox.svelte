@@ -39,46 +39,49 @@
     >
     </textarea>
   {/if}
-  <div class="ms-auto m-2 join">
-    {#if disabled}
-      <div class="tooltip" data-tip="Download Text">
-        <a
-          aria-label="Download"
-          href="data:text;charset=utf-8,{val}"
-          download="Text.txt"
+  <div class="m-2 flex items-baseline gap-2 justify-between">
+    <span>{`Character count: ${val.length.toLocaleString()}`}</span>
+    <div class="join">
+      {#if disabled}
+        <div class="tooltip" data-tip="Download Text">
+          <a
+            aria-label="Download"
+            href="data:text;charset=utf-8,{val}"
+            download="Text.txt"
+            class="btn btn-circle join-item text-xl"
+          >
+            <i class="fa-solid fa-cloud-arrow-down"></i>
+          </a>
+        </div>
+      {:else}
+        <div class="tooltip" data-tip="Upload Text">
+          <label
+            aria-label="Upload Text"
+            class="btn btn-circle join-item text-xl"
+          >
+            <i class="fa-solid fa-cloud-arrow-up"></i>
+            <input
+              type="file"
+              accept="text/*,.py,.cs,.ts,.js,.json,.html,.css,.xml,.md,.sh,.java"
+              class="hidden"
+              {onchange}
+            />
+          </label>
+        </div>
+      {/if}
+      <div class="tooltip" data-tip={tip}>
+        <button
+          {onclick}
+          aria-label={disabled ? "Copy to Clipboard" : "Paste from Clipboard"}
           class="btn btn-circle join-item text-xl"
         >
-          <i class="fa-solid fa-cloud-arrow-down"></i>
-        </a>
+          {#if disabled}
+            <i class="fa-solid fa-copy"></i>
+          {:else}
+            <i class="fa-solid fa-paste"></i>
+          {/if}
+        </button>
       </div>
-    {:else}
-      <div class="tooltip" data-tip="Upload Text">
-        <label
-          aria-label="Upload Text"
-          class="btn btn-circle join-item text-xl"
-        >
-          <i class="fa-solid fa-cloud-arrow-up"></i>
-          <input
-            type="file"
-            accept="text/*,.py,.cs,.ts,.js,.json,.html,.css,.xml,.md,.sh,.java"
-            class="hidden"
-            {onchange}
-          />
-        </label>
-      </div>
-    {/if}
-    <div class="tooltip" data-tip={tip}>
-      <button
-        {onclick}
-        aria-label={disabled ? "Copy to Clipboard" : "Paste from Clipboard"}
-        class="btn btn-circle join-item text-xl"
-      >
-        {#if disabled}
-          <i class="fa-solid fa-copy"></i>
-        {:else}
-          <i class="fa-solid fa-paste"></i>
-        {/if}
-      </button>
     </div>
   </div>
 </div>
