@@ -3,7 +3,7 @@
 
   const { text }: { text: string } = $props();
 
-  const urlRegex = /(https?:\/\/[^\s"]+)/g;
+  const urlRegex = /(https?:\/\/[^\s]+)/g;
 
   let isLoaded: boolean = $state(false);
 
@@ -24,13 +24,21 @@
     const linkedText = input
       .split(urlRegex)
       .map((part) => {
-        const nonHtml = escapeHtml(part);
-        if (urlRegex.test(part))
-          return `<a class="link" href="${part}" rel="noopener noreferrer" target="_blank">${nonHtml}</a>`;
-        return nonHtml;
+        if (urlRegex.test(part)) return createAnchorElement(part);
+        return escapeHtml(part);
       })
       .join("");
     return linkedText;
+  }
+
+  function createAnchorElement(part: string): string {
+    const anchor = document.createElement("a");
+    anchor.href = part;
+    anchor.className = "link";
+    anchor.rel = "noopener noreferrer";
+    anchor.target = "_blank";
+    anchor.innerText = text;
+    return anchor.outerHTML;
   }
 </script>
 
