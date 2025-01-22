@@ -37,7 +37,7 @@
     anchor.className = "link";
     anchor.rel = "noopener noreferrer";
     anchor.target = "_blank";
-    anchor.innerText = text;
+    anchor.innerText = part;
     return anchor.outerHTML;
   }
 </script>
