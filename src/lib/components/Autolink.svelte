@@ -24,7 +24,6 @@
       .split(/(\s+)/)
       .map((part) => {
         if (test(part)) return handleURL(part);
-        console.log(part, test(part));
         return escapeHtml(part);
       })
       .join("");
