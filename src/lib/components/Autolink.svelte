@@ -21,12 +21,13 @@
 
   function linkify(input: string): string {
     return input
-      .split(" ")
+      .split(/(\s+)/)
       .map((part) => {
         if (test(part)) return handleURL(part);
+        console.log(part, test(part));
         return escapeHtml(part);
       })
-      .join(" ");
+      .join("");
   }
 
   function handleURL(part: string): string {
