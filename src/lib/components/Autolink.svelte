@@ -3,6 +3,8 @@
 
   const { text }: { text: string } = $props();
 
+  const urlRegex = /(https?:\/\/[^\s"]+)/g;
+
   let isLoaded: boolean = $state(false);
 
   onMount(() => (isLoaded = true));
@@ -19,7 +21,6 @@
   }
 
   function linkify(input: string): string {
-    const urlRegex = /(https?:\/\/[^\s"]+)/g;
     const linkedText = input
       .split(urlRegex)
       .map((part) => {
