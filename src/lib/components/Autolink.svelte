@@ -1,9 +1,8 @@
 <script lang="ts">
   import { onMount } from "svelte";
+  import { find, test } from "linkifyjs";
 
   const { text }: { text: string } = $props();
-
-  const urlRegex = /(https?:\/\/[^\s]+)/g;
 
   let isLoaded: boolean = $state(false);
 
@@ -21,23 +20,23 @@
   }
 
   function linkify(input: string): string {
-    const linkedText = input
-      .split(urlRegex)
+    return input
+      .split(" ")
       .map((part) => {
-        if (urlRegex.test(part)) return createAnchorElement(part);
+        if (test(part)) return handleURL(part);
         return escapeHtml(part);
       })
-      .join("");
-    return linkedText;
+      .join(" ");
   }
 
-  function createAnchorElement(part: string): string {
+  function handleURL(part: string): string {
+    const link = find(part, { defaultProtocol: "https" })[0];
     const anchor = document.createElement("a");
-    anchor.href = part;
+    anchor.href = link.href;
     anchor.className = "link";
     anchor.rel = "noopener noreferrer";
     anchor.target = "_blank";
-    anchor.innerText = part;
+    anchor.innerText = link.value;
     return anchor.outerHTML;
   }
 </script>
