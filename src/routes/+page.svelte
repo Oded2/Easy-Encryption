@@ -29,7 +29,7 @@
   ): Promise<void> {
     const original = copyPress[change];
     const copyMessage = "Copied to Clipboard";
-    const failText = "Failed to Copy to Clipboard";
+    const failText = "Error copying to clipboard";
     const apiUrl = "https://tinyurl.com/api-create.php";
     if (original === copyMessage || original === failText) return;
     let toWrite: string = text;
