@@ -1,11 +1,11 @@
-import * as crypto from "crypto-ts";
+import { enc, AES } from "crypto-ts/";
 
 export function encrypt(text: string, password: string): string {
-  return crypto.AES.encrypt(text, password).toString();
+  return AES.encrypt(text, password).toString();
 }
 export function decrypt(text: string, password: string): string {
   try {
-    return crypto.AES.decrypt(text, password).toString(crypto.enc.Utf8);
+    return AES.decrypt(text, password).toString(enc.Utf8);
   } catch (error) {
     console.debug(error);
   }
