@@ -1,4 +1,4 @@
-import { enc, AES } from "crypto-ts/";
+import { enc, AES } from "crypto-ts";
 
 export function encrypt(text: string, password: string): string {
   return AES.encrypt(text, password).toString();
