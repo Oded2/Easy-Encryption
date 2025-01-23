@@ -26,7 +26,11 @@
       class="textarea textarea-ghost border-none w-full px-0 h-64 md:h-80 text-lg overflow-auto"
     >
       <p class="break-words whitespace-pre-wrap" dir="auto">
-        <Autolink text={val.length > 0 ? val : placeholder}></Autolink>
+        {#if val.length > 0}
+          <Autolink text={val}></Autolink>
+        {:else}
+          <span class="italic">{placeholder}</span>
+        {/if}
       </p>
     </div>
   {:else}

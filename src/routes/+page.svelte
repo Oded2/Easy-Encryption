@@ -161,7 +161,9 @@
         </h1>
         <Textbox
           disabled
-          placeholder={user.length > 0 ? "Invalid Text/Password" : ""}
+          placeholder={user.length > 0
+            ? "Invalid Text/Password"
+            : "No text to decrypt"}
           val={result}
           tip={copyPress.text}
           onclick={() => copy(result, "text")}
