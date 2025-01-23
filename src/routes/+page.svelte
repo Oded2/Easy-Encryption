@@ -162,7 +162,7 @@
         <Textbox
           disabled
           placeholder={user.length > 0
-            ? "Invalid Text/Password"
+            ? "Invalid text/password"
             : "No text to decrypt"}
           val={result}
           tip={copyPress.text}
