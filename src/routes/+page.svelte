@@ -4,9 +4,11 @@
   import Modal from "$lib/components/Modal.svelte";
   import { encrypt, decrypt, addParams } from "$lib";
   import Switch from "$lib/components/Switch.svelte";
+  import pkg from "lz-string";
 
   const { data } = $props();
   const { isDecrypt, origin } = data;
+  const { compressToBase64, decompressFromBase64 } = pkg;
   let { user, password } = $state(data);
   let isEncrypt = $state(!isDecrypt);
   const copyPress = $state({
@@ -23,8 +25,6 @@
   let shortUrl: boolean = $state(false);
   // "lastResult" is a variable that ensures that the user doesn't double-compress/decompress
   let lastResult: string = $state("");
-  // "inProgress" is a variable that stops that informs the user that an action is in progress
-  let inProgress: boolean = $state(false);
 
   async function copy(
     text: string,
@@ -95,31 +95,15 @@
     }
     input.value = "";
   }
-  async function handleCompression(): Promise<void> {
-    inProgress = true;
-    const getEndpoint = async (action: "compress" | "decompress") => {
-      const response = await fetch("/api/compression", {
-        method: "POST",
-        headers: {
-          "Content-Type": "text/plain",
-        },
-        body: JSON.stringify({ text: user, action }),
-      });
-      if (!response.ok) {
-        alert(`Error encounted: Unable to ${action}`);
-        return user;
-      }
-      return await response.text();
-    };
+  function handleCompression(): void {
     if (isEncrypt) {
-      user = await getEndpoint("compress");
+      user = compressToBase64(user);
     } else {
       swapStore();
-      user = await getEndpoint("decompress");
+      user = decompressFromBase64(user);
       swapStore();
     }
     lastResult = result;
-    inProgress = false;
   }
 </script>
 
@@ -205,16 +189,12 @@
           <span
             >{isEncrypt ? "Too long?" : "Doesn't look right?"}
             <button
-              disabled={inProgress}
               class:link={lastResult !== result}
               class:opacity-60={lastResult === result}
               class:btn-disabled={lastResult === result}
               onclick={handleCompression}
               >{isEncrypt ? "Compress" : "Decompress"}
             </button>
-            {#if inProgress}
-              <span class="italic">This may take a while</span>
-            {/if}
           </span>
         </div>
       </div>
