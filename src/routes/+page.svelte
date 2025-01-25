@@ -4,6 +4,7 @@
   import Modal from "$lib/components/Modal.svelte";
   import { encrypt, decrypt, addParams } from "$lib";
   import Switch from "$lib/components/Switch.svelte";
+  import { decode, encode } from "@kunigi/string-compression";
 
   const { data } = $props();
   const { isDecrypt, origin } = data;
@@ -67,8 +68,14 @@
     modal.showModal();
   }
   function swap(toEncrypt: boolean): void {
+    // Swaps between encrypt and decrypt, and resets the text
     isEncrypt = toEncrypt;
     user = "";
+  }
+  function swapStore(): void {
+    // Swaps between encrypt and decrypt, but stores the current text
+    user = result;
+    isEncrypt = !isEncrypt;
   }
   function handleFile(event: Event): void {
     const input = event.target as HTMLInputElement;
@@ -84,6 +91,15 @@
       reader.readAsText(file);
     }
     input.value = "";
+  }
+  function handleCompression(): void {
+    if (isEncrypt) {
+      user = encode(user);
+      return;
+    }
+    swapStore();
+    user = decode(user);
+    swapStore();
   }
 </script>
 
@@ -138,10 +154,7 @@
           </div>
           <div class="join-item px-2">
             <button
-              onclick={() => {
-                user = result;
-                isEncrypt = !isEncrypt;
-              }}
+              onclick={swapStore}
               aria-label="Swap"
               class="btn btn-neutral btn-outline"
               ><i class="fa-solid fa-right-left"></i></button
@@ -168,6 +181,14 @@
           tip={copyPress.text}
           onclick={() => copy(result, "text")}
         ></Textbox>
+        <div class="mt-2">
+          <span
+            >{isEncrypt ? "Too long?" : "Doesn't look right?"}
+            <button class="link" onclick={handleCompression}
+              >{isEncrypt ? "Compress" : "Decompress"}
+            </button>
+          </span>
+        </div>
       </div>
     </div>
     <div class="mt-10 w-full md:hidden flex justify-center">
