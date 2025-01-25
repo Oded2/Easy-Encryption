@@ -22,6 +22,8 @@
     isEncrypt ? encrypt(user, password) : decrypt(user, password)
   );
   let shortUrl: boolean = $state(false);
+  // "lastResult" is a variable that ensures that the user doesn't double-compress/decompress
+  let lastResult: string = $state("");
 
   async function copy(
     text: string,
@@ -95,11 +97,12 @@
   function handleCompression(): void {
     if (isEncrypt) {
       user = encode(user);
-      return;
+    } else {
+      swapStore();
+      user = decode(user);
+      swapStore();
     }
-    swapStore();
-    user = decode(user);
-    swapStore();
+    lastResult = result;
   }
 </script>
 
@@ -184,7 +187,11 @@
         <div class="mt-2">
           <span
             >{isEncrypt ? "Too long?" : "Doesn't look right?"}
-            <button class="link" onclick={handleCompression}
+            <button
+              class:link={lastResult !== result}
+              class:opacity-60={lastResult === result}
+              class:btn-disabled={lastResult === result}
+              onclick={handleCompression}
               >{isEncrypt ? "Compress" : "Decompress"}
             </button>
           </span>
