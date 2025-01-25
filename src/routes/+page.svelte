@@ -196,7 +196,7 @@
           tip={copyPress.text}
           onclick={() => copy(result, "text")}
         ></Textbox>
-        <div class="mt-2">
+        <div class="mt-2 mx-2">
           <span
             >{isEncrypt ? "Too long?" : "Doesn't look right?"}
             <button
