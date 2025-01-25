@@ -4,7 +4,6 @@
   import Modal from "$lib/components/Modal.svelte";
   import { encrypt, decrypt, addParams } from "$lib";
   import Switch from "$lib/components/Switch.svelte";
-  import { decode, encode } from "@kunigi/string-compression";
 
   const { data } = $props();
   const { isDecrypt, origin } = data;
@@ -24,6 +23,8 @@
   let shortUrl: boolean = $state(false);
   // "lastResult" is a variable that ensures that the user doesn't double-compress/decompress
   let lastResult: string = $state("");
+  // "inProgress" is a variable that stops that informs the user that an action is in progress
+  let inProgress: boolean = $state(false);
 
   async function copy(
     text: string,
@@ -94,15 +95,26 @@
     }
     input.value = "";
   }
-  function handleCompression(): void {
+  async function handleCompression(): Promise<void> {
+    inProgress = true;
+    const getEndpoint = async (action: "compress" | "decompress") => {
+      return await fetch("/api/compression", {
+        method: "POST",
+        headers: {
+          "Content-Type": "text/plain",
+        },
+        body: JSON.stringify({ text: user, action }),
+      }).then((response) => response.text());
+    };
     if (isEncrypt) {
-      user = encode(user);
+      user = await getEndpoint("compress");
     } else {
       swapStore();
-      user = decode(user);
+      user = await getEndpoint("decompress");
       swapStore();
     }
     lastResult = result;
+    inProgress = false;
   }
 </script>
 
@@ -188,6 +200,7 @@
           <span
             >{isEncrypt ? "Too long?" : "Doesn't look right?"}
             <button
+              disabled={inProgress}
               class:link={lastResult !== result}
               class:opacity-60={lastResult === result}
               class:btn-disabled={lastResult === result}
