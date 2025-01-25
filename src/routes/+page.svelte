@@ -98,13 +98,18 @@
   async function handleCompression(): Promise<void> {
     inProgress = true;
     const getEndpoint = async (action: "compress" | "decompress") => {
-      return await fetch("/api/compression", {
+      const response = await fetch("/api/compression", {
         method: "POST",
         headers: {
           "Content-Type": "text/plain",
         },
         body: JSON.stringify({ text: user, action }),
-      }).then((response) => response.text());
+      });
+      if (!response.ok) {
+        alert(`Error encounted: Unable to ${action}`);
+        return user;
+      }
+      return await response.text();
     };
     if (isEncrypt) {
       user = await getEndpoint("compress");
@@ -207,6 +212,9 @@
               onclick={handleCompression}
               >{isEncrypt ? "Compress" : "Decompress"}
             </button>
+            {#if inProgress}
+              <span class="italic">This may take a while</span>
+            {/if}
           </span>
         </div>
       </div>
