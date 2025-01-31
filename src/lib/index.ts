@@ -4,12 +4,13 @@ export function encrypt(text: string, password: string): string {
   return AES.encrypt(text, password).toString();
 }
 export function decrypt(text: string, password: string): string {
+  let decrypted: string = "";
   try {
-    return AES.decrypt(text, password).toString(enc.Utf8);
+    decrypted = AES.decrypt(text, password).toString(enc.Utf8);
   } catch (error) {
     console.debug(error);
   } finally {
-    return "";
+    return decrypted;
   }
 }
 export function addParams(
