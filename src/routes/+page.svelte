@@ -5,6 +5,7 @@
   import { encrypt, decrypt, addParams } from "$lib";
   import Switch from "$lib/components/Switch.svelte";
   import pkg from "lz-string";
+  import Alert from "$lib/components/Alert.svelte";
 
   const { data } = $props();
   const { isDecrypt, origin } = data;
@@ -101,7 +102,13 @@
   function handleCompression(): void {
     userUncompressed = user;
     if (isEncrypt) {
-      user = compressToBase64(user);
+      const compressed = compressToBase64(user);
+      if (compressed.length > user.length) {
+        const button = document.getElementById("alert") as HTMLButtonElement;
+        button.click();
+        return;
+      }
+      user = compressed;
     } else {
       swapStore();
       user = decompressFromBase64(user);
@@ -292,4 +299,8 @@
     </div>
   </div>
 </Modal>
+<Alert
+  id="alert"
+  text="Compressed text has more characters than the original text. Your input has not been modified."
+></Alert>
 <svelte:head><title>Easy Encryption</title></svelte:head>
