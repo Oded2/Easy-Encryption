@@ -9,17 +9,22 @@
 
   let visible = $state(false);
   let progress: number = $state(100);
+  let interval: number;
+  let timeout: number;
 
   function showAlert(): void {
-    if (visible) return;
-    visible = true;
+    if (visible) {
+      clearTimeout(timeout);
+      clearInterval(interval);
+    }
     const start = Date.now();
-    const interval = setInterval(() => {
+    visible = true;
+    interval = setInterval(() => {
       const elapsed = Date.now() - start;
       progress = Math.max(100 - (elapsed * 100) / duration, 0);
     }, 10);
 
-    setTimeout(() => {
+    timeout = setTimeout(() => {
       visible = false;
       clearInterval(interval);
     }, duration);
