@@ -13,12 +13,9 @@
   let timeout: number;
 
   function showAlert(): void {
-    if (visible) {
-      clearTimeout(timeout);
-      clearInterval(interval);
-    }
     const start = Date.now();
-    visible = true;
+    if (visible) resetInterval();
+    else visible = true;
     interval = setInterval(() => {
       const elapsed = Date.now() - start;
       progress = Math.max(100 - (elapsed * 100) / duration, 0);
@@ -28,6 +25,15 @@
       visible = false;
       clearInterval(interval);
     }, duration);
+  }
+  function handleClose(): void {
+    resetInterval();
+    visible = false;
+  }
+
+  function resetInterval(): void {
+    clearTimeout(timeout);
+    clearInterval(interval);
   }
 </script>
 
@@ -56,5 +62,12 @@
       <span>{text}</span>
     </div>
     <progress value={progress} max="100" class="progress"></progress>
+    <button
+      class="btn btn-ghost btn-sm btn-circle absolute top-2 right-2"
+      aria-label="Close"
+      onclick={handleClose}
+    >
+      <i class="fa-solid fa-xmark"></i>
+    </button>
   </div>
 {/if}
