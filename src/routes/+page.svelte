@@ -26,9 +26,11 @@
   let shortUrl: boolean = $state(false);
   // "lastResult" is a variable that ensures that the user doesn't double-compress/decompress
   let lastResult: string = $state("");
-  // When this variable is true, the user cannot compress/decompress the text/result
-  let isCompressed = $derived(lastResult === result);
   let userUncompressed = $state("");
+  // When this variable is true, the user cannot compress/decompress the text/result
+  let isCompressed = $derived(
+    lastResult === result && userUncompressed.length > 0
+  );
 
   async function copy(
     text: string,
