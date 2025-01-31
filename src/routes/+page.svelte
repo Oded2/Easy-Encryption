@@ -27,6 +27,7 @@
   let lastResult: string = $state("");
   // When this variable is true, the user cannot compress/decompress the text/result
   let isCompressed = $derived(lastResult === result || user.length == 0);
+  let userUncompressed = $state("");
 
   async function copy(
     text: string,
@@ -98,6 +99,7 @@
     input.value = "";
   }
   function handleCompression(): void {
+    userUncompressed = user;
     if (isEncrypt) {
       user = compressToBase64(user);
     } else {
@@ -106,6 +108,9 @@
       swapStore();
     }
     lastResult = result;
+  }
+  function undoCompression(): void {
+    user = userUncompressed;
   }
 </script>
 
@@ -187,7 +192,7 @@
           tip={copyPress.text}
           onclick={() => copy(result, "text")}
         ></Textbox>
-        <div class="mt-2 mx-2">
+        <div class="mt-2 mx-2 flex flex-col">
           <span
             >{isEncrypt ? "Too long?" : "Doesn't look right?"}
             <button
@@ -198,6 +203,12 @@
               >{isEncrypt ? "Compress" : "Decompress"}
             </button>
           </span>
+          {#if isCompressed && userUncompressed.length > 0 && user.length > 0}
+            <span>
+              Change your mind
+              <button class="link" onclick={undoCompression}>Undo</button>
+            </span>
+          {/if}
         </div>
       </div>
     </div>
