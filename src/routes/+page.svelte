@@ -25,6 +25,7 @@
   let shortUrl: boolean = $state(false);
   // "lastResult" is a variable that ensures that the user doesn't double-compress/decompress
   let lastResult: string = $state("");
+  let isCompressed = $derived(lastResult === result);
 
   async function copy(
     text: string,
@@ -189,9 +190,9 @@
           <span
             >{isEncrypt ? "Too long?" : "Doesn't look right?"}
             <button
-              class:link={lastResult !== result}
-              class:opacity-60={lastResult === result}
-              class:btn-disabled={lastResult === result}
+              class:link={!isCompressed}
+              class:opacity-60={isCompressed}
+              class:btn-disabled={isCompressed}
               onclick={handleCompression}
               >{isEncrypt ? "Compress" : "Decompress"}
             </button>
