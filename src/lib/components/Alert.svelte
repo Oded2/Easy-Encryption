@@ -26,6 +26,7 @@
       clearInterval(interval);
     }, duration);
   }
+
   function handleClose(): void {
     resetInterval();
     visible = false;
