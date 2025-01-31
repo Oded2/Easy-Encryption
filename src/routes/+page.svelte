@@ -212,7 +212,7 @@
           </span>
           {#if isCompressed && userUncompressed.length > 0 && user.length > 0}
             <span>
-              Change your mind
+              Change your mind?
               <button class="link" onclick={undoCompression}>Undo</button>
             </span>
           {/if}
