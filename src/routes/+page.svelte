@@ -29,7 +29,9 @@
   let userUncompressed = $state("");
   // When this variable is true, the user cannot compress/decompress the text/result
   let isCompressed = $derived(
-    lastResult === result && userUncompressed.length > 0
+    lastResult === result &&
+      userUncompressed.length > 0 &&
+      user !== userUncompressed
   );
 
   async function copy(
