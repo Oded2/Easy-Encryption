@@ -27,7 +27,7 @@
   // "lastResult" is a variable that ensures that the user doesn't double-compress/decompress
   let lastResult: string = $state("");
   // When this variable is true, the user cannot compress/decompress the text/result
-  let isCompressed = $derived(lastResult === result || user.length == 0);
+  let isCompressed = $derived(lastResult === result);
   let userUncompressed = $state("");
 
   async function copy(
@@ -210,7 +210,7 @@
               >{isEncrypt ? "Compress" : "Decompress"}
             </button>
           </span>
-          {#if isCompressed && userUncompressed.length > 0 && user.length > 0}
+          {#if isCompressed}
             <span>
               Change your mind?
               <button class="link" onclick={undoCompression}>Undo</button>
