@@ -78,12 +78,10 @@
     // Swaps between encrypt and decrypt, and resets the text
     isEncrypt = toEncrypt;
     user = "";
-    userUncompressed = "";
   }
   function swapStore(): void {
     // Swaps between encrypt and decrypt, but stores the current text
     user = result;
-    userUncompressed = "";
     isEncrypt = !isEncrypt;
   }
   function handleFile(event: Event): void {
