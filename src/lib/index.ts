@@ -8,8 +8,9 @@ export function decrypt(text: string, password: string): string {
     return AES.decrypt(text, password).toString(enc.Utf8);
   } catch (error) {
     console.debug(error);
+  } finally {
+    return "";
   }
-  return "";
 }
 export function addParams(
   link: string,
