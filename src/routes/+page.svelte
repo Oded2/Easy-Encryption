@@ -107,7 +107,7 @@
     userUncompressed = user;
     if (isEncrypt) {
       const compressed = compressToBase64(user);
-      if (compressed.length > user.length) {
+      if (compressed.length >= user.length) {
         const button = document.getElementById("alert") as HTMLButtonElement;
         button.click();
         return;
