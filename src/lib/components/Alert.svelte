@@ -20,7 +20,6 @@
       const elapsed = Date.now() - start;
       progress = Math.max(100 - (elapsed * 100) / duration, 0);
     }, 10);
-
     timeout = setTimeout(() => {
       visible = false;
       clearInterval(interval);
