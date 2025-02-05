@@ -5,7 +5,13 @@
     id,
     text,
     duration = 5000,
-  }: { id: string; text: string; duration?: number } = $props();
+    type,
+  }: {
+    id: string;
+    text: string;
+    duration?: number;
+    type: "info" | "error";
+  } = $props();
 
   let visible = $state(false);
   let progress: number = $state(100);
@@ -13,6 +19,10 @@
   let timeout: number;
 
   function showAlert(): void {
+    if (duration == 0) {
+      visible = true;
+      return;
+    }
     const start = Date.now();
     if (visible) resetInterval();
     else visible = true;
@@ -42,32 +52,28 @@
 {#if visible}
   <div
     role="alert"
-    class="alert alert-info max-w-md flex flex-col items-start fixed left-2 bottom-2"
+    class="alert max-w-md flex flex-col fixed left-2 bottom-2 items-stretch"
+    class:alert-info={type === "info"}
+    class:alert-error={type === "error"}
     transition:fly={{ duration: 200, y: 200 }}
   >
-    <div class="flex gap-2">
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        fill="none"
-        viewBox="0 0 24 24"
-        class="h-6 w-6 shrink-0 stroke-current"
-      >
-        <path
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="2"
-          d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-        ></path>
-      </svg>
+    <div class="flex gap-2 items-baseline">
+      {#if type === "info"}
+        <i class="fa-solid fa-info-circle"></i>
+      {:else if type === "error"}
+        <i class="fa-solid fa-exclamation-circle"></i>
+      {/if}
       <span>{text}</span>
+      <button
+        class="btn btn-ghost btn-sm btn-circle ms-auto"
+        aria-label="Close"
+        onclick={handleClose}
+      >
+        <i class="fa-solid fa-xmark"></i>
+      </button>
     </div>
-    <progress value={progress} max="100" class="progress"></progress>
-    <button
-      class="btn btn-ghost btn-sm btn-circle absolute top-2 right-2"
-      aria-label="Close"
-      onclick={handleClose}
-    >
-      <i class="fa-solid fa-xmark"></i>
-    </button>
+    {#if duration > 0}
+      <progress value={progress} max="100" class="progress"></progress>
+    {/if}
   </div>
 {/if}

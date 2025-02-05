@@ -33,6 +33,7 @@
       userUncompressed.length > 0 &&
       user !== userUncompressed
   );
+  let errorMessage = $state("");
 
   async function copy(
     text: string,
@@ -41,9 +42,8 @@
   ): Promise<void> {
     const original = copyPress[change];
     const copyMessage = "Copied to Clipboard";
-    const failText = "Error copying to clipboard";
     const apiUrl = "https://tinyurl.com/api-create.php";
-    if (original === copyMessage || original === failText) return;
+    if (original === copyMessage) return;
     let toWrite: string = text;
     if (shorten) {
       copyPress[change] = "Awaiting URL...";
@@ -54,23 +54,24 @@
       await navigator.clipboard.writeText(toWrite);
       copyPress[change] = copyMessage;
     } catch (e) {
-      copyPress[change] = failText;
       console.error(e);
+      errorMessage = "Error Copying to Clipboard";
+      showAlert("error");
     }
     setTimeout(() => (copyPress[change] = original), 1500);
   }
   async function paste(): Promise<void> {
     const original = pastePress;
     const pasteMessage = "Pasted from Clipboard";
-    const failText = "Failed to Paste from Clipboard";
-    if (original === pasteMessage || original === failText) return;
+    if (original === pasteMessage) return;
     try {
       const clip = await navigator.clipboard.readText();
       user = clip;
       pastePress = pasteMessage;
     } catch (error) {
       console.error(error);
-      pastePress = failText;
+      errorMessage = "Failed to Paste from Clipboard";
+      showAlert("error");
     }
     setTimeout(() => (pastePress = original), 1500);
   }
@@ -309,6 +310,8 @@
 <Alert
   id="alert"
   text="Compressed text has more characters than the original text. Your input has not been modified."
+  type="info"
 ></Alert>
-<Alert id="invalid" text="Nothing to compress/decompress"></Alert>
+<Alert id="invalid" text="Nothing to compress/decompress" type="info"></Alert>
+<Alert id="error" text={errorMessage} type="error"></Alert>
 <svelte:head><title>Easy Encryption</title></svelte:head>
