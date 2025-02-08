@@ -2,10 +2,11 @@
   import Password from "$lib/components/Password.svelte";
   import Textbox from "$lib/components/Textbox.svelte";
   import Modal from "$lib/components/Modal.svelte";
-  import { encrypt, decrypt, addParams, showAlert } from "$lib";
+  import { encrypt, decrypt, addParams } from "$lib";
   import Switch from "$lib/components/Switch.svelte";
   import pkg from "lz-string";
-  import Alert from "$lib/components/Alert.svelte";
+  import { addToast } from "$lib/toasts.js";
+  import Toasts from "$lib/components/Toasts.svelte";
 
   const { data } = $props();
   const { isDecrypt, origin } = data;
@@ -55,8 +56,11 @@
       copyPress[change] = copyMessage;
     } catch (e) {
       console.error(e);
-      errorMessage = "Error Copying to Clipboard";
-      showAlert("error");
+      addToast({
+        text: "Error Copying to Clipboard",
+        duration: 5000,
+        type: "error",
+      });
     }
     setTimeout(() => (copyPress[change] = original), 1500);
   }
@@ -70,8 +74,11 @@
       pastePress = pasteMessage;
     } catch (error) {
       console.error(error);
-      errorMessage = "Failed to Paste from Clipboard";
-      showAlert("error");
+      addToast({
+        text: "Failed to Paste from Clipboard",
+        duration: 5000,
+        type: "error",
+      });
     }
     setTimeout(() => (pastePress = original), 1500);
   }
@@ -106,14 +113,22 @@
   }
   function handleCompression(): void {
     if (user.length == 0) {
-      showAlert("invalid");
+      addToast({
+        text: "Nothing to compress/decompress",
+        duration: 5000,
+        type: "info",
+      });
       return;
     }
     userUncompressed = user;
     if (isEncrypt) {
       const compressed = compressToBase64(user);
       if (compressed.length >= user.length) {
-        showAlert("alert");
+        addToast({
+          text: "Compressed text has more characters than the original text. Your input has not been modified.",
+          duration: 5000,
+          type: "info",
+        });
         return;
       }
       user = compressed;
@@ -307,11 +322,12 @@
     </div>
   </div>
 </Modal>
-<Alert
+<Toasts></Toasts>
+<!-- <Toast
   id="alert"
   text="Compressed text has more characters than the original text. Your input has not been modified."
   type="info"
-></Alert>
-<Alert id="invalid" text="Nothing to compress/decompress" type="info"></Alert>
-<Alert id="error" text={errorMessage} type="error"></Alert>
+></Toast>
+<Toast id="invalid" text="Nothing to compress/decompress" type="info"></Toast>
+<Toast id="error" text={errorMessage} type="error"></Toast> -->
 <svelte:head><title>Easy Encryption</title></svelte:head>

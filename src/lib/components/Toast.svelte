@@ -1,0 +1,60 @@
+<script lang="ts">
+  import { type Snippet } from "svelte";
+  import { fly } from "svelte/transition";
+
+  const {
+    type,
+    duration,
+    handleClose,
+    children,
+  }: {
+    type: "info" | "error";
+    duration: number;
+    handleClose: () => void;
+    children: Snippet;
+  } = $props();
+
+  let progress = $state(100);
+  main();
+
+  function main(): void {
+    if (duration == 0) return;
+    const start = Date.now();
+    const interval = setInterval(() => {
+      const elapsed = Date.now() - start;
+      progress = Math.max(100 - (elapsed * 100) / duration, 0);
+    }, 10);
+    setTimeout(() => {
+      clearInterval(interval);
+    }, duration);
+  }
+</script>
+
+<div
+  role="alert"
+  class="alert max-w-md flex flex-col items-stretch"
+  class:alert-info={type === "info"}
+  class:alert-error={type === "error"}
+  transition:fly={{ duration: 200, y: 200 }}
+>
+  <div class="flex gap-2 items-baseline">
+    {#if type === "info"}
+      <i class="fa-solid fa-info-circle"></i>
+    {:else if type === "error"}
+      <i class="fa-solid fa-exclamation-circle"></i>
+    {/if}
+    <span>
+      {@render children()}
+    </span>
+    <button
+      class="btn btn-ghost btn-sm btn-circle ms-auto"
+      aria-label="Close"
+      onclick={handleClose}
+    >
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+  </div>
+  {#if duration > 0}
+    <progress value={progress} max="100" class="progress"></progress>
+  {/if}
+</div>

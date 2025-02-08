@@ -26,7 +26,3 @@ export function addParams(
   });
   return url.toString();
 }
-export function showAlert(id: string): void {
-  const button = document.getElementById(id) as HTMLButtonElement;
-  button.click();
-}
