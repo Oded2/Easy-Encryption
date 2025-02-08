@@ -45,7 +45,7 @@
             aria-label="Download"
             href="data:text;charset=utf-8,{val}"
             download="Text.txt"
-            class="btn btn-circle join-item text-xl"
+            class="btn btn-square join-item text-xl"
           >
             <i class="fa-solid fa-cloud-arrow-down"></i>
           </a>
@@ -54,7 +54,7 @@
         <div class="tooltip join-item" data-tip="Upload Text">
           <label
             aria-label="Upload Text"
-            class="btn btn-circle join-item text-xl"
+            class="btn btn-square join-item text-xl"
           >
             <i class="fa-solid fa-cloud-arrow-up"></i>
             <input
@@ -70,7 +70,7 @@
         <button
           {onclick}
           aria-label={disabled ? "Copy to Clipboard" : "Paste from Clipboard"}
-          class="btn btn-circle join-item text-xl"
+          class="btn btn-square join-item text-xl"
         >
           {#if disabled}
             <i class="fa-solid fa-copy"></i>
