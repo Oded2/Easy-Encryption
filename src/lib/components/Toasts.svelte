@@ -2,11 +2,13 @@
   import { flip } from "svelte/animate";
   import { toasts, dismissToast } from "../toasts";
   import Toast from "./Toast.svelte";
+
+  const arr = $derived($toasts);
 </script>
 
-{#if $toasts}
+{#if arr}
   <section class="fixed bottom-2 left-2 flex flex-col gap-4">
-    {#each $toasts as toast (toast.id)}
+    {#each arr as toast (toast.id)}
       <div animate:flip={{ duration: 200 }}>
         <Toast
           type={toast.type}
