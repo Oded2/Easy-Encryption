@@ -146,7 +146,7 @@
 
 <main class="font-quicksand">
   <div class="container mx-auto px-2 sm:px-0 mb-10 mt-2 md:mt-1">
-    <div class="navbar bg-base-100 mb-5 md:mb-2 lg:mb-10">
+    <div class="navbar bg-base-100 mb-5 md:mb-2 lg:mb-10 print:hidden">
       <div class="navbar-start"></div>
       <div class="navbar-center">
         <button
@@ -189,18 +189,16 @@
           tip={pastePress}
         ></Textbox>
         <div class="border-b-2 mb-5"></div>
-        <div class="join">
-          <div class="join-item w-full sm:w-auto">
+        <div class="flex gap-2">
+          <div class="w-full sm:w-auto">
             <Password bind:password></Password>
           </div>
-          <div class="join-item px-2">
-            <button
-              onclick={swapStore}
-              aria-label="Swap"
-              class="btn btn-neutral btn-outline"
-              ><i class="fa-solid fa-right-left"></i></button
-            >
-          </div>
+          <button
+            onclick={swapStore}
+            aria-label="Swap"
+            class="btn btn-neutral btn-outline"
+            ><i class="fa-solid fa-right-left"></i></button
+          >
         </div>
       </div>
       <div class="col-auto flex flex-col mt-5 md:mt-0">
@@ -222,7 +220,7 @@
           tip={copyPress.text}
           onclick={() => copy(result, "text")}
         ></Textbox>
-        <div class="mt-2 mx-2 flex flex-col">
+        <div class="mt-2 mx-2 flex flex-col print:hidden">
           <span
             >{isEncrypt ? "Too long?" : "Doesn't look right?"}
             <button
@@ -242,7 +240,7 @@
         </div>
       </div>
     </div>
-    <div class="mt-10 w-full md:hidden flex justify-center">
+    <div class="mt-10 w-full md:hidden flex justify-center print:hidden">
       <button
         aria-label="Share"
         onclick={showModal}

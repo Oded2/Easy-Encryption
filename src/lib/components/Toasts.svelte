@@ -7,7 +7,7 @@
 </script>
 
 {#if arr}
-  <section class="fixed bottom-2 left-2 flex flex-col gap-4">
+  <section class="fixed bottom-2 left-2 flex flex-col gap-4 print:hidden">
     {#each arr as toast (toast.id)}
       <div animate:flip={{ duration: 200 }}>
         <Toast
