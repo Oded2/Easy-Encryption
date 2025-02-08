@@ -18,7 +18,7 @@
   showProgress();
 
   function showProgress(): void {
-    if (duration == 0) return;
+    if (duration <= 0) return;
     const start = Date.now();
     const interval = setInterval(() => {
       const elapsed = Date.now() - start;
