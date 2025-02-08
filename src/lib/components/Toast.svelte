@@ -15,9 +15,9 @@
   } = $props();
 
   let progress = $state(100);
-  main();
+  showProgress();
 
-  function main(): void {
+  function showProgress(): void {
     if (duration == 0) return;
     const start = Date.now();
     const interval = setInterval(() => {
@@ -32,7 +32,7 @@
 
 <div
   role="alert"
-  class="alert max-w-md flex flex-col items-stretch"
+  class="alert flex flex-col items-stretch w-[28rem]"
   class:alert-info={type === "info"}
   class:alert-error={type === "error"}
   transition:fly={{ duration: 200, y: 200 }}
