@@ -32,7 +32,7 @@
 
 <div
   role="alert"
-  class="alert flex flex-col items-stretch w-[28rem]"
+  class="alert flex flex-col items-stretch w-[28rem] max-w-[90vw]"
   class:alert-info={type === "info"}
   class:alert-error={type === "error"}
   transition:fly={{ duration: 200, y: 200 }}
