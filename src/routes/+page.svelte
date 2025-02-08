@@ -42,12 +42,17 @@
   ): Promise<void> {
     const original = copyPress[change];
     const copyMessage = "Copied to Clipboard";
-    const apiUrl = "https://tinyurl.com/api-create.php";
     if (original === copyMessage) return;
     let toWrite: string = text;
     if (shorten) {
       copyPress[change] = "Awaiting URL...";
-      const response = await fetch(addParams(apiUrl, { url: text }));
+      const response = await fetch("/api/shorten", {
+        method: "POST",
+        headers: {
+          "Content-Type": "text/plain",
+        },
+        body: text,
+      });
       toWrite = await response.text();
     }
     try {
