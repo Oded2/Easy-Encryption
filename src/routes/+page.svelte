@@ -34,7 +34,6 @@
       userUncompressed.length > 0 &&
       user !== userUncompressed
   );
-  let errorMessage = $state("");
 
   async function copy(
     text: string,
