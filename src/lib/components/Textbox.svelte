@@ -22,30 +22,23 @@
 
 <div class="flex flex-col w-full">
   {#if disabled}
-    <div
-      class="textarea textarea-ghost border-none w-full px-0 h-64 md:h-80 text-lg overflow-auto"
-    >
-      <p class="break-words whitespace-pre-wrap" dir="auto">
-        {#if val.length > 0}
-          <Autolink text={val}></Autolink>
-        {:else}
-          <span class="italic">{placeholder}</span>
-        {/if}
-      </p>
-    </div>
+    {@render display()}
   {:else}
     <textarea
       dir="auto"
       {spellcheck}
-      class="textarea textarea-ghost focus:outline-none border-none w-full px-0 h-64 md:h-80 resize-none text-lg"
+      class="textarea textarea-ghost focus:outline-none border-none w-full px-0 h-64 md:h-80 resize-none text-lg print:hidden"
       {placeholder}
       bind:value={val}
     >
     </textarea>
+    <div class="hidden print:block">
+      {@render display()}
+    </div>
   {/if}
   <div class="m-2 flex items-baseline gap-2 justify-between">
     <span>{`Character count: ${val.length.toLocaleString()}`}</span>
-    <div class="join">
+    <div class="join print:hidden">
       {#if disabled}
         <div class="tooltip" data-tip="Download Text">
           <a
@@ -89,3 +82,17 @@
     </div>
   </div>
 </div>
+
+{#snippet display()}
+  <div
+    class="textarea textarea-ghost border-none w-full px-0 text-lg overflow-auto h-64 md:h-80 print:h-auto"
+  >
+    <p class="break-words whitespace-pre-wrap" dir="auto">
+      {#if val.length > 0}
+        <Autolink text={val}></Autolink>
+      {:else}
+        <span class="italic">{placeholder}</span>
+      {/if}
+    </p>
+  </div>
+{/snippet}

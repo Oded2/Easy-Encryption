@@ -196,7 +196,7 @@
           <button
             onclick={swapStore}
             aria-label="Swap"
-            class="btn btn-neutral btn-outline"
+            class="btn btn-neutral btn-outline print:hidden"
             ><i class="fa-solid fa-right-left"></i></button
           >
         </div>
