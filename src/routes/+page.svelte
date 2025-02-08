@@ -323,11 +323,4 @@
   </div>
 </Modal>
 <Toasts></Toasts>
-<!-- <Toast
-  id="alert"
-  text="Compressed text has more characters than the original text. Your input has not been modified."
-  type="info"
-></Toast>
-<Toast id="invalid" text="Nothing to compress/decompress" type="info"></Toast>
-<Toast id="error" text={errorMessage} type="error"></Toast> -->
 <svelte:head><title>Easy Encryption</title></svelte:head>
