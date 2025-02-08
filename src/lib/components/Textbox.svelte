@@ -40,7 +40,7 @@
     <span>{`Character count: ${val.length.toLocaleString()}`}</span>
     <div class="join print:hidden">
       {#if disabled}
-        <div class="tooltip" data-tip="Download Text">
+        <div class="tooltip join-item" data-tip="Download Text">
           <a
             aria-label="Download"
             href="data:text;charset=utf-8,{val}"
@@ -51,7 +51,7 @@
           </a>
         </div>
       {:else}
-        <div class="tooltip" data-tip="Upload Text">
+        <div class="tooltip join-item" data-tip="Upload Text">
           <label
             aria-label="Upload Text"
             class="btn btn-circle join-item text-xl"
@@ -66,7 +66,7 @@
           </label>
         </div>
       {/if}
-      <div class="tooltip" data-tip={tip}>
+      <div class="tooltip join-item" data-tip={tip}>
         <button
           {onclick}
           aria-label={disabled ? "Copy to Clipboard" : "Paste from Clipboard"}
