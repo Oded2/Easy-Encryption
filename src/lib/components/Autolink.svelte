@@ -10,6 +10,7 @@
   });
 
   let isLoaded: boolean = $state(false);
+
   onMount(() => (isLoaded = true));
 </script>
 
