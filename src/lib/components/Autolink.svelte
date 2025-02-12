@@ -7,6 +7,7 @@
     className: "link",
     stripPrefix: false,
     sanitizeHtml: true,
+    decodePercentEncoding: false,
   });
 
   let isLoaded: boolean = $state(false);
