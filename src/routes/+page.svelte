@@ -9,7 +9,6 @@
   import Toasts from "$lib/components/Toasts.svelte";
   import About from "$lib/components/About.svelte";
   import { onMount } from "svelte";
-  import { toCanvas } from "qrcode";
   import ShareButton from "$lib/components/ShareButton.svelte";
 
   const { data } = $props();
@@ -40,15 +39,10 @@
       userUncompressed.length > 0 &&
       user !== userUncompressed
   );
-  let canvas: HTMLCanvasElement;
 
-  // onMount(() => {
-  //   showModal("share");
-  // });
-
-  async function qr() {
-    await toCanvas(canvas, "hello world");
-  }
+  onMount(() => {
+    showModal("share");
+  });
 
   async function copy(text: string): Promise<void> {
     try {
@@ -260,7 +254,10 @@
   <i class="fa-solid fa-share text-lg"></i>
 </button>
 <Modal id="qr">
-  <canvas bind:this={canvas}></canvas>
+  <div class="border-b-2 mb-4 pb-2 text-center">
+    <h3 id="qrTitle" class="text-xl font-bold truncate">Link not defined</h3>
+  </div>
+  <canvas id="qrCanvas" class="mx-auto max-w-full"></canvas>
 </Modal>
 <Modal id="share">
   <div class="border-b-2 mb-4 pb-2 text-center">
@@ -273,26 +270,12 @@
     ></Switch>
   </div>
   <div class="grid gap-y-4">
-    <ShareButton
-      tip="Share the website"
-      title="Website"
-      link={origin}
-      shorten={shortUrl}
+    <ShareButton title="Website" link={origin} shorten={shortUrl}></ShareButton>
+    <ShareButton title="Password" link={passwordLink} shorten={shortUrl}
+    ></ShareButton>
+    <ShareButton title="Encrypted Text" link={textLink} shorten={shortUrl}
     ></ShareButton>
     <ShareButton
-      tip="Share the website with the current password"
-      title="Password"
-      link={passwordLink}
-      shorten={shortUrl}
-    ></ShareButton>
-    <ShareButton
-      tip="Share the website with the current text"
-      title="Encrypted Text"
-      link={textLink}
-      shorten={shortUrl}
-    ></ShareButton>
-    <ShareButton
-      tip="Share the website with the current password and text"
       title="Encrypted Text & Password"
       link={textPasswordLink}
       shorten={shortUrl}

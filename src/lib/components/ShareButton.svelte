@@ -1,23 +1,25 @@
 <script lang="ts">
+  import { closeModal, showModal } from "$lib";
   import { addToast } from "$lib/toasts";
+  import { toCanvas } from "qrcode";
 
   const {
-    tip,
     title,
     link,
     shorten,
   }: {
-    tip: string;
     title: string;
     link: string;
     shorten: boolean;
   } = $props();
 
-  let reactiveTip: string = $state(tip);
+  const clipboardTip = "Copy to Clipboard";
+  let reactiveTip: string = $state(clipboardTip);
 
   async function copy(): Promise<void> {
+    const original = reactiveTip;
     const copyMessage = "Copied to Clipboard";
-    if (reactiveTip === copyMessage) return;
+    if (original === copyMessage) return;
     let toWrite: string = link;
     if (shorten) {
       reactiveTip = "Await URL...";
@@ -34,7 +36,7 @@
         type: "error",
       });
     }
-    setTimeout(() => (reactiveTip = title), 1500);
+    setTimeout(() => (reactiveTip = clipboardTip), 1500);
   }
   async function shortenURL(): Promise<string> {
     const response = await fetch("/api/shorten", {
@@ -46,10 +48,31 @@
     });
     return await response.text();
   }
+  async function qr(): Promise<void> {
+    const qrTitle = document.getElementById("qrTitle") as HTMLHeadingElement;
+    const canvas = document.getElementById("qrCanvas") as HTMLCanvasElement;
+    closeModal("share");
+    showModal("qr");
+    await toCanvas(canvas, link, {
+      scale: 8,
+    });
+    qrTitle.textContent = link;
+  }
 </script>
 
-<div class="tooltip w-full sm:w-3/4 mx-auto" data-tip={reactiveTip}>
-  <button class="btn btn-neutral btn-outline w-full" onclick={copy}>
-    {title}
-  </button>
+<div class="w-full sm:w-3/4 mx-auto join" data-tip={reactiveTip}>
+  <div class="tooltip w-full" data-tip={reactiveTip}>
+    <button class="btn btn-neutral btn-outline join-item w-full" onclick={copy}>
+      {title}
+    </button>
+  </div>
+  <div class="tooltip" data-tip="Create QR Code">
+    <button
+      class="btn btn-neutral btn-square join-item"
+      aria-label="Create QR Code"
+      onclick={qr}
+    >
+      <i class="fa-solid fa-qrcode"></i>
+    </button>
+  </div>
 </div>
