@@ -1,5 +1,7 @@
 import { writable, type Writable } from "svelte/store";
 
+export type ToastType = "success" | "info" | "error";
+
 export interface UserToast {
   duration: number;
   type: ToastType;
