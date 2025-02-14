@@ -252,7 +252,7 @@
   <div class="border-b-2 mb-4 pb-2 text-center">
     <h3 id="qrTitle" class="text-xl font-bold truncate">Link not defined</h3>
   </div>
-  <canvas id="qrCanvas" class="mx-auto max-w-full"></canvas>
+  <canvas id="qrCanvas" class="mx-auto max-w-full object-contain"></canvas>
 </Modal>
 <Modal id="share">
   <div class="border-b-2 mb-4 pb-2 text-center">
