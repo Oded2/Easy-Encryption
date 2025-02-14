@@ -37,6 +37,7 @@ export function showModal(id: string): void {
 
   modal.showModal();
 }
+
 export function closeModal(id: string): void {
   const modal = document.getElementById(id) as HTMLDialogElement;
   const event = new Event("close");
