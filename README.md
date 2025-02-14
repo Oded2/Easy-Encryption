@@ -75,7 +75,7 @@ The request body should be a JSON object containing the following fields:
 #### **Encrypt a Message**
 
 ```json
-POST /api/encrypt-decrypt
+POST /api
 {
   "action": "encrypt",
   "text": "Hello, World!",
@@ -86,7 +86,7 @@ POST /api/encrypt-decrypt
 #### **Decrypt a Message**
 
 ```json
-POST /api/encrypt-decrypt
+POST /api
 {
   "action": "decrypt",
   "text": "EncryptedTextHere",
@@ -115,14 +115,6 @@ The API returns a JSON response with the encryption or decryption result.
 | 400         | `"Invalid action"`       | Action is not `"encrypt"` or `"decrypt"`    |
 | 401         | `"Invalid password"`     | Decryption failed due to incorrect password |
 | 400         | `"Body cannot be empty"` | Request body is empty                       |
-
-### **Usage Example with cURL**
-
-```sh
-curl -X POST http://localhost:5173/api/encrypt-decrypt \
-     -H "Content-Type: application/json" \
-     -d '{"action": "encrypt", "text": "Hello", "password": "123"}'
-```
 
 ### **Notes**
 
