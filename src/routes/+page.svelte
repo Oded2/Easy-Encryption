@@ -2,29 +2,34 @@
   import Password from "$lib/components/Password.svelte";
   import Textbox from "$lib/components/Textbox.svelte";
   import Modal from "$lib/components/Modal.svelte";
-  import { encrypt, decrypt, addParams } from "$lib";
+  import { encrypt, decrypt, addParams, showModal } from "$lib";
   import Switch from "$lib/components/Switch.svelte";
   import pkg from "lz-string";
   import { addToast } from "$lib/toasts.js";
   import Toasts from "$lib/components/Toasts.svelte";
   import About from "$lib/components/About.svelte";
+  import { onMount } from "svelte";
+  import { toCanvas } from "qrcode";
+  import ShareButton from "$lib/components/ShareButton.svelte";
 
   const { data } = $props();
   const { isDecrypt, origin } = data;
   const { compressToBase64, decompressFromBase64 } = pkg;
+
   let { user, password } = $state(data);
   let isEncrypt = $state(!isDecrypt);
-  const copyPress = $state({
-    text: "Copy to Clipboard",
-    website: "Share the website",
-    password: "Share the website with the current password",
-    user: "Share the website with the current text",
-    userPassword: "Share the website with the current password and text",
-  });
-  let pastePress = $state("Paste from Clipboard");
-  let result = $derived(
+  const result = $derived(
     isEncrypt ? encrypt(user, password) : decrypt(user, password)
   );
+  const passwordLink = $derived(addParams(origin, { password }));
+  const textLink = $derived(
+    addParams(origin, {
+      text: isEncrypt ? result : user,
+      page: "decrypt",
+    })
+  );
+  const textPasswordLink = $derived(addParams(textLink, { password }));
+  let pastePress = $state("Paste from Clipboard");
   let shortUrl: boolean = $state(false);
   // "lastResult" is a variable that ensures that the user doesn't double-compress/decompress
   let lastResult: string = $state("");
@@ -35,30 +40,24 @@
       userUncompressed.length > 0 &&
       user !== userUncompressed
   );
+  let canvas: HTMLCanvasElement;
 
-  async function copy(
-    text: string,
-    change: keyof typeof copyPress,
-    shorten: boolean = false
-  ): Promise<void> {
-    const original = copyPress[change];
-    const copyMessage = "Copied to Clipboard";
-    if (original === copyMessage) return;
-    let toWrite: string = text;
-    if (shorten) {
-      copyPress[change] = "Awaiting URL...";
-      const response = await fetch("/api/shorten", {
-        method: "POST",
-        headers: {
-          "Content-Type": "text/plain",
-        },
-        body: text,
-      });
-      toWrite = await response.text();
-    }
+  // onMount(() => {
+  //   showModal("share");
+  // });
+
+  async function qr() {
+    await toCanvas(canvas, "hello world");
+  }
+
+  async function copy(text: string): Promise<void> {
     try {
-      await navigator.clipboard.writeText(toWrite);
-      copyPress[change] = copyMessage;
+      await navigator.clipboard.writeText(text);
+      addToast({
+        duration: 5000,
+        type: "success",
+        text: "Text successfully copied to clipboard",
+      });
     } catch (e) {
       console.error(e);
       addToast({
@@ -67,7 +66,6 @@
         type: "error",
       });
     }
-    setTimeout(() => (copyPress[change] = original), 1500);
   }
   async function paste(): Promise<void> {
     const original = pastePress;
@@ -86,10 +84,6 @@
       });
     }
     setTimeout(() => (pastePress = original), 1500);
-  }
-  function showModal(): void {
-    const modal = document.getElementById("modal") as HTMLDialogElement;
-    modal.showModal();
   }
   function swap(toEncrypt: boolean): void {
     // Swaps between encrypt and decrypt, and resets the text
@@ -222,8 +216,8 @@
             ? "Invalid text/password"
             : "No text to decrypt"}
           val={result}
-          tip={copyPress.text}
-          onclick={() => copy(result, "text")}
+          tip="Copy to Clipboard"
+          onclick={() => copy(result)}
         ></Textbox>
         <div class="mt-2 mx-2 flex flex-col print:hidden">
           <span
@@ -248,7 +242,7 @@
     <div class="mt-10 w-full md:hidden flex justify-center print:hidden">
       <button
         aria-label="Share"
-        onclick={showModal}
+        onclick={() => showModal("share")}
         class="btn btn-primary btn-circle w-1/2"
         ><i class="fa-solid fa-share"></i>
         <h6 class="font-bold text-base">Share</h6></button
@@ -260,12 +254,15 @@
 
 <button
   aria-label="Share"
-  onclick={showModal}
+  onclick={() => showModal("share")}
   class=" btn btn-circle btn-primary hidden md:block fixed right-5 bottom-5"
 >
   <i class="fa-solid fa-share text-lg"></i>
 </button>
-<Modal id="modal">
+<Modal id="qr">
+  <canvas bind:this={canvas}></canvas>
+</Modal>
+<Modal id="share">
   <div class="border-b-2 mb-4 pb-2 text-center">
     <h3 class="text-xl font-bold">Share</h3>
     <h5 class="text-base font-medium">Select which link to copy</h5>
@@ -276,54 +273,30 @@
     ></Switch>
   </div>
   <div class="grid gap-y-4">
-    <div class="tooltip w-full sm:w-3/4 mx-auto" data-tip={copyPress.website}>
-      <button
-        class="btn btn-neutral btn-outline w-full"
-        onclick={() => copy(origin, "website")}
-        >Website
-      </button>
-    </div>
-    <div class="tooltip w-full sm:w-3/4 mx-auto" data-tip={copyPress.password}>
-      <button
-        class="btn btn-neutral btn-outline w-full"
-        onclick={() =>
-          copy(addParams(origin, { password }), "password", shortUrl)}
-        >Password
-      </button>
-    </div>
-
-    <div class="tooltip w-full sm:w-3/4 mx-auto" data-tip={copyPress.user}>
-      <button
-        class="btn btn-neutral btn-outline w-full"
-        onclick={() =>
-          copy(
-            addParams(origin, {
-              text: isEncrypt ? result : user,
-              page: "decrypt",
-            }),
-            "user",
-            shortUrl
-          )}>Encrypted Text</button
-      >
-    </div>
-    <div
-      class="tooltip w-full sm:w-3/4 mx-auto"
-      data-tip={copyPress.userPassword}
-    >
-      <button
-        class="btn btn-neutral btn-outline w-full"
-        onclick={() =>
-          copy(
-            addParams(origin, {
-              text: isEncrypt ? result : user,
-              password,
-              page: "decrypt",
-            }),
-            "userPassword",
-            shortUrl
-          )}>Encrypted Text &amp; Password</button
-      >
-    </div>
+    <ShareButton
+      tip="Share the website"
+      title="Website"
+      link={origin}
+      shorten={shortUrl}
+    ></ShareButton>
+    <ShareButton
+      tip="Share the website with the current password"
+      title="Password"
+      link={passwordLink}
+      shorten={shortUrl}
+    ></ShareButton>
+    <ShareButton
+      tip="Share the website with the current text"
+      title="Encrypted Text"
+      link={textLink}
+      shorten={shortUrl}
+    ></ShareButton>
+    <ShareButton
+      tip="Share the website with the current password and text"
+      title="Encrypted Text & Password"
+      link={textPasswordLink}
+      shorten={shortUrl}
+    ></ShareButton>
   </div>
 </Modal>
 <Toasts></Toasts>

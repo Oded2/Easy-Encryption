@@ -26,3 +26,12 @@ export function addParams(
   });
   return url.toString();
 }
+
+export function showModal(id: string): void {
+  const modal = document.getElementById(id) as HTMLDialogElement;
+  modal.showModal();
+}
+export function closeModal(id: string): void {
+  const modal = document.getElementById(id) as HTMLDialogElement;
+  modal.close();
+}

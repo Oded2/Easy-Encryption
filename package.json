@@ -15,6 +15,7 @@
 		"@sveltejs/vite-plugin-svelte": "^5.0.3",
 		"@tailwindcss/typography": "^0.5.16",
 		"@types/node": "^22.13.4",
+		"@types/qrcode": "^1.5.5",
 		"autoprefixer": "^10.4.20",
 		"daisyui": "^4.12.14",
 		"svelte": "^5.0.0",
@@ -28,6 +29,7 @@
 		"@types/linkifyjs": "^2.1.7",
 		"autolinker": "^4.1.0",
 		"crypto-ts": "^1.0.2",
-		"lz-string": "^1.5.0"
+		"lz-string": "^1.5.0",
+		"qrcode": "^1.5.4"
 	}
 }

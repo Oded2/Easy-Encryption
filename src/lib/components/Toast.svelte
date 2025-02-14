@@ -8,7 +8,7 @@
     handleClose,
     children,
   }: {
-    type: "info" | "error";
+    type: ToastType;
     duration: number;
     handleClose: () => void;
     children: Snippet;
@@ -33,12 +33,15 @@
 <div
   role="alert"
   class="alert flex flex-col items-stretch w-[28rem] max-w-[90vw]"
+  class:alert-success={type === "success"}
   class:alert-info={type === "info"}
   class:alert-error={type === "error"}
   transition:fly={{ duration: 200, y: 200 }}
 >
   <div class="flex gap-2 items-baseline">
-    {#if type === "info"}
+    {#if type === "success"}
+      <i class="fa-solid fa-check-circle"></i>
+    {:else if type === "info"}
       <i class="fa-solid fa-info-circle"></i>
     {:else if type === "error"}
       <i class="fa-solid fa-exclamation-circle"></i>

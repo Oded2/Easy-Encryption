@@ -8,6 +8,7 @@ declare global {
     // interface PageState {}
     // interface Platform {}
   }
+  type ToastType = "success" | "info" | "error";
 }
 
 export {};
