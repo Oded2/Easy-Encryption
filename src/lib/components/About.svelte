@@ -1,6 +1,5 @@
 <script lang="ts">
   let checked: boolean = $state(false);
-  checked = true;
 </script>
 
 <div class="collapse">
