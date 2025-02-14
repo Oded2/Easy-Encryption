@@ -97,8 +97,8 @@
         <li>
           <strong>Short URL toggle:</strong> If set to on, Easy Encryption will
           use the <a href="https://tinyurl.com/" target="_blank">TinyURL</a> API
-          and shorten the copied to link. This does not work when sharing just the
-          website link.
+          and shorten the copied to link. This does not apply when sharing just the
+          website link or when sharing using a QR code.
         </li>
         <li>
           <strong>Website:</strong> Simply a link to Easy Encryption. This link does
