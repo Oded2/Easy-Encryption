@@ -152,16 +152,16 @@
   <div class="container mx-auto px-2 sm:px-0 mb-10 mt-2 md:mt-1">
     <div class="navbar bg-base-100 mb-5 md:mb-2 lg:mb-10 print:hidden">
       <div class="navbar-start"></div>
-      <div class="navbar-center">
+      <div class="navbar-center gap-2">
         <button
           onclick={() => swap(true)}
           class:btn-active={isEncrypt}
-          class="btn btn-ghost text-xl mx-2">Encrypt</button
+          class="btn btn-ghost text-xl">Encrypt</button
         >
         <button
           onclick={() => swap(false)}
           class:btn-active={!isEncrypt}
-          class="btn btn-ghost text-xl mx-2">Decrypt</button
+          class="btn btn-ghost text-xl">Decrypt</button
         >
       </div>
       <div class="navbar-end">
