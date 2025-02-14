@@ -7,6 +7,7 @@
   import pkg from "lz-string";
   import { addToast } from "$lib/toasts.js";
   import Toasts from "$lib/components/Toasts.svelte";
+  import About from "$lib/components/About.svelte";
 
   const { data } = $props();
   const { isDecrypt, origin } = data;
@@ -253,6 +254,7 @@
         <h6 class="font-bold text-base">Share</h6></button
       >
     </div>
+    <About></About>
   </div>
 </main>
 
