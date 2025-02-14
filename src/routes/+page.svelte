@@ -8,7 +8,6 @@
   import { addToast } from "$lib/toasts.js";
   import Toasts from "$lib/components/Toasts.svelte";
   import About from "$lib/components/About.svelte";
-  import { onMount } from "svelte";
   import ShareButton from "$lib/components/ShareButton.svelte";
 
   const { data } = $props();
@@ -34,15 +33,11 @@
   let lastResult: string = $state("");
   let userUncompressed = $state("");
   // When this variable is true, the user cannot compress/decompress the text/result
-  let isCompressed = $derived(
+  const isCompressed = $derived(
     lastResult === result &&
       userUncompressed.length > 0 &&
       user !== userUncompressed
   );
-
-  onMount(() => {
-    showModal("share");
-  });
 
   async function copy(text: string): Promise<void> {
     try {
@@ -270,7 +265,7 @@
     ></Switch>
   </div>
   <div class="grid gap-y-4">
-    <ShareButton title="Website" link={origin} shorten={shortUrl}></ShareButton>
+    <ShareButton title="Website" link={origin} shorten={false}></ShareButton>
     <ShareButton title="Password" link={passwordLink} shorten={shortUrl}
     ></ShareButton>
     <ShareButton title="Encrypted Text" link={textLink} shorten={shortUrl}
