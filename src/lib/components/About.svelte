@@ -3,12 +3,12 @@
 </script>
 
 <div class="collapse">
-  <input type="checkbox" bind:checked />
-  <div class="collapse-title text-xl font-medium">
+  <input type="checkbox" class="max-w-sm" bind:checked />
+  <div class="collapse-title text-xl font-medium max-w-sm">
     About
     <i class="fa-solid fa-caret-down transition" class:rotate-180={checked}></i>
   </div>
-  <article class="collapse-content prose max-w-none">
+  <article class="collapse-content prose max-w-full">
     <div>
       <h3>What is <span class="italic">Easy Encryption</span>?</h3>
       <p class="font-medium">
