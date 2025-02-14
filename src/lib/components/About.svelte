@@ -142,6 +142,11 @@
             encrypted message.
           </span>
         </li>
+        <li>
+          <strong>Important Note:</strong> Sometimes URLs can become too long for
+          browsers depending on the amount of content passed to them. If this happens,
+          try compressing the text.
+        </li>
       </ul>
     </div>
   </article>
