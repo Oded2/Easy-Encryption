@@ -1,5 +1,5 @@
 <script lang="ts">
-  let checked: boolean = $state(false);
+  let checked: boolean = $state(true);
 </script>
 
 <div class="collapse">
@@ -15,6 +15,10 @@
         Easy Encryption is a simple tool that allows for text encryption &amp;
         decryption without any hassle. Easy Encryption provides the user with a
         nice, clean user interface that&apos;s easy to use.
+      </p>
+      <p class="font-medium">
+        Easy Encryption uses AES (Advanced Encryption Standard) for encrypting
+        &amp; decrypting text.
       </p>
     </article>
     <article>
