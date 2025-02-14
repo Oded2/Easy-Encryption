@@ -29,16 +29,12 @@ export function addParams(
 
 export function showModal(id: string): void {
   const modal = document.getElementById(id) as HTMLDialogElement;
-  const collapse = document.getElementById("collapse") as HTMLDivElement;
-  const printHidden: boolean = !collapse.classList.contains("print:hidden");
-  if (printHidden) {
-    collapse.classList.add("print:hidden");
-    modal.addEventListener(
-      "close",
-      () => collapse.classList.remove("print:hidden"),
-      { once: true }
-    );
-  }
+  const main = document.getElementById("main")!;
+  main.classList.add("print:hidden");
+  modal.addEventListener("close", () => main.classList.remove("print:hidden"), {
+    once: true,
+  });
+
   modal.showModal();
 }
 export function closeModal(id: string): void {

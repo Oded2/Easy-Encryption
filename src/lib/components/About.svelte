@@ -8,7 +8,7 @@
   }
 </script>
 
-<div class="collapse print:hidden" id="collapse" bind:this={collapse}>
+<div class="collapse print:hidden" bind:this={collapse}>
   <input
     type="checkbox"
     class="max-w-sm"

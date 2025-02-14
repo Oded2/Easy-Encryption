@@ -132,7 +132,7 @@
   }
 </script>
 
-<main class="font-quicksand">
+<main class="font-quicksand" id="main">
   <div class="container mx-auto px-2 sm:px-0 mb-10 mt-2 md:mt-1">
     <nav class="navbar bg-base-100 mb-5 md:mb-2 lg:mb-10 print:hidden">
       <div class="navbar-start"></div>
