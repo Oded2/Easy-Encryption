@@ -6,6 +6,9 @@ export default {
 
   theme: {
     extend: {
+      maxWidth: {
+        screen: "100vw",
+      },
       fontFamily: {
         quicksand: ['"Quicksand"', ...defaultTheme.fontFamily.sans],
       },

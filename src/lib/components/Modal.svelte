@@ -6,7 +6,7 @@
 
 <dialog {id} class="modal">
   <div
-    class="modal-box print:max-h-screen print:h-full print:max-w-[100vw] print:w-full print:rounded-none"
+    class="modal-box print:max-h-screen print:h-full print:max-w-screen print:w-full print:rounded-none"
   >
     {@render children()}
   </div>
