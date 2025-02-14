@@ -151,7 +151,7 @@
 
 <main class="font-quicksand">
   <div class="container mx-auto px-2 sm:px-0 mb-10 mt-2 md:mt-1">
-    <div class="navbar bg-base-100 mb-5 md:mb-2 lg:mb-10 print:hidden">
+    <nav class="navbar bg-base-100 mb-5 md:mb-2 lg:mb-10 print:hidden">
       <div class="navbar-start"></div>
       <div class="navbar-center gap-2">
         <button
@@ -173,7 +173,7 @@
           ><i class="fa-brands fa-github"></i></a
         >
       </div>
-    </div>
+    </nav>
     <div class="md:grid md:grid-cols-2 md:gap-4">
       <div class="col-auto flex flex-col">
         <h1
