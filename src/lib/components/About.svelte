@@ -1,9 +1,20 @@
 <script lang="ts">
   let checked: boolean = $state(false);
+  let collapse: HTMLDivElement;
+
+  function handleChange(): void {
+    if (checked) collapse.classList.remove("print:hidden");
+    else collapse.classList.add("print:hidden");
+  }
 </script>
 
-<div class="collapse">
-  <input type="checkbox" class="max-w-sm" bind:checked />
+<div class="collapse print:hidden" id="collapse" bind:this={collapse}>
+  <input
+    type="checkbox"
+    class="max-w-sm"
+    bind:checked
+    onchange={handleChange}
+  />
   <div class="collapse-title text-xl font-medium max-w-sm">
     About
     <i class="fa-solid fa-caret-down transition" class:rotate-180={checked}></i>

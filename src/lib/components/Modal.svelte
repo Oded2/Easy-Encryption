@@ -5,7 +5,9 @@
 </script>
 
 <dialog {id} class="modal">
-  <div class="modal-box">
+  <div
+    class="modal-box print:max-h-screen print:h-full print:max-w-[100vw] print:w-full print:rounded-none"
+  >
     {@render children()}
   </div>
   <form method="dialog" class="modal-backdrop">
