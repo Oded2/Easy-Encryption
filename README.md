@@ -40,38 +40,95 @@ Easy Encryption is a Svelte-based web application that provides a simple and int
 
 This application also exposes an API endpoint to perform encryption and decryption operations programmatically.
 
-### Endpoint
+## API Usage Guide
 
-**`GET /api`**
+### **Endpoint**
 
-### Query Parameters
+`POST /api`
 
-| Parameter   | Type   | Required | Description                                                                 |
-|-------------|--------|----------|-----------------------------------------------------------------------------|
-| `action`    | string | Yes      | Specifies the action to perform: `encrypt` or `decrypt`.                    |
-| `text`      | string | Yes      | The text to be encrypted or decrypted.                                      |
-| `password`  | string | No       | The password used for encryption or decryption. Defaults to an empty string.|
+### **Description**
 
-### Response
+This API endpoint allows users to encrypt or decrypt text using a password.
 
-#### Success Response
-- **Status Code:** `200 OK`
-- **Content-Type:** `application/json`
-- **Body:**
-  ```json
-  {
-    "result": "encryptedOrDecryptedText"
-  }
-  ```
+### **Request Format**
 
-#### Error Responses
-- **Status Code:** `400 Bad Request`
-- **Possible Error Messages:**
-  - `"Action is required"`: The `action` parameter is missing.
-  - `"Text is required"`: The `text` parameter is missing.
-  - `"Invalid action"`: The `action` parameter is not `encrypt` or `decrypt`.
-  - `"Invalid password"`: The password is incorrect for decryption.
-        
+The request must be sent as a **POST** request with a **JSON body**.
+
+### **Request Headers**
+
+| Header         | Value              |
+| -------------- | ------------------ |
+| `Content-Type` | `application/json` |
+
+### **Request Body**
+
+The request body should be a JSON object containing the following fields:
+
+| Field      | Type   | Required | Description                                                                          |
+| ---------- | ------ | -------- | ------------------------------------------------------------------------------------ |
+| `action`   | string | ✅ Yes   | Either `"encrypt"` or `"decrypt"`                                                    |
+| `text`     | string | ✅ Yes   | The text to be encrypted or decrypted                                                |
+| `password` | string | ❌ No    | The password for encryption/decryption (defaults to an empty string if not provided) |
+
+### **Example Requests**
+
+#### **Encrypt a Message**
+
+```json
+POST /api/encrypt-decrypt
+{
+  "action": "encrypt",
+  "text": "Hello, World!",
+  "password": "mypassword123"
+}
+```
+
+#### **Decrypt a Message**
+
+```json
+POST /api/encrypt-decrypt
+{
+  "action": "decrypt",
+  "text": "EncryptedTextHere",
+  "password": "mypassword123"
+}
+```
+
+### **Response Format**
+
+The API returns a JSON response with the encryption or decryption result.
+
+#### **Successful Response**
+
+```json
+{
+  "result": "EncryptedOrDecryptedTextHere"
+}
+```
+
+#### **Error Responses**
+
+| Status Code | Message                  | Cause                                       |
+| ----------- | ------------------------ | ------------------------------------------- |
+| 400         | `"Action is required"`   | Missing `action` field                      |
+| 400         | `"Text is required"`     | Missing `text` field                        |
+| 400         | `"Invalid action"`       | Action is not `"encrypt"` or `"decrypt"`    |
+| 401         | `"Invalid password"`     | Decryption failed due to incorrect password |
+| 400         | `"Body cannot be empty"` | Request body is empty                       |
+
+### **Usage Example with cURL**
+
+```sh
+curl -X POST http://localhost:5173/api/encrypt-decrypt \
+     -H "Content-Type: application/json" \
+     -d '{"action": "encrypt", "text": "Hello", "password": "123"}'
+```
+
+### **Notes**
+
+- If the decryption fails due to an incorrect password, the API will return a `401 Unauthorized` response.
+- Ensure that your request body is properly formatted as JSON.
+
 ## Technologies Used
 
 - **[SvelteKit](https://kit.svelte.dev/)**: Framework for building modern web apps.
