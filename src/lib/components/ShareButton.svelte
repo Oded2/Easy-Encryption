@@ -1,7 +1,7 @@
 <script lang="ts">
   import { closeModal, showModal } from "$lib";
   import { addToast } from "$lib/toasts";
-  import { toCanvas } from "qrcode";
+  import { toDataURL } from "qrcode";
 
   const {
     title,
@@ -52,14 +52,16 @@
 
   async function qr(): Promise<void> {
     const qrTitle = document.getElementById("qrTitle") as HTMLHeadingElement;
-    const canvas = document.getElementById("qrCanvas") as HTMLCanvasElement;
+    const image = document.getElementById("qrImage") as HTMLImageElement;
     let qrLink: string = link;
     inProgress = true;
     if (link.length > 1000) qrLink = await shortenURL();
+    toDataURL(qrLink).then((result) => {
+      navigator.clipboard.writeText(result);
+    });
     try {
-      await toCanvas(canvas, qrLink, {
-        width: 400,
-      });
+      const url = await toDataURL(link, { width: 400 });
+      image.src = url;
     } catch (e) {
       console.log(e);
       addToast({

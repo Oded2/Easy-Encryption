@@ -252,9 +252,7 @@
   <div class="border-b-2 mb-4 pb-2 text-center">
     <h3 id="qrTitle" class="text-xl font-bold truncate">Link not defined</h3>
   </div>
-  <div class="flex justify-center items-center">
-    <canvas id="qrCanvas" class="max-w-full object-contain"></canvas>
-  </div>
+  <img src="/1x1.png" alt="Qr Code" id="qrImage" class="mx-auto" />
 </Modal>
 <Modal id="share">
   <div class="border-b-2 mb-4 pb-2 text-center">
