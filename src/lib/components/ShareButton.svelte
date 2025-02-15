@@ -58,7 +58,7 @@
     inProgress = true;
     if (link.length > 1000) qrLink = await shortenURL();
     try {
-      const url = await toDataURL(link, { width: 400 });
+      const url = await toDataURL(qrLink, { width: 400 });
       download.href = url;
       image.src = url;
     } catch (e) {
