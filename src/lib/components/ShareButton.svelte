@@ -55,10 +55,10 @@
     const canvas = document.getElementById("qrCanvas") as HTMLCanvasElement;
     let qrLink: string = link;
     inProgress = true;
-    if (link.length > 200) qrLink = await shortenURL();
+    if (link.length > 1000) qrLink = await shortenURL();
     try {
       await toCanvas(canvas, qrLink, {
-        width: 288,
+        width: 400,
       });
     } catch (e) {
       console.log(e);
