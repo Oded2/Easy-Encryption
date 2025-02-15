@@ -7,6 +7,10 @@ export async function POST({ request, url }) {
     throw error(401, { message: "Unauthorized" });
   const endpoint = "https://api.tinyurl.com/create";
   const text = await request.text();
+  if (text.length > 10000)
+    throw error(413, {
+      message: "URL length must be under 10,000 characters long",
+    });
   const payload = { url: text };
   const response = await fetch(
     addParams(endpoint, { api_token: TINYURL_API_KEY }),

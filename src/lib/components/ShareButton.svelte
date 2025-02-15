@@ -13,6 +13,8 @@
     shorten: boolean;
   } = $props();
 
+  const disabled = $derived(link.length > 10000);
+  const disabledMessage = "URL is too long";
   const clipboardTip = "Copy to Clipboard";
   let reactiveTip: string = $state(clipboardTip);
   let inProgress: boolean = $state(false);
@@ -39,16 +41,6 @@
     }
     setTimeout(() => (reactiveTip = clipboardTip), 1500);
   }
-  async function shortenURL(): Promise<string> {
-    const response = await fetch("/api/shorten", {
-      method: "POST",
-      headers: {
-        "Content-Type": "text/plain",
-      },
-      body: link,
-    });
-    return await response.text();
-  }
 
   async function qr(): Promise<void> {
     const qrTitle = document.getElementById("qrTitle") as HTMLHeadingElement;
@@ -62,7 +54,7 @@
       download.href = url;
       image.src = url;
     } catch (e) {
-      console.log(e);
+      console.error(e);
       addToast({
         type: "error",
         text: "Error creating QR code",
@@ -76,19 +68,39 @@
     showModal("qr");
     qrTitle.textContent = qrLink;
   }
+
+  async function shortenURL(): Promise<string> {
+    const response = await fetch("/api/shorten", {
+      method: "POST",
+      headers: {
+        "Content-Type": "text/plain",
+      },
+      body: link,
+    });
+    if (!response.ok) return link;
+    return await response.text();
+  }
 </script>
 
 <div class="w-full sm:w-3/4 mx-auto join" data-tip={reactiveTip}>
-  <div class="tooltip w-full" data-tip={reactiveTip}>
-    <button class="btn btn-neutral btn-outline join-item w-full" onclick={copy}>
+  <div
+    class="tooltip w-full"
+    data-tip={disabled ? disabledMessage : reactiveTip}
+  >
+    <button
+      class="btn btn-neutral join-item w-full"
+      class:btn-outline={!disabled}
+      onclick={copy}
+      {disabled}
+    >
       {title}
     </button>
   </div>
-  <div class="tooltip" data-tip="Create QR Code">
+  <div class="tooltip" data-tip={disabled ? disabledMessage : "Create QR Code"}>
     <button
       class="btn btn-neutral btn-square join-item"
       class:skeleton={inProgress}
-      disabled={inProgress}
+      disabled={disabled || inProgress}
       aria-label="Create QR Code"
       onclick={qr}
     >
