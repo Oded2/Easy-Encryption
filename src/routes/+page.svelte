@@ -257,9 +257,10 @@
     class="border-t-2 mt-4 pt-2 flex justify-center items-baseline print:hidden"
   >
     <a
+      href="/1x1.png"
+      download="qrcode.png"
       class="btn btn-neutral w-full max-w-xs text-base"
       id="qrDownload"
-      download="qrcode.png"
     >
       <i class="fa-solid fa-cloud-arrow-down"></i> Download</a
     >
