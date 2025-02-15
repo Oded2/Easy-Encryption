@@ -253,9 +253,9 @@
     <h3 id="qrTitle" class="text-xl font-bold truncate">Link not defined</h3>
   </div>
   <div
-    class="w-full mx-auto aspect-square flex justify-center items-center overflow-hidden"
+    class="w-72 mx-auto aspect-square flex justify-center items-center overflow-hidden"
   >
-    <canvas id="qrCanvas" class="max-w-full object-contain"></canvas>
+    <canvas id="qrCanvas" class="mx-auto max-w-full object-contain"></canvas>
   </div>
 </Modal>
 <Modal id="share">

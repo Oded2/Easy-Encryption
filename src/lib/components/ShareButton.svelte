@@ -53,14 +53,27 @@
   async function qr(): Promise<void> {
     const qrTitle = document.getElementById("qrTitle") as HTMLHeadingElement;
     const canvas = document.getElementById("qrCanvas") as HTMLCanvasElement;
+    let qrLink: string = link;
     inProgress = true;
-    await toCanvas(canvas, link, {
-      width: 464,
-    });
-    inProgress = false;
+    if (link.length > 200) qrLink = await shortenURL();
+    try {
+      await toCanvas(canvas, qrLink, {
+        width: 288,
+      });
+    } catch (e) {
+      console.log(e);
+      addToast({
+        type: "error",
+        text: "Error creating QR code",
+        duration: 5000,
+      });
+      return;
+    } finally {
+      inProgress = false;
+    }
     closeModal("share");
     showModal("qr");
-    qrTitle.textContent = link;
+    qrTitle.textContent = qrLink;
   }
 </script>
 
@@ -73,6 +86,7 @@
   <div class="tooltip" data-tip="Create QR Code">
     <button
       class="btn btn-neutral btn-square join-item"
+      class:skeleton={inProgress}
       disabled={inProgress}
       aria-label="Create QR Code"
       onclick={qr}
