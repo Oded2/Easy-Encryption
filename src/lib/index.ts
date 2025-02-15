@@ -3,6 +3,7 @@ import { enc, AES } from "crypto-ts";
 export function encrypt(text: string, password: string): string {
   return AES.encrypt(text, password).toString();
 }
+
 export function decrypt(text: string, password: string): string {
   let decrypted: string = "";
   try {
@@ -13,6 +14,7 @@ export function decrypt(text: string, password: string): string {
     return decrypted;
   }
 }
+
 export function addParams(
   link: string,
   params: Record<string, string>,
