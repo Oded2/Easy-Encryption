@@ -23,7 +23,7 @@
     if (original === copyMessage) return;
     let toWrite: string = link;
     if (shorten) {
-      reactiveTip = "Await URL...";
+      reactiveTip = "Awaiting URL...";
       toWrite = await shortenURL();
     }
     try {
