@@ -15,6 +15,7 @@
 
   const clipboardTip = "Copy to Clipboard";
   let reactiveTip: string = $state(clipboardTip);
+  let inProgress: boolean = $state(false);
 
   async function copy(): Promise<void> {
     const original = reactiveTip;
@@ -48,14 +49,17 @@
     });
     return await response.text();
   }
+
   async function qr(): Promise<void> {
     const qrTitle = document.getElementById("qrTitle") as HTMLHeadingElement;
     const canvas = document.getElementById("qrCanvas") as HTMLCanvasElement;
+    inProgress = true;
+    await toCanvas(canvas, link, {
+      width: 464,
+    });
+    inProgress = false;
     closeModal("share");
     showModal("qr");
-    await toCanvas(canvas, link, {
-      scale: 8,
-    });
     qrTitle.textContent = link;
   }
 </script>
@@ -69,6 +73,7 @@
   <div class="tooltip" data-tip="Create QR Code">
     <button
       class="btn btn-neutral btn-square join-item"
+      disabled={inProgress}
       aria-label="Create QR Code"
       onclick={qr}
     >
