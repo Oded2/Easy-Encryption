@@ -253,6 +253,17 @@
     <h3 id="qrTitle" class="text-xl font-bold truncate">Link not defined</h3>
   </div>
   <img src="/1x1.png" alt="Qr Code" id="qrImage" class="mx-auto" />
+  <div
+    class="border-t-2 mt-4 pt-2 flex justify-center items-baseline print:hidden"
+  >
+    <a
+      class="btn btn-neutral w-full max-w-xs text-base"
+      id="qrDownload"
+      download="qrcode.png"
+    >
+      <i class="fa-solid fa-cloud-arrow-down"></i> Download</a
+    >
+  </div>
 </Modal>
 <Modal id="share">
   <div class="border-b-2 mb-4 pb-2 text-center">

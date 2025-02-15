@@ -53,14 +53,13 @@
   async function qr(): Promise<void> {
     const qrTitle = document.getElementById("qrTitle") as HTMLHeadingElement;
     const image = document.getElementById("qrImage") as HTMLImageElement;
+    const download = document.getElementById("qrDownload") as HTMLAnchorElement;
     let qrLink: string = link;
     inProgress = true;
     if (link.length > 1000) qrLink = await shortenURL();
-    toDataURL(qrLink).then((result) => {
-      navigator.clipboard.writeText(result);
-    });
     try {
       const url = await toDataURL(link, { width: 400 });
+      download.href = url;
       image.src = url;
     } catch (e) {
       console.log(e);
