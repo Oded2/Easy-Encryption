@@ -294,7 +294,7 @@
     <input
       type="text"
       class="input w-full !outline-none border-none"
-      placeholder="Text"
+      placeholder="Enter File Name (optional)"
       oninput={sanitizeFilename}
       bind:value={filename}
     />
