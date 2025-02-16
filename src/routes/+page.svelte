@@ -179,8 +179,8 @@
         >
       </div>
     </nav>
-    <div class="md:grid md:grid-cols-2 md:gap-4">
-      <div class="col-auto flex flex-col">
+    <div class="flex flex-col lg:flex-row gap-4 justify-around">
+      <div class="flex flex-col w-full">
         <h1
           class="font-bold text-3xl md:text-4xl lg:text-5xl mb-3 text-center md:text-start"
         >
@@ -211,7 +211,7 @@
           >
         </div>
       </div>
-      <div class="col-auto flex flex-col mt-5 md:mt-0">
+      <div class="flex flex-col w-full">
         <h1
           class="font-bold text-3xl md:text-4xl lg:text-5xl mb-3 text-center md:text-start"
         >
@@ -250,7 +250,7 @@
         </div>
       </div>
     </div>
-    <div class="mt-10 w-full md:hidden flex justify-center print:hidden">
+    <div class="mt-10 w-full lg:hidden flex justify-center print:hidden">
       <button
         aria-label="Share"
         onclick={() => showModal("share")}
@@ -266,7 +266,7 @@
 <button
   aria-label="Share"
   onclick={() => showModal("share")}
-  class="btn btn-circle btn-primary hidden md:block fixed right-5 bottom-5"
+  class="btn btn-circle btn-primary hidden lg:block fixed right-5 bottom-5"
 >
   <i class="fa-solid fa-share text-lg"></i>
 </button>
