@@ -16,10 +16,10 @@
 
   let { user, password } = $state(data);
   let isEncrypt = $state(!isDecrypt);
-  const result = $derived(
+  const result: string = $derived(
     isEncrypt ? encrypt(user, password) : decrypt(user, password)
   );
-  const passwordLink = $derived(addParams(origin, { password }));
+  const passwordLink: string = $derived(addParams(origin, { password }));
   const textLink = $derived(
     addParams(origin, {
       text: isEncrypt ? result : user,
@@ -33,11 +33,12 @@
   let lastResult: string = $state("");
   let userUncompressed = $state("");
   // When this variable is true, the user cannot compress/decompress the text/result
-  const isCompressed = $derived(
+  const isCompressed: boolean = $derived(
     lastResult === result &&
       userUncompressed.length > 0 &&
       user !== userUncompressed
   );
+  let filename: string = $state("");
 
   async function copy(text: string): Promise<void> {
     try {
@@ -56,6 +57,7 @@
       });
     }
   }
+
   async function paste(): Promise<void> {
     const original = pastePress;
     const pasteMessage = "Pasted from Clipboard";
@@ -74,16 +76,19 @@
     }
     setTimeout(() => (pastePress = original), 1500);
   }
+
   function swap(toEncrypt: boolean): void {
     // Swaps between encrypt and decrypt, and resets the text
     isEncrypt = toEncrypt;
     user = "";
   }
+
   function swapStore(): void {
     // Swaps between encrypt and decrypt, but stores the current text
     user = result;
     isEncrypt = !isEncrypt;
   }
+
   function handleFile(event: Event): void {
     const input = event.target as HTMLInputElement;
     const file = input?.files?.[0];
@@ -99,6 +104,7 @@
     }
     input.value = "";
   }
+
   function handleCompression(): void {
     if (user.length == 0) {
       addToast({
@@ -127,8 +133,24 @@
     }
     lastResult = result;
   }
+
   function undoCompression(): void {
     user = userUncompressed;
+  }
+
+  function sanitizeFilename(): void {
+    const illegalFilenameRegex = /[<>:"\/\\|?*\x00-\x1F]/g;
+    filename = filename.replace(illegalFilenameRegex, "");
+  }
+
+  function downloadText(): void {
+    const blob = new Blob([result], { type: "text/plain" });
+    const url = URL.createObjectURL(blob);
+    const anchor = document.createElement("a");
+    anchor.href = url;
+    anchor.download = filename.length > 0 ? filename + ".txt" : "Text.txt";
+    anchor.click();
+    URL.revokeObjectURL(url);
   }
 </script>
 
@@ -248,6 +270,7 @@
 >
   <i class="fa-solid fa-share text-lg"></i>
 </button>
+
 <Modal id="qr">
   <div class="border-b-2 mb-4 pb-2 text-center">
     <h3 id="qrTitle" class="text-xl font-bold truncate">Link not defined</h3>
@@ -264,6 +287,20 @@
     >
       <i class="fa-solid fa-cloud-arrow-down"></i> Download</a
     >
+  </div>
+</Modal>
+<Modal id="download">
+  <div class="flex gap-2">
+    <input
+      type="text"
+      class="input w-full !outline-none border-none"
+      placeholder="Text.txt"
+      oninput={sanitizeFilename}
+      bind:value={filename}
+    />
+    <button onclick={downloadText} class="btn btn-neutral">
+      <i class="fa-solid fa-cloud-arrow-down"></i> Download
+    </button>
   </div>
 </Modal>
 <Modal id="share">
@@ -290,4 +327,5 @@
   </div>
 </Modal>
 <Toasts></Toasts>
+
 <svelte:head><title>Easy Encryption</title></svelte:head>

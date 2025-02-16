@@ -13,7 +13,7 @@
     shorten: boolean;
   } = $props();
 
-  const disabled = $derived(link.length > 10000);
+  const disabled: boolean = $derived(link.length > 10000);
   const disabledMessage = "URL is too long";
   const clipboardTip = "Copy to Clipboard";
   let reactiveTip: string = $state(clipboardTip);

@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { showModal } from "$lib";
   import Autolink from "./Autolink.svelte";
 
   let {
@@ -41,14 +42,13 @@
     <div class="join print:hidden">
       {#if disabled}
         <div class="tooltip join-item" data-tip="Download Text">
-          <a
+          <button
             aria-label="Download"
-            href="data:text;charset=utf-8,{val}"
-            download="Text.txt"
+            onclick={() => showModal("download")}
             class="btn btn-square join-item text-xl"
           >
             <i class="fa-solid fa-cloud-arrow-down"></i>
-          </a>
+          </button>
         </div>
       {:else}
         <div class="tooltip join-item" data-tip="Upload Text">
