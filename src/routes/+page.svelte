@@ -229,6 +229,7 @@
           val={result}
           tip="Copy to Clipboard"
           onclick={() => copy(result)}
+          ondownload={() => (filename = "")}
         ></Textbox>
         <div class="mt-2 mx-2 flex flex-col print:hidden">
           <span

@@ -10,6 +10,7 @@
     spellcheck = false,
     onchange = () => {},
     onclick,
+    ondownload = () => {},
   }: {
     val: string;
     disabled?: boolean;
@@ -18,7 +19,13 @@
     spellcheck?: boolean;
     onchange?: (...args: any[]) => void;
     onclick: (...args: any[]) => void;
+    ondownload?: () => void;
   } = $props();
+
+  function handleDownload(): void {
+    ondownload();
+    showModal("download");
+  }
 </script>
 
 <div class="flex flex-col w-full">
@@ -44,7 +51,7 @@
         <div class="tooltip join-item" data-tip="Download Text">
           <button
             aria-label="Download"
-            onclick={() => showModal("download")}
+            onclick={handleDownload}
             class="btn btn-square join-item text-xl"
           >
             <i class="fa-solid fa-cloud-arrow-down"></i>
