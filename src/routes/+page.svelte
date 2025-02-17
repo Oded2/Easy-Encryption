@@ -179,8 +179,8 @@
         >
       </div>
     </nav>
-    <div class="flex flex-col lg:flex-row gap-4 justify-around">
-      <div class="flex flex-col w-full">
+    <div class="grid lg:grid-cols-2 gap-4 justify-aroud">
+      <div class="flex flex-col">
         <h1
           class="font-bold text-3xl md:text-4xl lg:text-5xl mb-3 text-center md:text-start"
         >
@@ -211,7 +211,7 @@
           >
         </div>
       </div>
-      <div class="flex flex-col w-full">
+      <div class="flex flex-col">
         <h1
           class="font-bold text-3xl md:text-4xl lg:text-5xl mb-3 text-center md:text-start"
         >
