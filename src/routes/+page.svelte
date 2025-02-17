@@ -27,7 +27,6 @@
     })
   );
   const textPasswordLink = $derived(addParams(textLink, { password }));
-  let pastePress = $state("Paste from Clipboard");
   let shortUrl: boolean = $state(false);
   // "lastResult" is a variable that ensures that the user doesn't double-compress/decompress
   let lastResult: string = $state("");
@@ -44,14 +43,14 @@
     try {
       await navigator.clipboard.writeText(text);
       addToast({
-        duration: 5000,
         type: "success",
-        text: "Text successfully copied to clipboard",
+        duration: 2000,
+        text: "Successfully copied to clipboard",
       });
     } catch (e) {
       console.error(e);
       addToast({
-        text: "Error Copying to Clipboard",
+        text: "Error copying to clipboard",
         duration: 5000,
         type: "error",
       });
@@ -59,22 +58,21 @@
   }
 
   async function paste(): Promise<void> {
-    const original = pastePress;
-    const pasteMessage = "Pasted from Clipboard";
-    if (original === pasteMessage) return;
     try {
-      const clip = await navigator.clipboard.readText();
-      user = clip;
-      pastePress = pasteMessage;
-    } catch (error) {
-      console.error(error);
+      user = await navigator.clipboard.readText();
       addToast({
-        text: "Failed to Paste from Clipboard",
+        type: "success",
+        duration: 2000,
+        text: "Successfully pasted from clipboard",
+      });
+    } catch (e) {
+      console.error(e);
+      addToast({
+        text: "Failed to paste from clipboard",
         duration: 5000,
         type: "error",
       });
     }
-    setTimeout(() => (pastePress = original), 1500);
   }
 
   function swap(toEncrypt: boolean): void {
@@ -196,7 +194,7 @@
           spellcheck={isEncrypt}
           placeholder={"Enter text here"}
           bind:val={user}
-          tip={pastePress}
+          tip="Paste from Clipboard"
         ></Textbox>
         <div class="border-b-2 mb-5"></div>
         <div class="flex gap-2">
