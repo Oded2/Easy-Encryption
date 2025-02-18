@@ -177,7 +177,7 @@
         >
       </div>
     </nav>
-    <div class="grid lg:grid-cols-2 gap-4 justify-aroud">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
       <div class="flex flex-col">
         <h1
           class="font-bold text-3xl md:text-4xl lg:text-5xl mb-3 text-center md:text-start"
