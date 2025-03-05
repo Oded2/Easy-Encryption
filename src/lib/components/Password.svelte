@@ -13,7 +13,7 @@
       dir="auto"
       autocomplete="off"
       spellcheck="false"
-      class="input input-bordered !outline-none w-full pr-10 font-medium"
+      class="input input-bordered outline-hidden! w-full pr-10 font-medium"
       {placeholder}
       bind:value={password}
     />
@@ -23,7 +23,7 @@
       dir="auto"
       autocomplete="off"
       spellcheck="false"
-      class="input input-bordered !outline-none w-full pr-10 font-medium"
+      class="input input-bordered outline-hidden! w-full pr-10 font-medium"
       {placeholder}
       bind:value={password}
     />

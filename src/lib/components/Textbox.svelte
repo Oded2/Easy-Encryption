@@ -35,7 +35,7 @@
     <textarea
       dir="auto"
       {spellcheck}
-      class="textarea textarea-ghost focus:outline-none border-none w-full px-0 h-64 md:h-80 resize-none text-lg print:hidden"
+      class="textarea textarea-ghost focus:outline-hidden border-none w-full px-0 h-64 md:h-80 resize-none text-lg print:hidden"
       {placeholder}
       bind:value={val}
     >

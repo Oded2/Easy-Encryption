@@ -292,7 +292,7 @@
   <div class="flex gap-2">
     <input
       type="text"
-      class="input w-full !outline-none border-none"
+      class="input w-full outline-hidden! border-none"
       placeholder="Enter File Name (optional)"
       oninput={sanitizeFilename}
       bind:value={filename}
