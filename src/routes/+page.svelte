@@ -9,6 +9,7 @@
   import Toasts from "$lib/components/Toasts.svelte";
   import About from "$lib/components/About.svelte";
   import ShareButton from "$lib/components/ShareButton.svelte";
+  import InputLabel from "$lib/components/InputLabel.svelte";
 
   const { data } = $props();
   const { isDecrypt, origin } = data;
@@ -16,6 +17,7 @@
 
   let { user, password } = $state(data);
   let isEncrypt = $state(!isDecrypt);
+  const illegalFilenameRegex = /[<>:"\/\\|?*\x00-\x1F]/g;
   const result: string = $derived(
     isEncrypt ? encrypt(user, password) : decrypt(user, password)
   );
@@ -137,7 +139,6 @@
   }
 
   function sanitizeFilename(): void {
-    const illegalFilenameRegex = /[<>:"\/\\|?*\x00-\x1F]/g;
     filename = filename.replace(illegalFilenameRegex, "");
   }
 
@@ -290,14 +291,16 @@
 </Modal>
 <Modal id="download">
   <div class="flex gap-2">
-    <input
-      type="text"
-      class="input w-full outline-hidden! border-none"
-      placeholder="Enter File Name (optional)"
-      oninput={sanitizeFilename}
-      bind:value={filename}
-    />
-    <button onclick={downloadText} class="btn btn-neutral">
+    <InputLabel>
+      <input
+        type="text"
+        class="grow"
+        placeholder="Enter File Name (optional)"
+        oninput={sanitizeFilename}
+        bind:value={filename}
+      />
+    </InputLabel>
+    <button onclick={downloadText} class="btn btn-neutral flex-1">
       <i class="fa-solid fa-cloud-arrow-down"></i> Download
     </button>
   </div>

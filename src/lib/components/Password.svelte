@@ -1,5 +1,6 @@
 <script lang="ts">
   import type { HTMLInputTypeAttribute } from "svelte/elements";
+  import InputLabel from "./InputLabel.svelte";
 
   let { password = $bindable() }: { password: string } = $props();
 
@@ -12,10 +13,8 @@
   }
 </script>
 
-<div class="w-full sm:w-80 md:mx-0">
-  <label
-    class="input input-ghost font-medium outline-hidden! border-1 border-gray-300! rounded-md"
-  >
+<div class="w-full sm:w-80 md:mx-0 font-medium">
+  <InputLabel>
     <input
       bind:value={password}
       {type}
@@ -36,5 +35,5 @@
         <i class="fa-solid fa-eye-slash"></i>
       {/if}
     </button>
-  </label>
+  </InputLabel>
 </div>
