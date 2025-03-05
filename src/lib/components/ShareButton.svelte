@@ -13,16 +13,23 @@
     shorten: boolean;
   } = $props();
 
-  const disabled: boolean = $derived(link.length > 10000);
   const disabledMessage = "URL is too long";
   const clipboardTip = "Copy to Clipboard";
+  const timeoutDuration = 1500;
+  const copyMessage = "Copied!";
+  const disabled: boolean = $derived(link.length > 10000);
   let reactiveTip: string = $state(clipboardTip);
   let inProgress: boolean = $state(false);
+  let timeout: NodeJS.Timeout | undefined;
 
   async function copy(): Promise<void> {
     const original = reactiveTip;
-    const copyMessage = "Copied to Clipboard";
-    if (original === copyMessage) return;
+    // If already showing copyMessage, clear and reset the timeout
+    if (original === copyMessage) {
+      if (timeout) clearTimeout(timeout);
+      timeout = setTimeout(() => (reactiveTip = clipboardTip), timeoutDuration);
+      return;
+    }
     let toWrite: string = link;
     if (shorten) {
       reactiveTip = "Awaiting URL...";
@@ -30,6 +37,7 @@
     }
     try {
       await navigator.clipboard.writeText(toWrite);
+      if (timeout) clearTimeout(timeout);
       reactiveTip = copyMessage;
     } catch (e) {
       console.error(e);
@@ -39,7 +47,7 @@
         type: "error",
       });
     }
-    setTimeout(() => (reactiveTip = clipboardTip), 1500);
+    timeout = setTimeout(() => (reactiveTip = clipboardTip), timeoutDuration);
   }
 
   async function qr(): Promise<void> {
