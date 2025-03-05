@@ -11,6 +11,7 @@
     handleFile,
     onclick,
     ondownload,
+    onchange,
   }: {
     val: string;
     disabled?: boolean;
@@ -20,6 +21,7 @@
     handleFile?: (...args: any[]) => void;
     onclick: (...args: any[]) => void;
     ondownload?: () => void;
+    onchange?: () => void;
   } = $props();
 
   function handleDownload(): void {
@@ -37,6 +39,7 @@
       {spellcheck}
       class="textarea textarea-ghost focus:outline-hidden border-none w-full px-0 h-64 md:h-80 resize-none text-lg print:hidden"
       {placeholder}
+      {onchange}
       bind:value={val}
     >
     </textarea>

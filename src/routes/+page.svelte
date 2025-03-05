@@ -40,6 +40,7 @@
       user !== userUncompressed
   );
   let filename: string = $state("");
+  let isTrim: boolean = $state(true);
 
   async function copy(text: string): Promise<void> {
     try {
@@ -152,8 +153,16 @@
     URL.revokeObjectURL(url);
   }
 
-  function handleWhitespaceChange(): void {
-    user = user.trim();
+  function handleTrimChange(): void {
+    if (isTrim) {
+      isTrim = false;
+    } else {
+      user = user.trim();
+      isTrim = true;
+    }
+  }
+  function handleChangeTrim(): void {
+    if (isTrim) user = user.trim();
   }
 </script>
 
@@ -198,6 +207,7 @@
           {handleFile}
           spellcheck={isEncrypt}
           placeholder={"Enter text here"}
+          onchange={handleChangeTrim}
           bind:val={user}
           tip="Paste from Clipboard"
         ></Textbox>
@@ -322,8 +332,8 @@
 <Modal id="options">
   <div class="flex flex-col gap-2 max-w-xs mx-auto">
     <h2 class="font-bold text-xl text-center">Options</h2>
-    <button class="btn btn-neutral btn-outline" onclick={handleWhitespaceChange}
-      >Remove Whitespace</button
+    <button class="btn btn-neutral btn-outline" onclick={handleTrimChange}
+      >{isTrim ? "Disable Text Trim" : "Enable Text Trim"}</button
     >
     <button
       class="btn btn-neutral btn-outline"
