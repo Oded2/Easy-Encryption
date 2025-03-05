@@ -2,10 +2,6 @@
 
 [![Netlify Status](https://api.netlify.com/api/v1/badges/6b6b9ecd-446c-4f77-abf6-c45a20a5da63/deploy-status)](https://app.netlify.com/sites/easyencryption/deploys)
 
-## Live Demo
-
-You can try out the live demo of Easy Encryption here: [Easy Encryption Live Demo](https://easyencryption.netlify.app/)
-
 Easy Encryption is a Svelte-based web application that provides a simple and intuitive interface for encrypting and decrypting text. It uses AES encryption from the `crypto-ts` library, allowing users to securely transform plaintext into ciphertext and vice versa.
 
 ## Features
