@@ -33,7 +33,7 @@
 
 <div
   role="alert"
-  class="alert flex flex-col items-stretch w-[28rem] max-w-[90vw]"
+  class="alert flex flex-col items-stretch w-[28rem] max-w-[90vw] text-base"
   class:alert-success={type === "success"}
   class:alert-info={type === "info"}
   class:alert-error={type === "error"}
