@@ -62,7 +62,8 @@
 
   async function paste(): Promise<void> {
     try {
-      user = (await navigator.clipboard.readText()).trim();
+      const clipboardText = await navigator.clipboard.readText();
+      user = isTrim ? clipboardText.trim() : clipboardText;
       addToast({
         type: "success",
         duration: 2000,

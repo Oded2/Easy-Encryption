@@ -149,15 +149,5 @@
         </li>
       </ul>
     </div>
-    <div>
-      <h3>Other Notices</h3>
-      <ul class="font-medium">
-        <li>
-          When pasting via the designated paste button, the pasted text will
-          automatically have any whitespace removed. If you do not wish to have
-          the whitespace removed, simply paste using CTRL + V.
-        </li>
-      </ul>
-    </div>
   </article>
 </div>
