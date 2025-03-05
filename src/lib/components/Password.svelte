@@ -13,7 +13,9 @@
 </script>
 
 <div class="w-full sm:w-80 md:mx-0">
-  <label class="input">
+  <label
+    class="input input-ghost font-medium outline-hidden! border-1 border-gray-300! rounded-md"
+  >
     <input
       bind:value={password}
       {type}
