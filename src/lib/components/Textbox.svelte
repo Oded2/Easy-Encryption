@@ -4,10 +4,10 @@
 
   let {
     val = $bindable(),
-    disabled = false,
-    placeholder = "",
+    disabled,
+    placeholder,
     tip,
-    spellcheck = false,
+    spellcheck,
     onchange = () => {},
     onclick,
     ondownload = () => {},
