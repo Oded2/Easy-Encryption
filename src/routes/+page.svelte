@@ -2,7 +2,7 @@
   import Password from "$lib/components/Password.svelte";
   import Textbox from "$lib/components/Textbox.svelte";
   import Modal from "$lib/components/Modal.svelte";
-  import { encrypt, decrypt, addParams, showModal } from "$lib";
+  import { encrypt, decrypt, addParams, showModal, closeModal } from "$lib";
   import Switch from "$lib/components/Switch.svelte";
   import pkg from "lz-string";
   import { addToast } from "$lib/toasts.js";
@@ -162,8 +162,14 @@
       isTrim = true;
     }
   }
+
   function handleChangeTrim(): void {
     if (isTrim) user = user.trim();
+  }
+
+  function handleQrToShare(): void {
+    closeModal("qr");
+    showModal("share");
   }
 </script>
 
@@ -279,7 +285,7 @@
   </div>
   <img src="/1x1.png" alt="Qr Code" id="qrImage" class="mx-auto" />
   <div
-    class="border-t-2 mt-4 pt-2 flex justify-center items-baseline print:hidden"
+    class="border-t-2 mt-4 pt-2 flex flex-col justify-baseline items-center gap-2 print:hidden"
   >
     <a
       href="/1x1.png"
@@ -289,6 +295,12 @@
     >
       <i class="fa-solid fa-cloud-arrow-down"></i> Download</a
     >
+    <button
+      onclick={handleQrToShare}
+      class="btn btn-neutral btn-outline w-full max-w-xs text-base"
+    >
+      <i class="fa-solid fa-rotate-left"></i> Back
+    </button>
   </div>
 </Modal>
 <Modal id="download">
@@ -308,7 +320,7 @@
   </div>
 </Modal>
 <Modal id="share">
-  <div class="border-b-2 mb-4 pb-2 text-center">
+  <div class="border-b-2 mb-4 pb-2 text-center flex flex-col gap-1">
     <h3 class="text-xl font-bold">Share</h3>
     <h5 class="text-base font-medium">Select which link to copy</h5>
     <Switch
