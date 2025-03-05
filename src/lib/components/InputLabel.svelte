@@ -5,7 +5,7 @@
 </script>
 
 <label
-  class="input input-ghost outline-hidden! border-1 border-gray-300! rounded-md"
+  class="input input-ghost font-medium outline-hidden! border-1 border-gray-300! rounded-md"
 >
   {@render children()}
 </label>

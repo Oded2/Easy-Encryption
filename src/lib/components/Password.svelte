@@ -13,7 +13,7 @@
   }
 </script>
 
-<div class="w-full sm:w-80 md:mx-0 font-medium">
+<div class="w-full sm:w-80 md:mx-0">
   <InputLabel>
     <input
       bind:value={password}
