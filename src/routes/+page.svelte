@@ -40,6 +40,11 @@
       user !== userUncompressed
   );
   let filename: string = $state("");
+  let removeWhitespace: boolean = $state(true);
+
+  $effect(() => {
+    if (removeWhitespace) user = user.trimStart();
+  });
 
   async function copy(text: string): Promise<void> {
     try {
@@ -151,6 +156,10 @@
     anchor.click();
     URL.revokeObjectURL(url);
   }
+
+  function handleWhitespaceChange(): void {
+    if (removeWhitespace) user = user.trim();
+  }
 </script>
 
 <main id="main">
@@ -230,23 +239,10 @@
           onclick={() => copy(result)}
           ondownload={() => (filename = "")}
         ></Textbox>
-        <div class="mt-2 mx-2 flex flex-col print:hidden">
-          <span
-            >{isEncrypt ? "Too long?" : "Doesn't look right?"}
-            <button
-              class:link={!isCompressed}
-              class:opacity-60={isCompressed}
-              disabled={isCompressed}
-              onclick={handleCompression}
-              >{isEncrypt ? "Compress" : "Decompress"}
-            </button>
-          </span>
-          {#if isCompressed}
-            <span>
-              Change your mind?
-              <button class="link" onclick={undoCompression}>Undo</button>
-            </span>
-          {/if}
+        <div class="flex p-2">
+          <button class="btn" onclick={() => showModal("options")}
+            >Show Options</button
+          >
         </div>
       </div>
     </div>
@@ -326,6 +322,29 @@
       link={textPasswordLink}
       shorten={shortUrl}
     ></ShareButton>
+  </div>
+</Modal>
+<Modal id="options">
+  <div class="flex flex-col gap-2">
+    <div class="flex">
+      <Switch
+        text="Remove whitespace"
+        bind:state={removeWhitespace}
+        onchange={handleWhitespaceChange}
+      ></Switch>
+    </div>
+    <div class="select-none">
+      {#if isCompressed}
+        <button class="link" onclick={undoCompression}
+          >{`Undo ${isEncrypt ? "Compression" : "Decompression"}`}
+        </button>
+      {:else}
+        {isEncrypt ? "Too long?" : "Doesn't look right?"}
+        <button class:link={!isCompressed} onclick={handleCompression}
+          >{isEncrypt ? "Compress" : "Decompress"}
+        </button>
+      {/if}
+    </div>
   </div>
 </Modal>
 <Toasts></Toasts>

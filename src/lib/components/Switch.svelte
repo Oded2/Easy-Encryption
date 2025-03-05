@@ -3,10 +3,12 @@
     text,
     state = $bindable(false),
     disclaimer,
+    onchange,
   }: {
     text?: string;
     state: boolean;
     disclaimer?: string;
+    onchange?: () => void;
   } = $props();
 </script>
 
@@ -19,5 +21,5 @@
   {#if text}
     <span>{text}</span>
   {/if}
-  <input type="checkbox" class="toggle" bind:checked={state} />
+  <input type="checkbox" class="toggle" bind:checked={state} {onchange} />
 </div>

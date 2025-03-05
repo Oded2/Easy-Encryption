@@ -8,9 +8,9 @@
     placeholder,
     tip,
     spellcheck,
-    onchange = () => {},
+    onchange,
     onclick,
-    ondownload = () => {},
+    ondownload,
   }: {
     val: string;
     disabled?: boolean;
@@ -23,7 +23,7 @@
   } = $props();
 
   function handleDownload(): void {
-    ondownload();
+    if (ondownload) ondownload();
     showModal("download");
   }
 </script>
