@@ -1,43 +1,38 @@
 <script lang="ts">
+  import type { HTMLInputTypeAttribute } from "svelte/elements";
+
   let { password = $bindable() }: { password: string } = $props();
 
   const placeholder = "Enter password";
 
-  let hidePass = $state(true);
+  let type: HTMLInputTypeAttribute = $state("text");
+
+  function changeType() {
+    type = type === "text" ? "password" : "text";
+  }
 </script>
 
-<div class="relative w-full sm:w-80 md:mx-0">
-  {#if hidePass}
+<div class="w-full sm:w-80 md:mx-0">
+  <label class="input">
     <input
-      type="password"
-      dir="auto"
+      bind:value={password}
+      {type}
       autocomplete="off"
       spellcheck="false"
-      class="input input-bordered outline-hidden! w-full pr-10 font-medium"
+      class="grow"
       {placeholder}
-      bind:value={password}
     />
-  {:else}
-    <input
-      type="text"
-      dir="auto"
-      autocomplete="off"
-      spellcheck="false"
-      class="input input-bordered outline-hidden! w-full pr-10 font-medium"
-      {placeholder}
-      bind:value={password}
-    />
-  {/if}
-  <button
-    aria-label="Show Password"
-    type="button"
-    class="absolute end-2 top-3 text-gray-500"
-    onclick={() => (hidePass = !hidePass)}
-  >
-    {#if hidePass}
-      <i class="fa-solid fa-eye"></i>
-    {:else}
-      <i class="fa-solid fa-eye-slash"></i>
-    {/if}
-  </button>
+    <button
+      aria-label="Show Password"
+      type="button"
+      class="text-gray-500 cursor-pointer"
+      onclick={changeType}
+    >
+      {#if type === "text"}
+        <i class="fa-solid fa-eye"></i>
+      {:else if type === "password"}
+        <i class="fa-solid fa-eye-slash"></i>
+      {/if}
+    </button>
+  </label>
 </div>
