@@ -200,7 +200,7 @@
         </h1>
         <Textbox
           onclick={paste}
-          onchange={handleFile}
+          {handleFile}
           spellcheck={isEncrypt}
           placeholder={"Enter text here"}
           bind:val={user}

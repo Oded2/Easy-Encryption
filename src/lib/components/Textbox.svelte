@@ -8,7 +8,7 @@
     placeholder,
     tip,
     spellcheck,
-    onchange,
+    handleFile,
     onclick,
     ondownload,
   }: {
@@ -17,7 +17,7 @@
     placeholder?: string;
     tip: string;
     spellcheck?: boolean;
-    onchange?: (...args: any[]) => void;
+    handleFile?: (...args: any[]) => void;
     onclick: (...args: any[]) => void;
     ondownload?: () => void;
   } = $props();
@@ -68,7 +68,7 @@
               type="file"
               accept="text/*,.py,.cs,.ts,.js,.json,.html,.css,.xml,.md,.sh,.java"
               class="hidden"
-              {onchange}
+              onchange={handleFile}
             />
           </label>
         </div>
