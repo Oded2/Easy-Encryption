@@ -149,5 +149,17 @@
         </li>
       </ul>
     </div>
+    <div>
+      <h3>Other notices:</h3>
+      <ul class="font-medium">
+        <li>
+          When you insert text, any leading and trailing whitespace will be
+          automatically removed. If you want to keep the whitespace, click <span
+            class="font-bold">Show Options</span
+          >, then select <span class="font-bold">Disable Text Trim</span> in the
+          modal.
+        </li>
+      </ul>
+    </div>
   </article>
 </div>
