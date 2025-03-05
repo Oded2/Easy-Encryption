@@ -236,7 +236,7 @@
             <button
               class:link={!isCompressed}
               class:opacity-60={isCompressed}
-              class:btn-disabled={isCompressed}
+              disabled={isCompressed}
               onclick={handleCompression}
               >{isEncrypt ? "Compress" : "Decompress"}
             </button>
