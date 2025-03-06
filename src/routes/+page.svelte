@@ -97,7 +97,8 @@
     if (file) {
       const reader = new FileReader();
       reader.onload = () => {
-        user = reader.result as string;
+        const result = reader.result;
+        if (typeof result === "string") user = isTrim ? result.trim() : result;
       };
       reader.onerror = () => {
         console.error(reader.error);
