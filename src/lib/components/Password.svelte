@@ -6,7 +6,7 @@
 
   const placeholder = "Enter password";
 
-  let type: HTMLInputTypeAttribute = $state("text");
+  let type: HTMLInputTypeAttribute = $state("password");
 
   function changeType() {
     type = type === "text" ? "password" : "text";
@@ -29,9 +29,9 @@
       class="text-gray-500 cursor-pointer"
       onclick={changeType}
     >
-      {#if type === "text"}
+      {#if type === "password"}
         <i class="fa-solid fa-eye"></i>
-      {:else if type === "password"}
+      {:else if type === "text"}
         <i class="fa-solid fa-eye-slash"></i>
       {/if}
     </button>
