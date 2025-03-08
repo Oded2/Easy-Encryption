@@ -22,6 +22,10 @@
       spellcheck="false"
       class="grow"
       {placeholder}
+      data-1p-ignore
+      data-lpignore="true"
+      data-bwignore
+      data-form-type="other"
     />
     <button
       aria-label="Show Password"
