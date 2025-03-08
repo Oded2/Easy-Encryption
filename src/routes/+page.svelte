@@ -372,11 +372,18 @@
       placeholder="Confirm password (optional)"
       bind:password={passwordConfirm}
     >
-      {#if password === passwordConfirm}
-        <i class="fa-solid fa-circle-check text-success"></i>
-      {:else}
-        <i class="fa-solid fa-circle-xmark"></i>
-      {/if}
+      <div
+        class="tooltip"
+        data-tip={password === passwordConfirm
+          ? "Passwords match"
+          : "Passwords do not match"}
+      >
+        {#if password === passwordConfirm}
+          <i class="fa-solid fa-circle-check text-success"></i>
+        {:else}
+          <i class="fa-solid fa-circle-xmark"></i>
+        {/if}
+      </div>
     </Password>
   </div>
 </Modal>

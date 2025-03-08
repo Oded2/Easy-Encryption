@@ -43,7 +43,9 @@
       {/if}
     </button>
     {#if children}
-      {@render children()}
+      <div class="cursor-auto">
+        {@render children()}
+      </div>
     {/if}
   </InputLabel>
 </div>
