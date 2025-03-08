@@ -48,6 +48,7 @@
   );
   let filename: string = $state("");
   let isTrim: boolean = $state(true);
+  let passwordConfirm = $state("");
 
   async function copy(text: string): Promise<void> {
     try {
@@ -229,7 +230,7 @@
         <div class="border-b-2 mb-5"></div>
         <div class="flex gap-2">
           <div class="w-full sm:w-auto">
-            <Password bind:password></Password>
+            <Password placeholder="Enter password" bind:password></Password>
           </div>
           <button
             onclick={swapStore}
@@ -367,6 +368,16 @@
         ? `Undo ${isEncrypt ? "Compression" : "Decompression"}`
         : `${isEncrypt ? "Compress" : "Decompress"} Text`}
     </button>
+    <Password
+      placeholder="Confirm password (optional)"
+      bind:password={passwordConfirm}
+    >
+      {#if password === passwordConfirm}
+        <i class="fa-solid fa-circle-check text-success"></i>
+      {:else}
+        <i class="fa-solid fa-circle-xmark"></i>
+      {/if}
+    </Password>
   </div>
 </Modal>
 <Toasts></Toasts>

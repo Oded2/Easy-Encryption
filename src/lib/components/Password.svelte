@@ -1,10 +1,13 @@
 <script lang="ts">
   import type { HTMLInputTypeAttribute } from "svelte/elements";
   import InputLabel from "./InputLabel.svelte";
+  import type { Snippet } from "svelte";
 
-  let { password = $bindable() }: { password: string } = $props();
-
-  const placeholder = "Enter password";
+  let {
+    password = $bindable(),
+    placeholder,
+    children,
+  }: { password: string; placeholder: string; children?: Snippet } = $props();
 
   let type: HTMLInputTypeAttribute = $state("password");
 
@@ -39,5 +42,8 @@
         <i class="fa-solid fa-eye-slash"></i>
       {/if}
     </button>
+    {#if children}
+      {@render children()}
+    {/if}
   </InputLabel>
 </div>
