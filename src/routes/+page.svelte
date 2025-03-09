@@ -43,24 +43,6 @@
   let isTrim: boolean = $state(true);
   let passwordConfirm = $state("");
 
-  async function copy(text: string): Promise<void> {
-    try {
-      await navigator.clipboard.writeText(text);
-      addToast({
-        type: "success",
-        duration: 2000,
-        text: "Successfully copied to clipboard",
-      });
-    } catch (e) {
-      console.error(e);
-      addToast({
-        text: "Error copying to clipboard",
-        duration: 5000,
-        type: "error",
-      });
-    }
-  }
-
   async function paste(): Promise<void> {
     try {
       const clipboardText = await navigator.clipboard.readText();
@@ -212,13 +194,12 @@
           {/if}
         </h1>
         <Textbox
-          onclick={paste}
+          handlePaste={paste}
           {handleFile}
           spellcheck={isEncrypt}
           placeholder={"Enter text here"}
           onchange={handleChangeTrim}
           bind:val={user}
-          tip="Paste from Clipboard"
         ></Textbox>
         <div class="border-b-2 mb-5"></div>
         <div class="flex gap-2">
@@ -249,8 +230,6 @@
             ? "Invalid text/password"
             : "No text to decrypt"}
           val={result}
-          tip="Copy to Clipboard"
-          onclick={() => copy(result)}
           ondownload={() => (filename = "")}
         ></Textbox>
         <div class="flex p-2">

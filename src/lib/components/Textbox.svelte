@@ -1,25 +1,24 @@
 <script lang="ts">
   import { showModal } from "$lib";
   import Autolink from "./Autolink.svelte";
+  import CopyButton from "./CopyButton.svelte";
 
   let {
     val = $bindable(),
     disabled,
     placeholder,
-    tip,
     spellcheck,
     handleFile,
-    onclick,
+    handlePaste,
     ondownload,
     onchange,
   }: {
     val: string;
     disabled?: boolean;
     placeholder?: string;
-    tip: string;
     spellcheck?: boolean;
     handleFile?: (...args: any[]) => void;
-    onclick: (...args: any[]) => void;
+    handlePaste?: (...args: any[]) => void;
     ondownload?: () => void;
     onchange?: () => void;
   } = $props();
@@ -76,19 +75,21 @@
           </label>
         </div>
       {/if}
-      <div class="tooltip join-item" data-tip={tip}>
-        <button
-          {onclick}
-          aria-label={disabled ? "Copy to Clipboard" : "Paste from Clipboard"}
-          class="btn btn-square join-item text-xl"
-        >
-          {#if disabled}
-            <i class="fa-solid fa-copy"></i>
-          {:else}
+      {#if disabled}
+        <CopyButton text={val} className="btn btn-square join-item text-xl">
+          <i class="fa-solid fa-copy"></i>
+        </CopyButton>
+      {:else}
+        <div class="tooltip" data-tip="Paste from Clipboard">
+          <button
+            onclick={handlePaste}
+            class="btn btn-square join-item text-xl"
+            aria-label="Paste from Clipboard"
+          >
             <i class="fa-solid fa-paste"></i>
-          {/if}
-        </button>
-      </div>
+          </button>
+        </div>
+      {/if}
     </div>
   </div>
 </div>

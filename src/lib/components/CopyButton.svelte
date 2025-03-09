@@ -61,7 +61,7 @@
 </script>
 
 <div class="tooltip w-full" data-tip={reactiveTip}>
-  <button class={className} onclick={copy}>
+  <button class={className} onclick={copy} aria-label="Copy to Clipboard">
     {@render children()}
   </button>
 </div>
