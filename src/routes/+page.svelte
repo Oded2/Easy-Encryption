@@ -10,13 +10,6 @@
   import About from "$lib/components/About.svelte";
   import ShareButton from "$lib/components/ShareButton.svelte";
   import InputLabel from "$lib/components/InputLabel.svelte";
-  import { onMount } from "svelte";
-
-  onMount(() => {
-    window.addEventListener("load", () => {
-      window.dispatchEvent(new Event("resize"));
-    });
-  });
 
   const { data } = $props();
   const { isDecrypt, origin } = data;
