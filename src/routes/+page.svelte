@@ -47,11 +47,6 @@
     try {
       const clipboardText = await navigator.clipboard.readText();
       user = isTrim ? clipboardText.trim() : clipboardText;
-      addToast({
-        type: "success",
-        duration: 2000,
-        text: "Successfully pasted from clipboard",
-      });
     } catch (e) {
       console.error(e);
       addToast({
