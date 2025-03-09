@@ -17,7 +17,6 @@
 
   let { user, password } = $state(data);
   let isEncrypt = $state(!isDecrypt);
-  const illegalFilenameRegex = /[<>:"\/\\|?*\x00-\x1F]/g;
   const result: string = $derived(
     isEncrypt ? encrypt(user, password) : decrypt(user, password)
   );
@@ -40,8 +39,11 @@
       user !== userUncompressed
   );
   let filename: string = $state("");
+  const illegalFilename: boolean = $derived(
+    /[<>:"\/\\|?*\x00-\x1F]/.test(filename)
+  );
   let isTrim: boolean = $state(true);
-  let passwordConfirm = $state("");
+  let passwordConfirm: string = $state("");
 
   async function paste(): Promise<void> {
     try {
@@ -119,11 +121,8 @@
     user = userUncompressed;
   }
 
-  function sanitizeFilename(): void {
-    filename = filename.replace(illegalFilenameRegex, "");
-  }
-
   function downloadText(): void {
+    if (illegalFilename) return;
     const blob = new Blob([result], { type: "text/plain" });
     const url = URL.createObjectURL(blob);
     const anchor = document.createElement("a");
@@ -286,11 +285,19 @@
         type="text"
         class="grow"
         placeholder="Enter File Name (optional)"
-        oninput={sanitizeFilename}
         bind:value={filename}
       />
+      {#if illegalFilename}
+        <span class="badge badge-error badge-xs cursor-auto">
+          Invalid Filename
+        </span>
+      {/if}
     </InputLabel>
-    <button onclick={downloadText} class="btn btn-neutral flex-1">
+    <button
+      onclick={downloadText}
+      disabled={illegalFilename}
+      class="btn btn-neutral flex-1"
+    >
       <i class="fa-solid fa-cloud-arrow-down"></i> Download
     </button>
   </div>
