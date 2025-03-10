@@ -79,6 +79,7 @@
     <button
       class="btn btn-neutral btn-square join-item"
       class:skeleton={inProgress}
+      class:rounded-s-none={inProgress}
       disabled={disabled || inProgress}
       aria-label="Create QR Code"
       onclick={qr}
