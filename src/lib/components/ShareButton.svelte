@@ -52,7 +52,10 @@
       },
       body: url,
     });
-    if (!response.ok) return link;
+    if (!response.ok) {
+      addToast({ type: "error", text: response.statusText, duration: 5000 });
+      return link;
+    }
     return await response.text();
   }
 </script>
