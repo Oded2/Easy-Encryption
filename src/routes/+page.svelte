@@ -27,7 +27,13 @@
       page: "decrypt",
     })
   );
-  const textPasswordLink = $derived(addParams(textLink, { password }));
+  const textPasswordLink = $derived(
+    addParams(origin, {
+      text: isEncrypt ? result : user,
+      password,
+      page: "decrypt",
+    })
+  );
   let shortUrl: boolean = $state(false);
   // "lastResult" is a variable that ensures that the user doesn't double-compress/decompress
   let lastResult: string = $state("");
