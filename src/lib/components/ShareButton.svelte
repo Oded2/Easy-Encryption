@@ -23,9 +23,9 @@
     const download = document.getElementById("qrDownload") as HTMLAnchorElement;
     let qrLink: string = link;
     inProgress = true;
-    if (link.length > 1000) qrLink = await shortenURL(link);
+    if (link.length > 2000) qrLink = await shortenURL(link);
     try {
-      const url = await toDataURL(qrLink, { width: 400 });
+      const url = await toDataURL(qrLink, { width: 600 });
       download.href = url;
       image.src = url;
     } catch (e) {
@@ -39,9 +39,9 @@
     } finally {
       inProgress = false;
     }
+    qrTitle.textContent = qrLink;
     closeModal("share");
     showModal("qr");
-    qrTitle.textContent = qrLink;
   }
 
   async function shortenURL(url: string): Promise<string> {
