@@ -1,6 +1,7 @@
 <script lang="ts">
   import { addToast } from "$lib/toasts";
   import type { Snippet } from "svelte";
+  import type { MouseEventHandler } from "svelte/elements";
 
   const {
     text,
@@ -25,7 +26,7 @@
   let reactiveTip: string = $state(originalMessage);
   let timeout: NodeJS.Timeout | null = null;
 
-  async function copy(): Promise<void> {
+  const copy: MouseEventHandler<HTMLButtonElement> = async () => {
     const original = reactiveTip;
     // If already showing copyMessage, clear and reset the timeout
     if (original === copyConfirmation) {
@@ -57,7 +58,7 @@
       () => (reactiveTip = originalMessage),
       timeoutDuration
     );
-  }
+  };
 </script>
 
 <div class="tooltip w-full" data-tip={reactiveTip}>

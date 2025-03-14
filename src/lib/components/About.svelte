@@ -1,11 +1,13 @@
 <script lang="ts">
+  import type { ChangeEventHandler } from "svelte/elements";
+
   let checked: boolean = $state(false);
   let collapse: HTMLDivElement;
 
-  function handleChange(): void {
+  const handleChange: ChangeEventHandler<HTMLInputElement> = () => {
     if (checked) collapse.classList.remove("print:hidden");
     else collapse.classList.add("print:hidden");
-  }
+  };
 </script>
 
 <div class="collapse print:hidden" bind:this={collapse}>

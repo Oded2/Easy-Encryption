@@ -1,5 +1,8 @@
 <script lang="ts">
-  import type { HTMLInputTypeAttribute } from "svelte/elements";
+  import type {
+    HTMLInputTypeAttribute,
+    MouseEventHandler,
+  } from "svelte/elements";
   import InputLabel from "./InputLabel.svelte";
   import type { Snippet } from "svelte";
 
@@ -11,9 +14,9 @@
 
   let type: HTMLInputTypeAttribute = $state("password");
 
-  function changeType() {
+  const changeType: MouseEventHandler<HTMLButtonElement> = () => {
     type = type === "text" ? "password" : "text";
-  }
+  };
 </script>
 
 <div class="w-full sm:w-80 md:mx-0">

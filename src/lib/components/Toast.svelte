@@ -1,6 +1,7 @@
 <script lang="ts">
   import type { ToastType } from "$lib/toasts";
   import { type Snippet } from "svelte";
+  import type { MouseEventHandler } from "svelte/elements";
   import { fly } from "svelte/transition";
 
   const {
@@ -11,7 +12,7 @@
   }: {
     type: ToastType;
     duration: number;
-    handleClose: () => void;
+    handleClose: MouseEventHandler<HTMLButtonElement>;
     children: Snippet;
   } = $props();
 

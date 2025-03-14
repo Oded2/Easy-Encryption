@@ -10,7 +10,7 @@
   import About from "$lib/components/About.svelte";
   import ShareButton from "$lib/components/ShareButton.svelte";
   import InputLabel from "$lib/components/InputLabel.svelte";
-  import type { ChangeEventHandler } from "svelte/elements";
+  import type { MouseEventHandler } from "svelte/elements";
 
   const { data } = $props();
   const { isDecrypt, origin } = data;
@@ -52,41 +52,30 @@
   let isTrim: boolean = $state(true);
   let passwordConfirm: string = $state("");
 
-  const handleFile: ChangeEventHandler<HTMLInputElement> = (event) => {
-    const input = event.currentTarget;
-    const file = input.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = () => {
-        const result = reader.result;
-        if (typeof result === "string") user = isTrim ? result.trim() : result;
-      };
-      reader.onerror = () => {
-        addToast({
-          type: "error",
-          text: reader.error?.message ?? "Error reading file",
-          duration: 5000,
-        });
-        console.error(reader.error);
-      };
-      reader.readAsText(file);
-    }
-    input.value = "";
+  const downloadText: MouseEventHandler<HTMLButtonElement> = () => {
+    if (illegalFilename) return;
+    const blob = new Blob([result], { type: "text/plain" });
+    const url = URL.createObjectURL(blob);
+    const anchor = document.createElement("a");
+    anchor.href = url;
+    anchor.download = filename.length > 0 ? filename + ".txt" : "Text.txt";
+    anchor.click();
+    URL.revokeObjectURL(url);
   };
 
-  async function paste(): Promise<void> {
-    try {
-      const clipboardText = await navigator.clipboard.readText();
-      user = isTrim ? clipboardText.trim() : clipboardText;
-    } catch (e) {
-      console.error(e);
-      addToast({
-        text: "Failed to paste from clipboard",
-        duration: 5000,
-        type: "error",
-      });
+  const handleTrimChange: MouseEventHandler<HTMLButtonElement> = () => {
+    if (isTrim) {
+      isTrim = false;
+    } else {
+      user = user.trim();
+      isTrim = true;
     }
-  }
+  };
+
+  const handleQrToShare: MouseEventHandler<HTMLButtonElement> = () => {
+    closeModal("qr");
+    showModal("share");
+  };
 
   function swap(toEncrypt: boolean): void {
     // Swaps between encrypt and decrypt, and resets the text
@@ -132,35 +121,6 @@
   function undoCompression(): void {
     user = userUncompressed;
   }
-
-  function downloadText(): void {
-    if (illegalFilename) return;
-    const blob = new Blob([result], { type: "text/plain" });
-    const url = URL.createObjectURL(blob);
-    const anchor = document.createElement("a");
-    anchor.href = url;
-    anchor.download = filename.length > 0 ? filename + ".txt" : "Text.txt";
-    anchor.click();
-    URL.revokeObjectURL(url);
-  }
-
-  function handleTrimChange(): void {
-    if (isTrim) {
-      isTrim = false;
-    } else {
-      user = user.trim();
-      isTrim = true;
-    }
-  }
-
-  function handleChangeTrim(): void {
-    if (isTrim) user = user.trim();
-  }
-
-  function handleQrToShare(): void {
-    closeModal("qr");
-    showModal("share");
-  }
 </script>
 
 <main id="main">
@@ -200,11 +160,9 @@
           {/if}
         </h1>
         <Textbox
-          handlePaste={paste}
-          {handleFile}
           spellcheck={isEncrypt}
           placeholder={"Enter text here"}
-          onchange={handleChangeTrim}
+          {isTrim}
           bind:val={user}
         ></Textbox>
         <div class="border-b-2 mb-5"></div>
@@ -213,7 +171,7 @@
             <Password placeholder="Enter password" bind:password></Password>
           </div>
           <button
-            onclick={swapStore}
+            onclick={() => swapStore()}
             aria-label="Swap"
             class="btn btn-neutral btn-outline print:hidden"
             ><i class="fa-solid fa-right-left"></i></button

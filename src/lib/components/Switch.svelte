@@ -1,4 +1,6 @@
 <script lang="ts">
+  import type { ChangeEventHandler } from "svelte/elements";
+
   let {
     text,
     state = $bindable(false),
@@ -8,7 +10,7 @@
     text?: string;
     state: boolean;
     disclaimer?: string;
-    onchange?: () => void;
+    onchange?: ChangeEventHandler<HTMLInputElement>;
   } = $props();
 </script>
 

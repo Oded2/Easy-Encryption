@@ -3,6 +3,7 @@
   import { addToast } from "$lib/toasts";
   import { toDataURL } from "qrcode";
   import CopyButton from "./CopyButton.svelte";
+  import type { MouseEventHandler } from "svelte/elements";
 
   const {
     title,
@@ -17,7 +18,7 @@
   const disabled: boolean = $derived(link.length > 10000);
   let inProgress: boolean = $state(false);
 
-  async function qr(): Promise<void> {
+  const qr: MouseEventHandler<HTMLButtonElement> = async () => {
     const qrTitle = document.getElementById("qrTitle") as HTMLHeadingElement;
     const image = document.getElementById("qrImage") as HTMLImageElement;
     const download = document.getElementById("qrDownload") as HTMLAnchorElement;
@@ -42,7 +43,7 @@
     qrTitle.textContent = qrLink;
     closeModal("share");
     showModal("qr");
-  }
+  };
 
   async function shortenURL(url: string): Promise<string> {
     const response = await fetch("/api/shorten", {

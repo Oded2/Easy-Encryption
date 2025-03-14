@@ -1,33 +1,70 @@
 <script lang="ts">
   import { showModal } from "$lib";
-  import type { ChangeEventHandler } from "svelte/elements";
+  import type { ChangeEventHandler, MouseEventHandler } from "svelte/elements";
   import Autolink from "./Autolink.svelte";
   import CopyButton from "./CopyButton.svelte";
+  import { addToast } from "$lib/toasts";
 
   let {
     val = $bindable(),
     disabled,
     placeholder,
     spellcheck,
-    handleFile,
-    handlePaste,
+    isTrim,
     ondownload,
-    onchange,
   }: {
     val: string;
     disabled?: boolean;
     placeholder?: string;
     spellcheck?: boolean;
-    handleFile?: ChangeEventHandler<HTMLInputElement>;
-    handlePaste?: (...args: any[]) => void;
+    isTrim?: boolean;
     ondownload?: () => void;
-    onchange?: () => void;
   } = $props();
 
-  function handleDownload(): void {
+  const handleTrim: ChangeEventHandler<HTMLTextAreaElement> = () => {
+    if (isTrim) val = val.trim();
+  };
+
+  const handleFile: ChangeEventHandler<HTMLInputElement> = (event) => {
+    const input = event.currentTarget;
+    const file = input.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        const result = reader.result;
+        if (typeof result === "string") val = isTrim ? result.trim() : result;
+      };
+      reader.onerror = () => {
+        addToast({
+          type: "error",
+          text: reader.error?.message ?? "Error reading file",
+          duration: 5000,
+        });
+        console.error(reader.error);
+      };
+      reader.readAsText(file);
+    }
+    input.value = "";
+  };
+
+  const handlePaste: MouseEventHandler<HTMLButtonElement> = async () => {
+    try {
+      const clipboardText = await navigator.clipboard.readText();
+      val = isTrim ? clipboardText.trim() : clipboardText;
+    } catch (e) {
+      console.error(e);
+      addToast({
+        text: "Failed to paste from clipboard",
+        duration: 5000,
+        type: "error",
+      });
+    }
+  };
+
+  const handleDownload: MouseEventHandler<HTMLButtonElement> = () => {
     if (ondownload) ondownload();
     showModal("download");
-  }
+  };
 </script>
 
 <div class="flex flex-col w-full">
@@ -39,7 +76,7 @@
       {spellcheck}
       class="textarea textarea-ghost focus:outline-hidden border-none w-full px-0 h-64 md:h-80 resize-none text-lg print:hidden"
       {placeholder}
-      {onchange}
+      onchange={handleTrim}
       bind:value={val}
     >
     </textarea>
