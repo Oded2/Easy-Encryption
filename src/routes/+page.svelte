@@ -10,6 +10,7 @@
   import About from "$lib/components/About.svelte";
   import ShareButton from "$lib/components/ShareButton.svelte";
   import InputLabel from "$lib/components/InputLabel.svelte";
+  import type { ChangeEventHandler } from "svelte/elements";
 
   const { data } = $props();
   const { isDecrypt, origin } = data;
@@ -51,6 +52,28 @@
   let isTrim: boolean = $state(true);
   let passwordConfirm: string = $state("");
 
+  const handleFile: ChangeEventHandler<HTMLInputElement> = (event) => {
+    const input = event.currentTarget;
+    const file = input.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        const result = reader.result;
+        if (typeof result === "string") user = isTrim ? result.trim() : result;
+      };
+      reader.onerror = () => {
+        addToast({
+          type: "error",
+          text: reader.error?.message ?? "Error reading file",
+          duration: 5000,
+        });
+        console.error(reader.error);
+      };
+      reader.readAsText(file);
+    }
+    input.value = "";
+  };
+
   async function paste(): Promise<void> {
     try {
       const clipboardText = await navigator.clipboard.readText();
@@ -75,23 +98,6 @@
     // Swaps between encrypt and decrypt, but stores the current text
     user = result;
     isEncrypt = !isEncrypt;
-  }
-
-  function handleFile(event: Event): void {
-    const input = event.target as HTMLInputElement;
-    const file = input?.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = () => {
-        const result = reader.result;
-        if (typeof result === "string") user = isTrim ? result.trim() : result;
-      };
-      reader.onerror = () => {
-        console.error(reader.error);
-      };
-      reader.readAsText(file);
-    }
-    input.value = "";
   }
 
   function handleCompression(): void {

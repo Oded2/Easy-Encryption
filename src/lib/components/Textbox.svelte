@@ -1,5 +1,6 @@
 <script lang="ts">
   import { showModal } from "$lib";
+  import type { ChangeEventHandler } from "svelte/elements";
   import Autolink from "./Autolink.svelte";
   import CopyButton from "./CopyButton.svelte";
 
@@ -17,7 +18,7 @@
     disabled?: boolean;
     placeholder?: string;
     spellcheck?: boolean;
-    handleFile?: (...args: any[]) => void;
+    handleFile?: ChangeEventHandler<HTMLInputElement>;
     handlePaste?: (...args: any[]) => void;
     ondownload?: () => void;
     onchange?: () => void;
