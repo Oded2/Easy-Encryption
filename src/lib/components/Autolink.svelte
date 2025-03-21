@@ -16,5 +16,5 @@
 </script>
 
 {#if isLoaded}
-  {@html autoLinker.link(text)}
+  {@html autoLinker.link(text.replace("&", "&amp;"))}
 {/if}
