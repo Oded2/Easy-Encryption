@@ -25,6 +25,20 @@
     if (isTrim) val = val.trim();
   };
 
+  const handlePaste: MouseEventHandler<HTMLButtonElement> = async () => {
+    try {
+      const clipboardText = await navigator.clipboard.readText();
+      val = isTrim ? clipboardText.trim() : clipboardText;
+    } catch (e) {
+      console.error(e);
+      addToast({
+        text: "Failed to paste from clipboard",
+        duration: 5000,
+        type: "error",
+      });
+    }
+  };
+
   const handleFile: ChangeEventHandler<HTMLInputElement> = (event) => {
     const input = event.currentTarget;
     const file = input.files?.[0];
@@ -45,20 +59,6 @@
       reader.readAsText(file);
     }
     input.value = "";
-  };
-
-  const handlePaste: MouseEventHandler<HTMLButtonElement> = async () => {
-    try {
-      const clipboardText = await navigator.clipboard.readText();
-      val = isTrim ? clipboardText.trim() : clipboardText;
-    } catch (e) {
-      console.error(e);
-      addToast({
-        text: "Failed to paste from clipboard",
-        duration: 5000,
-        type: "error",
-      });
-    }
   };
 
   const handleDownload: MouseEventHandler<HTMLButtonElement> = () => {
